@@ -9,7 +9,7 @@ cd /tmp
 svn co file:///media/LinuxData/Development/SVN/AspellGUI
 find AspellGUI -name ".svn" -exec rm -r '{}' \; || true
 rm /tmp/AspellGUI/makepkg
-mv /tmp/AspellGUI/tmp/AspellGUI-${VERSION}
+mv /tmp/AspellGUI /tmp/AspellGUI-${VERSION}
 
 cd /tmp/AspellGUI-${VERSION}
 
