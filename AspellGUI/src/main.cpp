@@ -15,9 +15,18 @@
 
 int main(int argc,char **argv)
 {
+	AspellCanHaveError*	possible_err;
+
 	gtk_init(&argc,&argv);
-//	window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
-//	g_signal_connect(G_OBJECT(window),"delete-event",G_CALLBACK(shutdown),NULL);
+
+	aspellConfig=new_aspell_config();
+	possible_err=new_aspell_speller(aspellConfig);
+
+	if(aspell_error_number(possible_err)!= 0)
+		puts(aspell_error_message(possible_err));
+	else
+		spellChecker=to_aspell_speller(possible_err);
+
 	buildMainGui();
 	gtk_widget_show_all(window);
 	gtk_main();

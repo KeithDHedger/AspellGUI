@@ -91,34 +91,32 @@ void checkWord(GtkWidget* widget,gpointer data)
 
 void doChangeWord(GtkWidget* widget,gpointer data)
 {
-#if 0
-	pageStruct*	page=getPageStructPtr(-1);
+//	pageStruct*	page=getPageStructPtr(-1);
 	GtkTextIter	start;
 	GtkTextIter	end;
 
-	if((long)data==0)
-		{
-			if(gtk_text_buffer_get_selection_bounds((GtkTextBuffer*)page->buffer,&start,&end))
+//	if((long)data==0)
+//		{
+			if(gtk_text_buffer_get_selection_bounds((GtkTextBuffer*)bufferBox,&start,&end))
 				{
-					badWord=gtk_text_buffer_get_text((GtkTextBuffer*)page->buffer,&start,&end,false);
+					badWord=gtk_text_buffer_get_text((GtkTextBuffer*)bufferBox,&start,&end,false);
 					if(badWord==NULL)
 						return;
 				}
 
 			goodWord=gtk_combo_box_text_get_active_text((GtkComboBoxText*)wordListDropbox);
-			gtk_text_buffer_delete((GtkTextBuffer*)page->buffer,&start,&end);
-			gtk_text_buffer_insert((GtkTextBuffer*)page->buffer,&start,goodWord,-1);
+			gtk_text_buffer_delete((GtkTextBuffer*)bufferBox,&start,&end);
+			gtk_text_buffer_insert((GtkTextBuffer*)bufferBox,&start,goodWord,-1);
 			g_free(goodWord);
-		}
-	else
-		goodWord=gtk_combo_box_text_get_active_text((GtkComboBoxText*)wordListDropbox);
+//		}
+//	else
+//		goodWord=gtk_combo_box_text_get_active_text((GtkComboBoxText*)wordListDropbox);
 
 	aspell_speller_store_replacement(spellChecker,badWord,-1,goodWord,-1);
 
 	gtk_widget_destroy(spellCheckWord);
 	if(badWord!=NULL)
 		g_free(badWord);
-#endif
 }
 
 void doAddIgnoreWord(GtkWidget* widget,gpointer data)
@@ -138,8 +136,7 @@ void doAddIgnoreWord(GtkWidget* widget,gpointer data)
 
 void doSpellCheckDoc(GtkWidget* widget,gpointer data)
 {
-#if 0
-	pageStruct*				page=getPageStructPtr(-1);
+//	pageStruct*				page=getPageStructPtr(-1);
 	gchar*					buffer;
 	long					filelen;
 	GtkTextIter				start;
@@ -150,7 +147,7 @@ void doSpellCheckDoc(GtkWidget* widget,gpointer data)
 	AspellToken				token;
 	FILE*					out;
 	FILE*					doc;
-	char					line[2048];
+//	char					line[2048];
 	char*					tempfile=tempnam(NULL,"KKEd");
 	int						diff;
 	unsigned int			goodwordlen;
@@ -158,41 +155,49 @@ void doSpellCheckDoc(GtkWidget* widget,gpointer data)
 	char*					filename=(char*)data;
 	char*					badword;
 
+	GtkTextIter				startiter;
+	GtkTextIter				enditer;
+	char*					line;
+
+	gtk_text_buffer_get_start_iter((GtkTextBuffer*)bufferBox,&startiter);
+	gtk_text_buffer_get_end_iter((GtkTextBuffer*)bufferBox,&enditer);
+
+	line=gtk_text_buffer_get_text((GtkTextBuffer*)bufferBox,&startiter,&enditer,false);
 	/* Open the file */
-	doc=fopen(filename,"r");
-	if (doc<=0)
-		{
-	  		printf("Error: Unable to open the file \"%s\" for reading.",filename);
-	  		return;
-		}
+//	doc=fopen(filename,"r");
+//	if (doc<=0)
+//		{
+//	  		printf("Error: Unable to open the file \"%s\" for reading.",filename);
+//	  		return;
+//		}
 
 	/* Open tempfile for writing the results */
-	out=fopen(tempfile,"w");
-	if(out<=0)
-		{
-			printf("Error: Unable to open the file \"%s\" for writing.",tempfile);
-			fclose(doc);
-			return;
-		}
+//	out=fopen(tempfile,"w");
+//	if(out<=0)
+//		{
+//			printf("Error: Unable to open the file \"%s\" for writing.",tempfile);
+//			fclose(doc);
+//			return;
+//		}
+
 
 	/* Set up the document checker */
 	ret=new_aspell_document_checker(spellChecker);
 	if (aspell_error(ret)!=0)
 		{
 			printf("Error: %s\n",aspell_error_message(ret));
-			fclose(out);
-			fclose(doc);
+			//fclose(out);
+			//fclose(doc);
 			return;
 		}
 
 	checker=to_aspell_document_checker(ret);
-	gtk_text_buffer_begin_user_action((GtkTextBuffer*)page->buffer);
-	while(fgets(line,2048,doc)) 
-		{
+	gtk_text_buffer_begin_user_action((GtkTextBuffer*)bufferBox);
+//	while(fgets(line,2048,doc)) 
+//		{
 	  /* First process the line */
 			aspell_document_checker_process(checker,line,-1);
 	  		diff=0;
-
 	  /* Now find the misspellings in the line */
 	 		 while(token=aspell_document_checker_next_misspelling(checker),token.len!=0)
 				{
@@ -203,11 +208,11 @@ void doSpellCheckDoc(GtkWidget* widget,gpointer data)
 					if(cancelCheck==true)
 						{
 							delete_aspell_document_checker(checker);
-							fclose(out);
-							fclose(doc);
-							remove(tempfile);
-							g_free(tempfile);
-							gtk_text_buffer_end_user_action((GtkTextBuffer*)page->buffer);
+							//fclose(out);
+							//fclose(doc);
+							//remove(tempfile);
+							//g_free(tempfile);
+							gtk_text_buffer_end_user_action((GtkTextBuffer*)bufferBox);
 							return;
 						}
 					word_begin=line+token.offset+diff;
@@ -219,17 +224,20 @@ void doSpellCheckDoc(GtkWidget* widget,gpointer data)
 							diff+=goodwordlen-token.len;
 							memmove(word_begin+goodwordlen,word_begin+token.len,strlen(word_begin+token.len)+1);
 							memcpy(word_begin,goodWord,goodwordlen);
+							printf("XXXX%s\n",line);
 						}
 				}
 
 	  /* print the line to filename.checked */
-			fputs(line,out);
-		}
+//			fputs(line,out);
+//			printf("%s\n",line);
+//		}
 
 	delete_aspell_document_checker(checker);
-	fclose(out);
-	fclose(doc);
+//	fclose(out);
+//	fclose(doc);
 
+#if 0
 	g_file_get_contents(tempfile,&buffer,(gsize*)&filelen,NULL);
 	gtk_text_buffer_get_bounds((GtkTextBuffer*)page->buffer,&start,&end);
 	gtk_text_buffer_select_range((GtkTextBuffer*)page->buffer,&start,&end);
@@ -256,9 +264,9 @@ void doSpellCheckDoc(GtkWidget* widget,gpointer data)
 					gtk_text_buffer_set_modified((GtkTextBuffer*)page->buffer,false);
 				}
 		}
-
-	gtk_text_buffer_end_user_action((GtkTextBuffer*)page->buffer);
 #endif
+	gtk_text_buffer_end_user_action((GtkTextBuffer*)bufferBox);
+
 }
 
 

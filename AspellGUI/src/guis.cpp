@@ -118,29 +118,37 @@ void buildMainGui(void)
 {
 	GtkWidget*					vbox;
 	GtkWidget*					hbox;
+	GtkWidget*					button;
 
 	window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title((GtkWindow*)window,"Aspell GUI");
 	gtk_window_set_default_size((GtkWindow*)window,320,60);
-	vbox=gtk_hbox_new(true,8);
+	vbox=gtk_vbox_new(false,8);
 
+//text to spell check
 	scrollBox=gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollBox),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
-
-
 	bufferBox=(GtkWidget*)gtk_text_buffer_new(NULL);
 	viewBox=(GtkWidget*)gtk_text_view_new_with_buffer((GtkTextBuffer*)bufferBox);
 
 	gtk_container_add(GTK_CONTAINER(scrollBox),(GtkWidget*)viewBox);
 	gtk_container_add(GTK_CONTAINER(vbox),(GtkWidget*)scrollBox);
 
+//buttons
+
+	hbox=gtk_hbox_new(true,8);
+	button=gtk_button_new_from_stock(GTK_STOCK_SPELL_CHECK);
+	g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(doSpellCheckDoc),NULL);
+	gtk_box_pack_start(GTK_BOX(hbox),button,false,false,2);
+
+	button=gtk_button_new_from_stock(GTK_STOCK_QUIT);
+	g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(doShutdown),NULL);
+	gtk_box_pack_start(GTK_BOX(hbox),button,false,false,2);
+	gtk_container_add(GTK_CONTAINER(vbox),(GtkWidget*)hbox);
+
 
 	g_signal_connect(G_OBJECT(window),"delete-event",G_CALLBACK(doShutdown),NULL);
-
-
 	gtk_container_add(GTK_CONTAINER(window),(GtkWidget*)vbox);
-
-
 
 }
 
