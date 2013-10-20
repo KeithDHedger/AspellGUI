@@ -9,7 +9,6 @@
 #include <string.h>
 #include <sys/stat.h>
 
-
 #include "config.h"
 #include "globals.h"
 #include "spellcheck.h"
@@ -19,106 +18,12 @@ void doShutdown(GtkWidget* widget,gpointer data)
 	gtk_main_quit();
 }
 
-
-void doPrefs(void)
-{
-#if 0
-	GtkWidget*	vbox;
-	GtkWidget*	hbox;
-	GtkWidget*	item;
-
-	prefswin=gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title((GtkWindow*)prefswin,"Preferences");
-	vbox=gtk_vbox_new(false,8);
-
-//wraplines
-	item=gtk_check_button_new_with_label("Wrap Lines");
-	gtk_widget_set_name(item,"wrap");
-	gtk_toggle_button_set_active((GtkToggleButton*)item,lineWrap);
-	gtk_box_pack_start(GTK_BOX(vbox),item,true,true,0);
-	g_signal_connect(G_OBJECT(item),"toggled",G_CALLBACK(setPrefs),(void*)item);
-
-//highlite
-	item=gtk_check_button_new_with_label("Highlight Current Line");
-	gtk_widget_set_name(item,"high");
-	gtk_toggle_button_set_active((GtkToggleButton*)item,highLight);
-	gtk_box_pack_start(GTK_BOX(vbox),item,true,true,0);
-	g_signal_connect(G_OBJECT(item),"toggled",G_CALLBACK(setPrefs),(void*)item);
-
-//use underline
-	item=gtk_check_button_new_with_label("Use Underline");
-	gtk_widget_set_name(item,"underline");
-	gtk_toggle_button_set_active((GtkToggleButton*)item,useUnderline);
-	gtk_box_pack_start(GTK_BOX(vbox),item,true,true,0);
-	g_signal_connect(G_OBJECT(item),"toggled",G_CALLBACK(setPrefs),(void*)item);
-
-//gzip manpages
-	item=gtk_check_button_new_with_label("GZip Man Pages");
-	gtk_widget_set_name(item,"gzip");
-	gtk_toggle_button_set_active((GtkToggleButton*)item,gzipPages);
-	gtk_box_pack_start(GTK_BOX(vbox),item,true,true,0);
-	g_signal_connect(G_OBJECT(item),"toggled",G_CALLBACK(setPrefs),(void*)item);
-
-//show live search in toolbar
-	item=gtk_check_button_new_with_label("Show 'Live Search' in toolbar");
-	gtk_widget_set_name(item,"livesearch");
-	gtk_toggle_button_set_active((GtkToggleButton*)item,showLiveSearch);
-	gtk_box_pack_start(GTK_BOX(vbox),item,true,true,0);
-	g_signal_connect(G_OBJECT(item),"toggled",G_CALLBACK(setPrefs),(void*)item);
-
-//tabwidth  -- CLEAN
-	GtkObject*	adj=gtk_adjustment_new(tmpTabWidth,1,64,1,1,0);
-	hbox=gtk_hbox_new(true,0);
-	item=gtk_spin_button_new((GtkAdjustment*)adj,1,0);
-	gtk_widget_set_name(item,"tabs");
-	gtk_box_pack_start(GTK_BOX(hbox),gtk_label_new("Tab width: "),true,true,0);
-	gtk_container_add(GTK_CONTAINER(hbox),item);
-	gtk_box_pack_start(GTK_BOX(vbox),hbox,true,true,0);
-	g_signal_connect(G_OBJECT(item),"value-changed",G_CALLBACK(setPrefs),(void*)item);
-
-//font
-	fontBox=gtk_entry_new();
-	hbox=gtk_hbox_new(true,0);
-	gtk_box_pack_start(GTK_BOX(hbox),gtk_label_new("Font And Size: "),true,true,0);
-	gtk_container_add(GTK_CONTAINER(hbox),fontBox);
-	gtk_box_pack_start(GTK_BOX(vbox),hbox,true,true,0);
-	gtk_entry_set_text((GtkEntry*)fontBox,fontAndSize);
-
-//terminalcommand
-	terminalBox=gtk_entry_new();
-	hbox=gtk_hbox_new(true,0);
-	gtk_box_pack_start(GTK_BOX(hbox),gtk_label_new("Terminal Command: "),true,true,0);
-	gtk_container_add(GTK_CONTAINER(hbox),terminalBox);
-	gtk_box_pack_start(GTK_BOX(vbox),hbox,true,true,0);
-	gtk_entry_set_text((GtkEntry*)terminalBox,terminalCommand);
-	gtk_widget_show_all(hbox);
-
-//buttons
-	gtk_box_pack_start(GTK_BOX(vbox),gtk_hseparator_new(),true,true,0);
-
-	hbox=gtk_hbox_new(true,4);
-	item=gtk_button_new_from_stock(GTK_STOCK_APPLY);
-	gtk_box_pack_start(GTK_BOX(hbox),item,true,false,2);
-	gtk_widget_set_name(item,"apply");
-	g_signal_connect(G_OBJECT(item),"clicked",G_CALLBACK(setPrefs),(void*)item);	
-
-	item=gtk_button_new_from_stock(GTK_STOCK_CANCEL);
-	gtk_box_pack_start(GTK_BOX(hbox),item,true,false,2);
-	gtk_widget_set_name(item,"cancel");
-	g_signal_connect(G_OBJECT(item),"clicked",G_CALLBACK(setPrefs),(void*)item);
-	gtk_box_pack_start(GTK_BOX(vbox),hbox,true,true,2);
-
-//show it
-	gtk_container_add(GTK_CONTAINER(prefswin),(GtkWidget*)vbox);
-	gtk_widget_show_all(prefswin);
-#endif
-}
-
 void buildMainGui(void)
 {
-	GtkWidget*					vbox;
-	GtkWidget*					hbox;
-	GtkWidget*					button;
+	GtkWidget*	vbox;
+	GtkWidget*	hbox;
+	GtkWidget*	button;
+	GtkWidget*	image;
 
 	window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title((GtkWindow*)window,"Aspell GUI");
@@ -141,11 +46,19 @@ void buildMainGui(void)
 	g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(doSpellCheckDoc),NULL);
 	gtk_box_pack_start(GTK_BOX(hbox),button,false,false,2);
 
+
+
+	image=gtk_image_new_from_stock(GTK_STOCK_SPELL_CHECK,GTK_ICON_SIZE_MENU);
+	button=gtk_button_new_with_label("Check Word");
+	gtk_button_set_image((GtkButton*)button,image);
+
+	g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(checkWord),NULL);
+	gtk_box_pack_start(GTK_BOX(hbox),button,false,false,2);
+
 	button=gtk_button_new_from_stock(GTK_STOCK_QUIT);
 	g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(doShutdown),NULL);
 	gtk_box_pack_start(GTK_BOX(hbox),button,false,false,2);
 	gtk_container_add(GTK_CONTAINER(vbox),(GtkWidget*)hbox);
-
 
 	g_signal_connect(G_OBJECT(window),"delete-event",G_CALLBACK(doShutdown),NULL);
 	gtk_container_add(GTK_CONTAINER(window),(GtkWidget*)vbox);

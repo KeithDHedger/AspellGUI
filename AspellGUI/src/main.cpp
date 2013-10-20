@@ -28,6 +28,7 @@ int main(int argc,char **argv)
 		spellChecker=to_aspell_speller(possible_err);
 
 	buildMainGui();
+
 	gtk_widget_show_all(window);
 	gtk_main();
 }
