@@ -42,7 +42,7 @@ void buildMainGui(void)
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollBox),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 	bufferBox=(GtkWidget*)gtk_text_buffer_new(NULL);
 	viewBox=(GtkWidget*)gtk_text_view_new_with_buffer((GtkTextBuffer*)bufferBox);
-
+	gtk_text_view_set_wrap_mode((GtkTextView*)viewBox,GTK_WRAP_WORD);
 	gtk_container_add(GTK_CONTAINER(scrollBox),(GtkWidget*)viewBox);
 	gtk_container_add(GTK_CONTAINER(vbox),(GtkWidget*)scrollBox);
 
