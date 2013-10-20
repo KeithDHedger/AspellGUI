@@ -12,12 +12,7 @@
 #include <sys/stat.h>
 
 #include <aspell.h>
-
-
 #include "globals.h"
-//#include "searchcallbacks.h"
-//#include "callbacks.h"
-//#include "script.h"
 
 GtkWidget*		nameBox;
 GtkWidget*		sectionBox;
@@ -31,6 +26,7 @@ GtkWidget*		viewBox=NULL;
 GtkWidget*		bufferBox=NULL;
 GtkWidget*		window=NULL;
 
+/*
 GtkNotebook*	notebook=NULL;
 GtkWidget*		menubar=NULL;
 GtkWidget*		menufile;
@@ -72,7 +68,7 @@ int				windowY=-1;
 bool			wrapSearch;
 bool			insensitiveSearch;
 bool			replaceAll;
-
+*/
 
 //spellcheck
 GtkWidget*		spellCheckWord;

@@ -116,14 +116,8 @@ void doPrefs(void)
 
 void buildMainGui(void)
 {
-#if 1
 	GtkWidget*					vbox;
-	GtkWidget*					menuitem;
-	GtkWidget*					menu;
-	GtkWidget*					toolbar;
-	GtkToolItem*				toolbutton;
-	GtkAccelGroup*				accgroup;
-	GtkWidget*					image;
+	GtkWidget*					hbox;
 
 	window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title((GtkWindow*)window,"Aspell GUI");
@@ -147,7 +141,7 @@ void buildMainGui(void)
 	gtk_container_add(GTK_CONTAINER(window),(GtkWidget*)vbox);
 
 
-#endif
+
 }
 
 void buildWordCheck(int documentCheck)

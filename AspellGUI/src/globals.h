@@ -10,24 +10,21 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <aspell.h>
-//#include <gtksourceview/gtksourcebuffer.h>
-//#include <gtksourceview/gtksourceview.h>
-//
+
 #include "config.h"
-
-
-
 
 #ifndef _GLOBALS_
 #define _GLOBALS_
 
+/*
 #define REPLACE			100
 #define FINDNEXT		200
 #define FINDPREV		300
-
+*/
 #define MYEMAIL "kdhedger68713@gmail.com"
 #define MYWEBSITE "http://keithhedger.hostingsiteforfree.com"
 
+/*
 #define VALIDCHARS "[]a-zA-Z0-9:/@ ()_-,.*#;[\"]"
 #define VALIDFILENAMECHARS "[A-Za-z0-9_-./ ]"
 #define VALIDFUNCTIONCHARS "[A-Za-z0-9_*]"
@@ -41,7 +38,7 @@
 #define NORMALESC1 "\e[4m"
 #define NORMALESC2 "\e[24m"
 #define NORMALESC3 "\e[22m"
-
+*/
 
 extern GtkWidget*		nameBox;
 extern GtkWidget*		sectionBox;
@@ -55,6 +52,7 @@ extern GtkWidget*		viewBox;
 extern GtkWidget*		bufferBox;
 extern GtkWidget*		window;
 
+/*
 extern GtkNotebook*		notebook;
 
 extern GtkWidget*		menubar;
@@ -106,6 +104,7 @@ extern bool				replaceAll;
 
 extern int				currentTabNumber;
 
+*/
 
 extern GtkWidget*		spellCheckWord;
 extern GtkWidget*		wordListDropbox;
