@@ -158,11 +158,13 @@ void doSpellCheckDoc(GtkWidget* widget,gpointer data)
 	GtkTextIter				startiter;
 	GtkTextIter				enditer;
 	char*					line;
+	char*					linehold;
 
 	gtk_text_buffer_get_start_iter((GtkTextBuffer*)bufferBox,&startiter);
 	gtk_text_buffer_get_end_iter((GtkTextBuffer*)bufferBox,&enditer);
 
 	line=gtk_text_buffer_get_text((GtkTextBuffer*)bufferBox,&startiter,&enditer,false);
+	linehold=line;
 	/* Open the file */
 //	doc=fopen(filename,"r");
 //	if (doc<=0)
@@ -224,7 +226,7 @@ void doSpellCheckDoc(GtkWidget* widget,gpointer data)
 							diff+=goodwordlen-token.len;
 							memmove(word_begin+goodwordlen,word_begin+token.len,strlen(word_begin+token.len)+1);
 							memcpy(word_begin,goodWord,goodwordlen);
-							printf("XXXX%s\n",line);
+							printf("XXXX%s\n",linehold);
 						}
 				}
 
@@ -265,7 +267,7 @@ void doSpellCheckDoc(GtkWidget* widget,gpointer data)
 				}
 		}
 #endif
-	gtk_text_buffer_end_user_action((GtkTextBuffer*)bufferBox);
+//	gtk_text_buffer_end_user_action((GtkTextBuffer*)bufferBox);
 
 }
 
