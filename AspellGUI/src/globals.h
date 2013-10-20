@@ -39,6 +39,7 @@ extern char*			goodWord;
 extern AspellConfig*	aspellConfig;
 extern AspellSpeller*	spellChecker;
 
+extern int				numWords;
 
 #endif
 

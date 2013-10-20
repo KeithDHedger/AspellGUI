@@ -27,11 +27,12 @@ GtkWidget*		bufferBox=NULL;
 GtkWidget*		window=NULL;
 
 //spellcheck
-GtkWidget*		spellCheckWord;
+GtkWidget*		spellCheckWord=NULL;
 GtkWidget*		wordListDropbox;
 char*			badWord=NULL;
 char*			goodWord=NULL;
 AspellConfig*	aspellConfig;
 AspellSpeller*	spellChecker=0;
 
+int				numWords=0;
 
