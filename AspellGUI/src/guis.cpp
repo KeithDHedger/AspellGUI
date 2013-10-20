@@ -40,13 +40,10 @@ void buildMainGui(void)
 	gtk_container_add(GTK_CONTAINER(vbox),(GtkWidget*)scrollBox);
 
 //buttons
-
 	hbox=gtk_hbox_new(true,8);
 	button=gtk_button_new_from_stock(GTK_STOCK_SPELL_CHECK);
 	g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(doSpellCheckDoc),NULL);
 	gtk_box_pack_start(GTK_BOX(hbox),button,false,false,2);
-
-
 
 	image=gtk_image_new_from_stock(GTK_STOCK_SPELL_CHECK,GTK_ICON_SIZE_MENU);
 	button=gtk_button_new_with_label("Check Word");
