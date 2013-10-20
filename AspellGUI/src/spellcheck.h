@@ -17,5 +17,4 @@ void doAddIgnoreWord(GtkWidget* widget,gpointer data);
 void doSpellCheckDoc(GtkWidget* widget,gpointer data);
 void doCancelCheck(GtkWidget* widget,gpointer data);
 
-
 #endif

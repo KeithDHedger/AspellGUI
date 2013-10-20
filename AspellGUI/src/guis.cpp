@@ -70,7 +70,6 @@ void buildMainGui(void)
 
 	g_signal_connect(G_OBJECT(window),"delete-event",G_CALLBACK(doShutdown),NULL);
 	gtk_container_add(GTK_CONTAINER(window),(GtkWidget*)vbox);
-
 }
 
 void buildWordCheck(int documentCheck)
@@ -78,7 +77,6 @@ void buildWordCheck(int documentCheck)
 	GtkWidget*	vbox;
 	GtkWidget*	button;
 	GtkWidget*	hbox;
-	GtkWidget*	label;
 	GtkWidget*	image;
 	char*		labeltext[512];
 	int			docflag=documentCheck;
@@ -126,8 +124,4 @@ void buildWordCheck(int documentCheck)
 	gtk_signal_connect_object(GTK_OBJECT(spellCheckWord),"delete_event",GTK_SIGNAL_FUNC(gtk_widget_hide),GTK_OBJECT(spellCheckWord));
 	gtk_signal_connect(GTK_OBJECT(spellCheckWord),"delete_event",GTK_SIGNAL_FUNC(gtk_true),NULL);
 }
-
-
-
-
 

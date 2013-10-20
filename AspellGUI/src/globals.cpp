@@ -14,12 +14,6 @@
 #include <aspell.h>
 #include "globals.h"
 
-GtkWidget*		nameBox;
-GtkWidget*		sectionBox;
-GtkWidget*		versionBox;
-GtkWidget*		authorBox;
-GtkWidget*		categoryBox;
-
 GtkWidget*		scrollBox=NULL;
 GtkWidget*		textBox=NULL;
 GtkWidget*		viewBox=NULL;

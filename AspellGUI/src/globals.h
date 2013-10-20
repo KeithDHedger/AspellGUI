@@ -19,12 +19,6 @@
 #define MYEMAIL "kdhedger68713@gmail.com"
 #define MYWEBSITE "http://keithhedger.hostingsiteforfree.com"
 
-extern GtkWidget*		nameBox;
-extern GtkWidget*		sectionBox;
-extern GtkWidget*		versionBox;
-extern GtkWidget*		authorBox;
-extern GtkWidget*		categoryBox;
-
 extern GtkWidget*		scrollBox;
 extern GtkWidget*		textBox;
 extern GtkWidget*		viewBox;

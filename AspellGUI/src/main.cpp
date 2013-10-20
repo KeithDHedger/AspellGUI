@@ -12,7 +12,6 @@
 
 #include "guis.h"
 
-
 int main(int argc,char **argv)
 {
 	AspellCanHaveError*	possible_err;
