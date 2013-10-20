@@ -30,6 +30,7 @@ extern GtkWidget*		textBox;
 extern GtkWidget*		viewBox;
 extern GtkWidget*		bufferBox;
 extern GtkWidget*		window;
+extern GtkWidget*		badWordLabel;
 
 extern GtkWidget*		spellCheckWord;
 extern GtkWidget*		wordListDropbox;

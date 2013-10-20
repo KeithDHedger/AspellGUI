@@ -25,6 +25,7 @@ GtkWidget*		textBox=NULL;
 GtkWidget*		viewBox=NULL;
 GtkWidget*		bufferBox=NULL;
 GtkWidget*		window=NULL;
+GtkWidget*		badWordLabel=NULL;
 
 //spellcheck
 GtkWidget*		spellCheckWord=NULL;
