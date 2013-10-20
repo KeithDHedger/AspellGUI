@@ -26,5 +26,8 @@ PKG_CHECK_MODULES(GTK, $GTK_MODULES)
 AC_SUBST(GTK_CFLAGS)
 AC_SUBST(GTK_LIBS)
 
-AC_OUTPUT(Makefile AspellGUI/app/Makefile AspellGUI/debug/Makefile)
+ASPELL_LIBS=-laspell
+AC_SUBST(ASPELL_LIBS)
+
+AC_OUTPUT(Makefile AspellGUI/app/Makefile)
 

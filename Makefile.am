@@ -1,5 +1,5 @@
 
-SUBDIRS = AspellGUI/app AspellGUI/debug
+SUBDIRS = AspellGUI/app
 
 remake:
 	$(shell ./remakesourcelist)
