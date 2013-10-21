@@ -9,13 +9,16 @@ aspellgui_CXXFLAGS = -O3 -export-dynamic
 pixfilesdir = $(pkgdatadir)/pixmaps
 pixfiles_DATA = ../resources/pixmaps/*
 
+docfilesdir = $(pkgdatadir)/docs
+docfiles_DATA = ../resources/docs/*
+
 bin_PROGRAMS = aspellgui
 
 install-exec-hook:
 	cp ../resources/pixmaps/AspellGUI.desktop $(DESTDIR)${prefix}/share/applications/AspellGUI.desktop
 	cp ../resources/pixmaps/AspellGUI.png $(DESTDIR)${prefix}/share/pixmaps
-	echo Icon=${prefix}/share/AspellGUI/pixmaps/AspellGUI.png >> $(DESTDIR)${prefix}/share/applications/AspellGUI.desktop
-	echo Exec=${prefix}/bin/aspellgui >> $(DESTDIR)${prefix}/share/applications/AspellGUI.desktop
+	echo Icon=AspellGUI.png >> $(DESTDIR)${prefix}/share/applications/AspellGUI.desktop
+	echo Exec=aspellgui >> $(DESTDIR)${prefix}/share/applications/AspellGUI.desktop
 
 
 uninstall-hook:

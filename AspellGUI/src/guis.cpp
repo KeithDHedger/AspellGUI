@@ -22,7 +22,43 @@ void doAbout(GtkWidget* widget,gpointer data)
 {
 	const char*	authors[]={"K.D.Hedger <"MYEMAIL">","\nMore by the same author\n","Xfce4-Composite-Editor\nhttp://gtk-apps.org/content/show.php/Xfce4-Composite-Editor?content=149523\n","KKEdit\nhttp://gtk-apps.org/content/show.php?content=158161\n","Manpage Editor\nhttp://gtk-apps.org/content/show.php?content=160219\n","GtkSu\nhttp://gtk-apps.org/content/show.php?content=158974",NULL};
 	const char	copyright[] ="Copyright \xc2\xa9 2013 K.D.Hedger";
-	gtk_show_about_dialog(NULL,"authors",authors,"copyright",copyright,"version",VERSION,"website",MYWEBSITE,"program-name","Aspell GUI","logo-icon-name","AspellGUI",NULL); 
+	char*		license=NULL;
+	char*		doc=NULL;
+	FILE*		fd=NULL;
+	long		fsize=0;
+
+	asprintf(&doc,"%s/docs/gpl-3.0.txt",DATADIR);
+	fd=fopen(doc,"r");
+
+	if(fd!=NULL)
+		{
+			fseek(fd,0,SEEK_END);
+			fsize=ftell(fd);
+			fseek(fd,0,SEEK_SET);
+			license=(char*)malloc(fsize+1);
+			fread(license,fsize,1,fd);
+			fclose(fd);
+			license[fsize]=0;
+		}
+
+	gtk_show_about_dialog(NULL,"authors",authors,"copyright",copyright,"version",VERSION,"website",MYWEBSITE,"program-name","Aspell GUI","logo-icon-name","AspellGUI","license",license,NULL); 
+}
+
+void doSticky(GtkWidget* widget,gpointer data)
+{
+	if(gtk_toggle_button_get_active((GtkToggleButton*)widget)==true)
+		{
+			gtk_window_stick(GTK_WINDOW(window));
+			gtk_button_set_label((GtkButton*)widget,"Un-Stick");
+			gtk_window_set_keep_above((GtkWindow*)window,true);
+		}
+	else
+		{
+			gtk_window_unstick(GTK_WINDOW(window));		
+			gtk_button_set_label((GtkButton*)widget,"Stick");
+			gtk_window_set_keep_above((GtkWindow*)window,false);
+		}
+
 }
 
 void buildMainGui(void)
@@ -48,6 +84,11 @@ void buildMainGui(void)
 
 //buttons
 	hbox=gtk_hbox_new(false,8);
+
+	button=gtk_button_new_from_stock(GTK_STOCK_ABOUT);
+	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(doAbout),NULL);
+	gtk_box_pack_start(GTK_BOX(hbox),button,false,false,4);
+
 	button=gtk_button_new_from_stock(GTK_STOCK_SPELL_CHECK);
 	g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(doSpellCheckDoc),NULL);
 	gtk_box_pack_start(GTK_BOX(hbox),button,false,false,2);
@@ -59,9 +100,10 @@ void buildMainGui(void)
 	g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(checkWord),NULL);
 	gtk_box_pack_start(GTK_BOX(hbox),button,false,false,2);
 
-	button=gtk_button_new_from_stock(GTK_STOCK_ABOUT);
-	g_signal_connect_after(G_OBJECT(button),"clicked",G_CALLBACK(doAbout),NULL);
-	gtk_box_pack_start(GTK_BOX(hbox),button,false,false,4);
+	button=gtk_toggle_button_new_with_label("Un-Stick");
+	gtk_toggle_button_set_active((GtkToggleButton*)button,true);
+	g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(doSticky),NULL);
+	gtk_box_pack_start(GTK_BOX(hbox),button,true,true,2);
 
 	button=gtk_button_new_from_stock(GTK_STOCK_QUIT);
 	g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(doShutdown),NULL);

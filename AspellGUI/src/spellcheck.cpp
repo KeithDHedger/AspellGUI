@@ -34,6 +34,13 @@ void doCancelCheck(GtkWidget* widget,gpointer data)
 	gtk_widget_destroy(spellCheckWord);
 	if(badWord!=NULL)
 		g_free(badWord);
+	
+	if(spellCheckWord!=NULL)
+		{
+			gtk_widget_destroy(spellCheckWord);
+			spellCheckWord=NULL;
+		}
+
 	cancelCheck=true;
 }
 
