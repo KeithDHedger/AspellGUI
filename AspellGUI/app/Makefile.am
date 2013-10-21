@@ -23,5 +23,6 @@ install-exec-hook:
 
 uninstall-hook:
 	rm -f $(DESTDIR)${prefix}/share/applications/AspellGUI.desktop
+	rm -f $(DESTDIR)${prefix}/share/pixmaps/AspellGUI.png
 	rm -fr $(pkgdatadir)
 
