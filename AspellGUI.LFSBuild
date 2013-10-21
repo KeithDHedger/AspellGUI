@@ -20,6 +20,7 @@ tar -xvf "$TARBALL"
 
 pushd "${TARNAME}-${VERSION}"
 	CFLAGS="$LFSFLAGS" CXXFLAGS="$LFSFLAGS" ./configure ${CONFIGOPTIONS}
+	mkdir -vp $PKG/usr/share/applications $PKG/usr/share/pixmaps
 	make $MAKEFLAGS || exit 1
 	make $MAKEFLAGS install DESTDIR=$PKG || exit 1
 	noblastlink "$PKG"
