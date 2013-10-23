@@ -15,6 +15,7 @@ docfiles_DATA = ../resources/docs/*
 bin_PROGRAMS = aspellgui
 
 install-exec-hook:
+	mkdir -vp $(DESTDIR)${prefix}/share/applications $(DESTDIR)${prefix}/share/pixmaps||true
 	cp ../resources/pixmaps/AspellGUI.desktop $(DESTDIR)${prefix}/share/applications/AspellGUI.desktop
 	cp ../resources/pixmaps/AspellGUI.png $(DESTDIR)${prefix}/share/pixmaps
 	echo Icon=AspellGUI.png >> $(DESTDIR)${prefix}/share/applications/AspellGUI.desktop

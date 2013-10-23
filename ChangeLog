@@ -1,5 +1,8 @@
+0.0.4
+Minor bug fix when making package usig make install DESTDIR=xxx.
+
 0.0.3
-Added 'Stick/Un-Stick' to window to make GUI stay on top on all workspaces or not.
+Added 'Stick/Un-Stick' to window to make GUI stay on top of all windows and in all workspaces or not.
 Added GPLV3 license to about box.
 
 0.0.2
