@@ -27,7 +27,10 @@ GtkWidget*		wordListDropbox;
 char*			badWord=NULL;
 char*			goodWord=NULL;
 AspellConfig*	aspellConfig;
-AspellSpeller*	spellChecker=0;
+AspellSpeller*	spellChecker=NULL;
+
+int				dictArraySize=0;
+char**			dictArray=NULL;
 
 int				numWords=0;
 

@@ -15,6 +15,10 @@
 int main(int argc,char **argv)
 {
 	AspellCanHaveError*	possible_err;
+	AspellDictInfoEnumeration * dels;
+	const AspellDictInfo * entry;
+	AspellDictInfoList * dlist;
+	int arraySize;
 
 	gtk_init(&argc,&argv);
 
@@ -25,6 +29,20 @@ int main(int argc,char **argv)
 		puts(aspell_error_message(possible_err));
 	else
 		spellChecker=to_aspell_speller(possible_err);
+
+
+	dlist=get_aspell_dict_info_list(aspellConfig);
+	dels=aspell_dict_info_list_elements(dlist);
+	dictArraySize=0;
+
+	while((entry=aspell_dict_info_enumeration_next(dels))!=0) 
+		{
+			arraySize=(dictArraySize+1)*sizeof(char*);
+			dictArray=(char**)realloc(dictArray,arraySize);
+			dictArray[dictArraySize]=strdup(entry->name);
+			dictArraySize++;
+		}
+	delete_aspell_dict_info_enumeration(dels);
 
 	buildMainGui();
 	gtk_window_stick(GTK_WINDOW(window));

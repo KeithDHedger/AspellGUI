@@ -34,6 +34,9 @@ extern char*			goodWord;
 extern AspellConfig*	aspellConfig;
 extern AspellSpeller*	spellChecker;
 
+extern int				dictArraySize;
+extern char**			dictArray;
+
 extern int				numWords;
 
 #endif
