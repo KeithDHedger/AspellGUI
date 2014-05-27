@@ -92,14 +92,13 @@ void buildMainGui(void)
 	vbox=gtk_vbox_new(false,8);
 
 //select dict
-button=gtk_combo_box_text_new();
-for(int j=0;j<dictArraySize;j++)
-	{
+	button=gtk_combo_box_text_new();
+	for(int j=0;j<dictArraySize;j++)
 		gtk_combo_box_text_append_text((GtkComboBoxText*)button,dictArray[j]);
-	}
 	gtk_box_pack_start(GTK_BOX(vbox),button,false,false,2);
 	gtk_combo_box_set_active((GtkComboBox*)button,0);
 	g_signal_connect(G_OBJECT(button),"changed",G_CALLBACK(selectDict),NULL);
+
 //text to spell check
 	scrollBox=gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollBox),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);

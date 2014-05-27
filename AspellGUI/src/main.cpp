@@ -45,6 +45,7 @@ int main(int argc,char **argv)
 	delete_aspell_dict_info_enumeration(dels);
 
 	buildMainGui();
+	gtk_window_set_default_icon_name(PACKAGE);
 	gtk_window_stick(GTK_WINDOW(window));
 	gtk_window_set_keep_above((GtkWindow*)window,true);
 	gtk_widget_show_all(window);
