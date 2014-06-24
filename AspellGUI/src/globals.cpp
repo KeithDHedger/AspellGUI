@@ -9,7 +9,6 @@
 #include "globals.h"
 
 GtkWidget*		scrollBox=NULL;
-GtkWidget*		textBox=NULL;
 GtkWidget*		viewBox=NULL;
 GtkWidget*		bufferBox=NULL;
 GtkWidget*		window=NULL;
