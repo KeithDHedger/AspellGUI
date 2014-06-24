@@ -6,12 +6,6 @@
  *
 */
 
-#include <stdlib.h>
-#include <gtk/gtk.h>
-#include <string.h>
-#include <sys/stat.h>
-
-#include <aspell.h>
 #include "globals.h"
 
 GtkWidget*		scrollBox=NULL;

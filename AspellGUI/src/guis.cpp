@@ -4,12 +4,6 @@
  *
 */
 
-#include <stdlib.h>
-#include <gtk/gtk.h>
-#include <string.h>
-#include <sys/stat.h>
-
-#include "config.h"
 #include "globals.h"
 #include "spellcheck.h"
 
