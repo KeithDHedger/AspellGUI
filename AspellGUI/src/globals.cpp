@@ -6,9 +6,16 @@
  *
 */
 
+#include <stdlib.h>
+#include <gtk/gtk.h>
+#include <string.h>
+#include <sys/stat.h>
+
+#include <aspell.h>
 #include "globals.h"
 
 GtkWidget*		scrollBox=NULL;
+GtkWidget*		textBox=NULL;
 GtkWidget*		viewBox=NULL;
 GtkWidget*		bufferBox=NULL;
 GtkWidget*		window=NULL;
@@ -20,10 +27,7 @@ GtkWidget*		wordListDropbox;
 char*			badWord=NULL;
 char*			goodWord=NULL;
 AspellConfig*	aspellConfig;
-AspellSpeller*	spellChecker=NULL;
-
-int				dictArraySize=0;
-char**			dictArray=NULL;
+AspellSpeller*	spellChecker=0;
 
 int				numWords=0;
 

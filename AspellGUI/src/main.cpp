@@ -4,17 +4,18 @@
  *
  */
 
+#include <stdlib.h>
+#include <gtk/gtk.h>
+#include <string.h>
+#include <sys/stat.h>
 #include "globals.h"
+
 
 #include "guis.h"
 
 int main(int argc,char **argv)
 {
 	AspellCanHaveError*	possible_err;
-	AspellDictInfoEnumeration * dels;
-	const AspellDictInfo * entry;
-	AspellDictInfoList * dlist;
-	int arraySize;
 
 	gtk_init(&argc,&argv);
 
@@ -26,22 +27,7 @@ int main(int argc,char **argv)
 	else
 		spellChecker=to_aspell_speller(possible_err);
 
-
-	dlist=get_aspell_dict_info_list(aspellConfig);
-	dels=aspell_dict_info_list_elements(dlist);
-	dictArraySize=0;
-
-	while((entry=aspell_dict_info_enumeration_next(dels))!=0) 
-		{
-			arraySize=(dictArraySize+1)*sizeof(char*);
-			dictArray=(char**)realloc(dictArray,arraySize);
-			dictArray[dictArraySize]=strdup(entry->name);
-			dictArraySize++;
-		}
-	delete_aspell_dict_info_enumeration(dels);
-
 	buildMainGui();
-	gtk_window_set_default_icon_name(PACKAGE);
 	gtk_window_stick(GTK_WINDOW(window));
 	gtk_window_set_keep_above((GtkWindow*)window,true);
 	gtk_widget_show_all(window);

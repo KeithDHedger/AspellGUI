@@ -20,6 +20,7 @@
 #define MYWEBSITE "http://keithhedger.hostingsiteforfree.com"
 
 extern GtkWidget*		scrollBox;
+extern GtkWidget*		textBox;
 extern GtkWidget*		viewBox;
 extern GtkWidget*		bufferBox;
 extern GtkWidget*		window;
@@ -32,9 +33,6 @@ extern char*			goodWord;
 
 extern AspellConfig*	aspellConfig;
 extern AspellSpeller*	spellChecker;
-
-extern int				dictArraySize;
-extern char**			dictArray;
 
 extern int				numWords;
 

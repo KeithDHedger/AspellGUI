@@ -4,6 +4,12 @@
  *
 */
 
+#include <stdlib.h>
+#include <gtk/gtk.h>
+#include <string.h>
+#include <sys/stat.h>
+
+#include "config.h"
 #include "globals.h"
 #include "spellcheck.h"
 
@@ -55,24 +61,6 @@ void doSticky(GtkWidget* widget,gpointer data)
 
 }
 
-void selectDict(GtkComboBox *widget,gpointer user_data)
-{
-	AspellCanHaveError*	possible_err;
-	int selected=gtk_combo_box_get_active(widget);
-	aspell_config_replace(aspellConfig, "lang",dictArray[selected]);
-
-	possible_err=new_aspell_speller(aspellConfig);
-
-	if(aspell_error_number(possible_err)!= 0)
-		puts(aspell_error_message(possible_err));
-	else
-		{
-			if(spellChecker!=NULL)
-				delete_aspell_speller(spellChecker);
-			spellChecker=to_aspell_speller(possible_err);
-		}
-}
-
 void buildMainGui(void)
 {
 	GtkWidget*	vbox;
@@ -84,14 +72,6 @@ void buildMainGui(void)
 	gtk_window_set_title((GtkWindow*)window,"Aspell GUI");
 	gtk_window_set_default_size((GtkWindow*)window,320,60);
 	vbox=gtk_vbox_new(false,8);
-
-//select dict
-	button=gtk_combo_box_text_new();
-	for(int j=0;j<dictArraySize;j++)
-		gtk_combo_box_text_append_text((GtkComboBoxText*)button,dictArray[j]);
-	gtk_box_pack_start(GTK_BOX(vbox),button,false,false,2);
-	gtk_combo_box_set_active((GtkComboBox*)button,0);
-	g_signal_connect(G_OBJECT(button),"changed",G_CALLBACK(selectDict),NULL);
 
 //text to spell check
 	scrollBox=gtk_scrolled_window_new(NULL, NULL);
