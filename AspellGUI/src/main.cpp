@@ -5,11 +5,13 @@
  */
 
 #include <stdlib.h>
-#include <gtk/gtk.h>
 #include <string.h>
 #include <sys/stat.h>
 #include "globals.h"
 
+#ifndef _USEQT5_
+#include <gtk/gtk.h>
+#endif
 
 #include "guis.h"
 

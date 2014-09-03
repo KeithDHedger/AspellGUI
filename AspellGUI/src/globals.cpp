@@ -7,23 +7,36 @@
 */
 
 #include <stdlib.h>
-#include <gtk/gtk.h>
 #include <string.h>
 #include <sys/stat.h>
-
 #include <aspell.h>
+
+#include "config.h"
+
+#ifndef _USEQT5_
+	#include <gtk/gtk.h>
+#else
+	#include <glib.h>
+
+	#include <QtWidgets>
+	#include <QObject>
+#endif
+
 #include "globals.h"
 
-GtkWidget*		scrollBox=NULL;
-GtkWidget*		textBox=NULL;
-GtkWidget*		viewBox=NULL;
-GtkWidget*		bufferBox=NULL;
-GtkWidget*		window=NULL;
-GtkWidget*		badWordLabel=NULL;
+#ifndef _USEQT5_
+	GtkWidget*		scrollBox=NULL;
+	GtkWidget*		textBox=NULL;
+	GtkWidget*		viewBox=NULL;
+	GtkWidget*		bufferBox=NULL;
+	GtkWidget*		window=NULL;
+	GtkWidget*		badWordLabel=NULL;
+
+	GtkWidget*		spellCheckWord=NULL;
+	GtkWidget*		wordListDropbox;
+#endif
 
 //spellcheck
-GtkWidget*		spellCheckWord=NULL;
-GtkWidget*		wordListDropbox;
 char*			badWord=NULL;
 char*			goodWord=NULL;
 AspellConfig*	aspellConfig;

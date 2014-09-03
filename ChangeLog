@@ -1,3 +1,7 @@
+0.0.6
+Started adding QT5 option.
+Removed alternate languages no call.
+
 0.0.5
 Prelim alternate languages ( can't yet handle umlaut etc ).
 Redone .desktop file.
