@@ -1,6 +1,6 @@
 #
 #
-AC_INIT([AspellGUI],[0.0.5],[PROJ],[AspellGUI])
+AC_INIT([AspellGUI],[0.0.6],[PROJ],[AspellGUI])
 
 AC_CONFIG_HEADER([config.h])
 AC_PROG_CXX
@@ -28,7 +28,6 @@ if test $enable_qt5 = "yes" ;then
 	PKG_CHECK_MODULES(QTWIDGETS, $QTWIDGETS_MODULES)
 	AC_SUBST(QTWIDGETS_CFLAGS)
 	AC_SUBST(QTWIDGETS_LIBS)
-
 	AC_DEFINE([_USEQT5_], [], [Build Qt5])
 else
 	GTK_MODULES="gtk+-2.0 >= 2.24.0"
@@ -36,6 +35,8 @@ else
 	AC_SUBST(GTK_CFLAGS)
 	AC_SUBST(GTK_LIBS)
 fi
+
+AM_CONDITIONAL([USEQT5], [test x$enable_qt5 = "xyes"])
 
 GLIB_MODULES="glib-2.0 >= 2.34.1"
 PKG_CHECK_MODULES(GLIB, $GLIB_MODULES)

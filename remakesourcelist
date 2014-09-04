@@ -2,5 +2,15 @@
 
 shopt -s nullglob
 cd "AspellGUI/src"
+
+while read
+	do
+		outfile=${REPLY#./*}
+		outfile=moc_${outfile%*.h}.cpp
+		moc $REPLY -o $outfile
+	done < <(find -iname "*QT*.h")
+
 csrclst=$(echo "../src/*.c" "../src/*.cpp")
 echo COMMONSRC = $csrclst > ../sources
+x=$(find ../src -iname "*.cpp"|grep -vi ".*QT.*")
+echo COMMONSRC = $x > ../sourcesgtk

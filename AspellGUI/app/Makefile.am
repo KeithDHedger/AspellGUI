@@ -1,7 +1,12 @@
 AUTOMAKE_OPTIONS = subdir-objects
 
 include ../flagsandlibs
+
+if USEQT5
 include ../sources
+else
+include ../sourcesgtk
+endif
 
 aspellgui_SOURCES = $(COMMONSRC)
 

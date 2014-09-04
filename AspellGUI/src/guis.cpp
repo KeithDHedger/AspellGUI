@@ -18,7 +18,14 @@
 	#include <glib.h>
 	#include <QtWidgets>
 	#include <QObject>
+	#include "QT_button.h"
 #endif
+
+void doQtShutdown(void)
+{
+printf("XXXX\n");
+    //QPushButton *clickedButton = qobject_cast<QPushButton *>(sender());
+}
 
 void doShutdown(Widget* widget,gpointer data)
 {
@@ -74,9 +81,94 @@ void doSticky(Widget* widget,gpointer data)
 }
 
 #ifdef _USEQT5_
+//#include <QToolButton>
+//
+//class Button : public QToolButton
+//{
+//    Q_OBJECT
+//
+//public:
+//		Button();
+//		~Button();
+//
+//    explicit Button(const QString &text, QWidget *parent = 0);
+//
+//    QSize sizeHint() const;
+//};
+//
+//Button::Button()
+//{
+//}
+//
+//Button::~Button()
+//{
+//}
+//
+//Button::Button(const QString &text, QWidget *parent)
+//    : QToolButton(parent)
+//{
+//    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+//    setText(text);
+//}
+//
+//QSize Button::sizeHint() const
+////! [1] //! [2]
+//{
+//    QSize size = QToolButton::sizeHint();
+//    size.rheight() += 20;
+//    size.rwidth() = qMax(size.width(), size.height());
+//    return size;
+//}
+
 void buildMainGuiQt(void)
 {
-	window=new QWidget;
+	QVBoxLayout*	vlayout=new QVBoxLayout;
+	QWidget*		mainwidget=new QWidget;
+	QWidget*		hbox;
+	QHBoxLayout*	hlayout;
+	QPushButton*	button;
+
+	window=new QMainWindow;
+	window->setWindowTitle("Aspell GUI");
+	window->setMinimumSize(320,60);
+	
+	bufferBox=new QTextEdit;
+	vlayout->setContentsMargins(0,0,0,0);
+	vlayout->addWidget(bufferBox);
+	hlayout=new QHBoxLayout;
+	hbox=new QWidget;
+	hbox->setLayout(hlayout);
+
+//about
+	button=new QPushButton("&About");
+	hlayout->addWidget(button);
+//spellcheck
+	button=new QPushButton("&Spell Check");
+	hlayout->addWidget(button);
+//check word
+	button=new QPushButton("&Check Word");
+	hlayout->addWidget(button);
+//unstick
+	button=new QPushButton("&Un-Stick");
+	hlayout->addWidget(button);
+//quit
+	button=new QPushButton("&Quit");
+	hlayout->addWidget(button);
+	QObject::connect(button,&QPushButton::clicked,doQtShutdown );
+	button->setProperty("userdata",  QVariant("a value"));
+
+
+//mybutton
+
+Button *digitButtons=new Button("my button");
+	hlayout->addWidget(digitButtons);
+
+//button box to main vbox
+	vlayout->addWidget(hbox);
+
+	mainwidget->setLayout(vlayout);
+
+	((QMainWindow*)window)->setCentralWidget(mainwidget);
 }
 #endif
 
