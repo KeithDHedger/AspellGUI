@@ -10,16 +10,17 @@
 #include "globals.h"
 
 #ifndef _USEQT5_
-#include <gtk/gtk.h>
+	#include <gtk/gtk.h>
 #endif
 
 #include "guis.h"
 
 int main(int argc,char **argv)
 {
+#ifdef _USEQT5_
+	QApplication	app(argc,argv);
+#endif
 	AspellCanHaveError*	possible_err;
-
-	gtk_init(&argc,&argv);
 
 	aspellConfig=new_aspell_config();
 	possible_err=new_aspell_speller(aspellConfig);
@@ -29,9 +30,18 @@ int main(int argc,char **argv)
 	else
 		spellChecker=to_aspell_speller(possible_err);
 
-	buildMainGui();
+#ifndef _USEQT5_
+	gtk_init(&argc,&argv);
+
+	buildMainGuiGtk();
 	gtk_window_stick(GTK_WINDOW(window));
 	gtk_window_set_keep_above((GtkWindow*)window,true);
 	gtk_widget_show_all(window);
 	gtk_main();
+#else
+	holdapp=&app;
+	buildMainGuiQt();
+	window->show();
+	app.exec();
+#endif
 }

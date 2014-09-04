@@ -13,31 +13,34 @@
 #include "config.h"
 
 #ifndef _USEQT5_
-#include <gtk/gtk.h>
+	#include <gtk/gtk.h>
+	typedef GtkWidget Widget;
 #else
-#include <glib.h>
+	#include <glib.h>
+	#include <QtWidgets>
+	#include <QObject>
+	typedef QWidget Widget;
 
-#include <QtWidgets>
-#include <QObject>
+	extern QApplication*	holdapp;
 #endif
 
 #ifndef _GLOBALS_
 #define _GLOBALS_
 
+
 #define MYEMAIL "kdhedger68713@gmail.com"
 #define MYWEBSITE "http://keithhedger.hostingsiteforfree.com"
 
-#ifndef _USEQT5_
 
-extern GtkWidget*		scrollBox;
-extern GtkWidget*		textBox;
-extern GtkWidget*		viewBox;
-extern GtkWidget*		bufferBox;
-extern GtkWidget*		window;
-extern GtkWidget*		badWordLabel;
+extern Widget*			scrollBox;
+extern Widget*			textBox;
+extern Widget*			viewBox;
+extern Widget*			bufferBox;
+extern Widget*			window;
+extern Widget*			badWordLabel;
 
-extern GtkWidget*		spellCheckWord;
-extern GtkWidget*		wordListDropbox;
+extern Widget*			spellCheckWord;
+extern Widget*			wordListDropbox;
 #endif
 
 extern char*			badWord;
@@ -48,7 +51,6 @@ extern AspellSpeller*	spellChecker;
 
 extern int				numWords;
 
-#endif
 
 
 

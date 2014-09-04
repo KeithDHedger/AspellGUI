@@ -5,7 +5,6 @@
 */
 
 #include <stdlib.h>
-#include <gtk/gtk.h>
 #include <string.h>
 #include <sys/stat.h>
 
@@ -13,13 +12,24 @@
 #include "globals.h"
 #include "spellcheck.h"
 
-void doShutdown(GtkWidget* widget,gpointer data)
+#ifndef _USEQT5_
+	#include <gtk/gtk.h>
+#else
+	#include <glib.h>
+	#include <QtWidgets>
+	#include <QObject>
+#endif
+
+void doShutdown(Widget* widget,gpointer data)
 {
+#ifndef _USEQT5_
 	gtk_main_quit();
+#endif
 }
 
-void doAbout(GtkWidget* widget,gpointer data)
+void doAbout(Widget* widget,gpointer data)
 {
+#ifndef _USEQT5_
 	const char*	authors[]={"K.D.Hedger <"MYEMAIL">","\nMore by the same author\n","Xfce4-Composite-Editor\nhttp://gtk-apps.org/content/show.php/Xfce4-Composite-Editor?content=149523\n","KKEdit\nhttp://gtk-apps.org/content/show.php?content=158161\n","Manpage Editor\nhttp://gtk-apps.org/content/show.php?content=160219\n","GtkSu\nhttp://gtk-apps.org/content/show.php?content=158974",NULL};
 	const char	copyright[] ="Copyright \xc2\xa9 2013 K.D.Hedger";
 	char*		license=NULL;
@@ -42,10 +52,12 @@ void doAbout(GtkWidget* widget,gpointer data)
 		}
 
 	gtk_show_about_dialog(NULL,"authors",authors,"copyright",copyright,"version",VERSION,"website",MYWEBSITE,"program-name","Aspell GUI","logo-icon-name","AspellGUI","license",license,NULL); 
+#endif
 }
 
-void doSticky(GtkWidget* widget,gpointer data)
+void doSticky(Widget* widget,gpointer data)
 {
+#ifndef _USEQT5_
 	if(gtk_toggle_button_get_active((GtkToggleButton*)widget)==true)
 		{
 			gtk_window_stick(GTK_WINDOW(window));
@@ -58,15 +70,23 @@ void doSticky(GtkWidget* widget,gpointer data)
 			gtk_button_set_label((GtkButton*)widget,"Stick");
 			gtk_window_set_keep_above((GtkWindow*)window,false);
 		}
-
+#endif
 }
 
-void buildMainGui(void)
+#ifdef _USEQT5_
+void buildMainGuiQt(void)
 {
-	GtkWidget*	vbox;
-	GtkWidget*	hbox;
-	GtkWidget*	button;
-	GtkWidget*	image;
+	window=new QWidget;
+}
+#endif
+
+#ifndef _USEQT5_
+void buildMainGuiGtk(void)
+{
+	Widget*	vbox;
+	Widget*	hbox;
+	Widget*	button;
+	Widget*	image;
 
 	window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title((GtkWindow*)window,"Aspell GUI");
@@ -76,11 +96,11 @@ void buildMainGui(void)
 //text to spell check
 	scrollBox=gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollBox),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
-	bufferBox=(GtkWidget*)gtk_text_buffer_new(NULL);
-	viewBox=(GtkWidget*)gtk_text_view_new_with_buffer((GtkTextBuffer*)bufferBox);
+	bufferBox=(Widget*)gtk_text_buffer_new(NULL);
+	viewBox=(Widget*)gtk_text_view_new_with_buffer((GtkTextBuffer*)bufferBox);
 	gtk_text_view_set_wrap_mode((GtkTextView*)viewBox,GTK_WRAP_WORD);
-	gtk_container_add(GTK_CONTAINER(scrollBox),(GtkWidget*)viewBox);
-	gtk_container_add(GTK_CONTAINER(vbox),(GtkWidget*)scrollBox);
+	gtk_container_add(GTK_CONTAINER(scrollBox),(Widget*)viewBox);
+	gtk_container_add(GTK_CONTAINER(vbox),(Widget*)scrollBox);
 
 //buttons
 	hbox=gtk_hbox_new(false,8);
@@ -108,18 +128,20 @@ void buildMainGui(void)
 	button=gtk_button_new_from_stock(GTK_STOCK_QUIT);
 	g_signal_connect(G_OBJECT(button),"clicked",G_CALLBACK(doShutdown),NULL);
 	gtk_box_pack_start(GTK_BOX(hbox),button,false,false,2);
-	gtk_container_add(GTK_CONTAINER(vbox),(GtkWidget*)hbox);
+	gtk_container_add(GTK_CONTAINER(vbox),(Widget*)hbox);
 
 	g_signal_connect(G_OBJECT(window),"delete-event",G_CALLBACK(doShutdown),NULL);
-	gtk_container_add(GTK_CONTAINER(window),(GtkWidget*)vbox);
+	gtk_container_add(GTK_CONTAINER(window),(Widget*)vbox);
 }
+#endif
 
-void buildWordCheck(int documentCheck)
+#ifndef _USEQT5_
+void buildWordCheckGtk(int documentCheck)
 {
-	GtkWidget*	vbox;
-	GtkWidget*	button;
-	GtkWidget*	hbox;
-	GtkWidget*	image;
+	Widget*	vbox;
+	Widget*	button;
+	Widget*	hbox;
+	Widget*	image;
 	char*		labeltext[512];
 	int			docflag=documentCheck;
 
@@ -160,10 +182,14 @@ void buildWordCheck(int documentCheck)
 	gtk_box_pack_start(GTK_BOX(vbox),gtk_hseparator_new(),true,true,0);
 	gtk_box_pack_start(GTK_BOX(vbox),hbox,true,true,0);
 
-	GtkWidget* content=gtk_dialog_get_content_area((GtkDialog *)spellCheckWord);
-	gtk_container_add(GTK_CONTAINER(content),(GtkWidget*)vbox);
+	Widget* content=gtk_dialog_get_content_area((GtkDialog *)spellCheckWord);
+	gtk_container_add(GTK_CONTAINER(content),(Widget*)vbox);
 
 	gtk_signal_connect_object(GTK_OBJECT(spellCheckWord),"delete_event",GTK_SIGNAL_FUNC(gtk_widget_hide),GTK_OBJECT(spellCheckWord));
 	gtk_signal_connect(GTK_OBJECT(spellCheckWord),"delete_event",GTK_SIGNAL_FUNC(gtk_true),NULL);
 }
-
+#else
+void buildWordCheckQt(int documentCheck)
+{
+}
+#endif

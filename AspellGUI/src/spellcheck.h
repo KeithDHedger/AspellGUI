@@ -6,15 +6,21 @@
 *     spellcheck.h
 * 
 ******************************************************/
-#include <gtk/gtk.h>
+#ifndef _USEQT5_
+	#include <gtk/gtk.h>
+#else
+	#include <glib.h>
+	#include <QtWidgets>
+	#include <QObject>
+#endif
 
 #ifndef _SPELLCHECK_
 #define _SPELLCHECK_
 
-void checkWord(GtkWidget* widget,gpointer data);
-void doChangeWord(GtkWidget* widget,gpointer data);
-void doAddIgnoreWord(GtkWidget* widget,gpointer data);
-void doSpellCheckDoc(GtkWidget* widget,gpointer data);
-void doCancelCheck(GtkWidget* widget,gpointer data);
+void checkWord(Widget* widget,gpointer data);
+void doChangeWord(Widget* widget,gpointer data);
+void doAddIgnoreWord(Widget* widget,gpointer data);
+void doSpellCheckDoc(Widget* widget,gpointer data);
+void doCancelCheck(Widget* widget,gpointer data);
 
 #endif

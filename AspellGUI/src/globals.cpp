@@ -17,24 +17,24 @@
 	#include <gtk/gtk.h>
 #else
 	#include <glib.h>
-
 	#include <QtWidgets>
 	#include <QObject>
+
+	QApplication*	holdapp;
 #endif
 
 #include "globals.h"
 
-#ifndef _USEQT5_
-	GtkWidget*		scrollBox=NULL;
-	GtkWidget*		textBox=NULL;
-	GtkWidget*		viewBox=NULL;
-	GtkWidget*		bufferBox=NULL;
-	GtkWidget*		window=NULL;
-	GtkWidget*		badWordLabel=NULL;
 
-	GtkWidget*		spellCheckWord=NULL;
-	GtkWidget*		wordListDropbox;
-#endif
+Widget*			scrollBox=NULL;
+Widget*			textBox=NULL;
+Widget*			viewBox=NULL;
+Widget*			bufferBox=NULL;
+Widget*			window=NULL;
+Widget*			badWordLabel=NULL;
+
+Widget*			spellCheckWord=NULL;
+Widget*			wordListDropbox;
 
 //spellcheck
 char*			badWord=NULL;

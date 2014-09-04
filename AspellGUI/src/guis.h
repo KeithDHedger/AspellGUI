@@ -5,14 +5,16 @@
 */
 
 #include <stdlib.h>
-#include <gtk/gtk.h>
+//#include <gtk/gtk.h>
 #include <string.h>
 #include <sys/stat.h>
 
 #ifndef _GUIS_
 #define _GUIS_
 
-void buildMainGui(void);
-void buildWordCheck(int documentCheck);
+void buildMainGuiQt(void);
+void buildMainGuiGtk(void);
+void buildWordCheckGtk(int documentCheck);
+void buildWordCheckQt(int documentCheck);
 
 #endif

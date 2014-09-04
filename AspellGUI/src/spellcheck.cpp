@@ -18,7 +18,6 @@
 ******************************************************/
 
 #include <stdlib.h>
-#include <gtk/gtk.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <aspell.h>
@@ -27,10 +26,19 @@
 #include "globals.h"
 #include "guis.h"
 
+#ifndef _USEQT5_
+	#include <gtk/gtk.h>
+#else
+	#include <glib.h>
+	#include <QtWidgets>
+	#include <QObject>
+#endif
+
 bool	cancelCheck=false;
 
-void doCancelCheck(GtkWidget* widget,gpointer data)
+void doCancelCheck(Widget* widget,gpointer data)
 {
+#ifndef _USEQT5_
 	gtk_widget_destroy(spellCheckWord);
 	if(badWord!=NULL)
 		g_free(badWord);
@@ -42,6 +50,7 @@ void doCancelCheck(GtkWidget* widget,gpointer data)
 		}
 
 	cancelCheck=true;
+#endif
 }
 
 void checkTheWord(char* word,int checkDoc)
@@ -54,13 +63,14 @@ void checkTheWord(char* word,int checkDoc)
 	char*						wordlist[100];
 	char*						labeltext[512];
 
+#ifndef _USEQT5_
 	correct=aspell_speller_check(spellChecker,word,-1);
 	if(!correct)
 		{
 			badWord=word;
 			cancelCheck=false;
 			if(spellCheckWord==NULL)
-				buildWordCheck(checkDoc);
+				buildWordCheckGtk(checkDoc);
 			else
 				{
 					for(int j=0;j<numWords;j++)
@@ -86,10 +96,13 @@ void checkTheWord(char* word,int checkDoc)
 			gtk_widget_show_all(spellCheckWord);
 			gtk_dialog_run((GtkDialog *)spellCheckWord);
 		}
+#endif
 }
 
-void checkWord(GtkWidget* widget,gpointer data)
+void checkWord(Widget* widget,gpointer data)
 {
+
+#ifndef _USEQT5_
 	GtkTextIter	start;
 	GtkTextIter	end;
 	char*		selection=NULL;
@@ -111,10 +124,12 @@ void checkWord(GtkWidget* widget,gpointer data)
 			gtk_widget_destroy(spellCheckWord);
 			spellCheckWord=NULL;
 		}
+#endif
 }
 
-void doChangeWord(GtkWidget* widget,gpointer data)
+void doChangeWord(Widget* widget,gpointer data)
 {
+#ifndef _USEQT5_
 	GtkTextIter	start;
 	GtkTextIter	end;
 
@@ -141,10 +156,12 @@ void doChangeWord(GtkWidget* widget,gpointer data)
 
 	if(badWord!=NULL)
 		g_free(badWord);
+#endif
 }
 
-void doAddIgnoreWord(GtkWidget* widget,gpointer data)
+void doAddIgnoreWord(Widget* widget,gpointer data)
 {
+#ifndef _USEQT5_
 	if((long)data==1)
 		aspell_speller_add_to_session(spellChecker,badWord,-1);
 	else
@@ -157,10 +174,12 @@ void doAddIgnoreWord(GtkWidget* widget,gpointer data)
 
 	if(badWord!=NULL)
 		g_free(badWord);
+#endif
 }
 
-void doSpellCheckDoc(GtkWidget* widget,gpointer data)
+void doSpellCheckDoc(Widget* widget,gpointer data)
 {
+#ifndef _USEQT5_
 	GtkTextIter				start;
 	GtkTextIter				end;
 	AspellCanHaveError*		ret;
@@ -228,4 +247,5 @@ void doSpellCheckDoc(GtkWidget* widget,gpointer data)
 			gtk_widget_destroy(spellCheckWord);
 			spellCheckWord=NULL;
 		}
+#endif
 }
