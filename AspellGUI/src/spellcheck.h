@@ -14,11 +14,19 @@
 	#include <QObject>
 #endif
 
+#include "config.h"
+
 #ifndef _SPELLCHECK_
 #define _SPELLCHECK_
 
 void checkWord(Widget* widget,gpointer data);
+
+#ifndef _USEQT5_
 void doChangeWord(Widget* widget,gpointer data);
+#else
+void doChangeWord(Widget* widget);
+#endif
+
 void doAddIgnoreWord(Widget* widget,gpointer data);
 
 #ifndef _USEQT5_

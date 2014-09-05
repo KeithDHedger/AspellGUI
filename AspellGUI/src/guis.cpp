@@ -94,7 +94,7 @@ void buildMainGuiQt(void)
 	window->setWindowTitle("Aspell GUI");
 	window->setMinimumSize(320,60);
 	
-	bufferBox=new QTextEdit;
+	bufferBox=new QPlainTextEdit;
 	vlayout->setContentsMargins(0,0,0,0);
 	vlayout->addWidget(bufferBox);
 	hlayout=new QHBoxLayout;
@@ -263,24 +263,30 @@ void buildWordCheckQt(int documentCheck)
 
 //printf("AAA%sAAA\n",badWord);
 	asprintf(&labeltext,"Change <i><b>%s</b></i> to: ",badWord);
-	label=new QLabel(labeltext);
-	hlayout->addWidget(label);
+	badWordLabel=(Widget*)new QLabel(labeltext);
+	hlayout->addWidget(badWordLabel);
 	wordListDropbox=new QComboBox;
 	hlayout->addWidget(wordListDropbox);
 	vlayout->addWidget(hbox);
 
-//buttons
+//buttons//doChangeWord
 	hlayout=new QHBoxLayout;
 	hbox=new QWidget;
 	hbox->setLayout(hlayout);
 
 	button=new Button("Apply");
 	hlayout->addWidget(button);
+	button->setCallBack((func_ptr)&doChangeWord);
+	button->setID(docflag);
 
 	button=new Button("Ignore");
+	button->setCallBack((func_ptr)&doChangeWord);
+	button->setID(1);
 	hlayout->addWidget(button);
 
 	button=new Button("Add");
+	button->setCallBack((func_ptr)&doChangeWord);
+	button->setID(2);
 	hlayout->addWidget(button);
 
 	button=new Button("Cancel");

@@ -32,6 +32,7 @@
 	#include <glib.h>
 	#include <QtWidgets>
 	#include <QObject>
+	#include "QT_button.h"
 #endif
 
 bool	cancelCheck=false;
@@ -64,6 +65,7 @@ void checkTheWord(char* word,int checkDoc)
 	char*						labeltext[512];
 
 #ifndef _USEQT5_
+
 	correct=aspell_speller_check(spellChecker,word,-1);
 	if(!correct)
 		{
@@ -98,20 +100,22 @@ void checkTheWord(char* word,int checkDoc)
 		}
 #else
 printf("%s\n",word);
+	char*						labeldata;
 	correct=aspell_speller_check(spellChecker,word,-1);
 	if(!correct)
 		{
 			badWord=word;
 			cancelCheck=false;
-//printf("ZZZZZZZ%s\n",word);
 			if(spellCheckWord==NULL)
 				buildWordCheckQt(checkDoc);
 			else
 				{
-//					for(int j=0;j<numWords;j++)
+					for(int j=0;j<numWords;j++)
+						((QComboBox*)wordListDropbox)->removeItem(0);
 //						gtk_combo_box_text_remove((GtkComboBoxText*)wordListDropbox,0);
 
-					sprintf((char*)&labeltext,"Change <i><b>%s</b></i> to: ",badWord);
+					asprintf(&labeldata,"Change <i><b>%s</b></i> to: ",badWord);
+					((QLabel*)badWordLabel)->setText(labeldata);
 //					gtk_label_set_text((GtkLabel*)badWordLabel,(char*)&labeltext);
 //					gtk_label_set_use_markup((GtkLabel*)badWordLabel,true);
 				}
@@ -121,6 +125,7 @@ printf("%s\n",word);
 			while((suggestedword=aspell_string_enumeration_next(elements))!=NULL)
 				{
 					wordlist[wordcnt]=strdup(suggestedword);
+					((QComboBox*)wordListDropbox)->addItem(suggestedword);
 //					gtk_combo_box_text_append_text((GtkComboBoxText*)wordListDropbox,wordlist[wordcnt]);
 					wordcnt++;
 				}
@@ -162,7 +167,11 @@ void checkWord(Widget* widget,gpointer data)
 #endif
 }
 
+#ifndef _USEQT5_
 void doChangeWord(Widget* widget,gpointer data)
+#else
+void doChangeWord(Widget* widget)
+#endif
 {
 #ifndef _USEQT5_
 	GtkTextIter	start;
@@ -191,6 +200,51 @@ void doChangeWord(Widget* widget,gpointer data)
 
 	if(badWord!=NULL)
 		g_free(badWord);
+#else
+
+	QString	qstr;
+	QByteArray byteArray;
+	const char* str;
+
+	if(((Button*)widget)->buttonID==0)
+		{
+
+			if(((QPlainTextEdit*)bufferBox)->textCursor().hasSelection()==true)
+				{
+					qstr=((QPlainTextEdit*)bufferBox)->textCursor().selectedText();
+					QByteArray byteArray=qstr.toUtf8();
+					str=(char*)byteArray.constData();
+					if(str==NULL)
+						return;
+					else
+						badWord=strdup(str);
+				}
+			qstr=((QComboBox*)wordListDropbox)->currentText();
+			QByteArray byteArray=qstr.toUtf8();
+			str=(char*)byteArray.constData();
+			if(str!=NULL)
+				goodWord=strdup(str);
+		}
+	else
+		{
+			qstr=((QComboBox*)wordListDropbox)->currentText();
+			QByteArray byteArray=qstr.toUtf8();
+			str=(char*)byteArray.constData();
+			if(str!=NULL)
+				goodWord=strdup(str);
+
+		}
+
+	aspell_speller_store_replacement(spellChecker,badWord,-1,goodWord,-1);
+spellCheckWord->hide();
+//	gtk_dialog_response((GtkDialog*)spellCheckWord,0);
+
+	if(badWord!=NULL)
+		g_free(badWord);
+
+
+	if(goodWord!=NULL)
+		printf("CCC%sCCC\n",goodWord);
 #endif
 }
 
@@ -242,7 +296,7 @@ void doSpellCheckDoc(QPushButton* data)
 #else
 	QString	qstr;
 
-	qstr=((QTextEdit*)bufferBox)->toPlainText();
+	qstr=((QPlainTextEdit*)bufferBox)->toPlainText();
 	QByteArray byteArray=qstr.toUtf8();
 	line=(char*)byteArray.constData();
 //printf("%s\n",line);
