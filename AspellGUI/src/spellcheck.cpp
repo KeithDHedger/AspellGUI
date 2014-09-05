@@ -135,6 +135,7 @@ printf("%s\n",word);
 //			gtk_combo_box_set_active((GtkComboBox*)wordListDropbox,0);
 //			gtk_widget_show_all(spellCheckWord);
 //			gtk_dialog_run((GtkDialog *)spellCheckWord);
+((QDialog*)spellCheckWord)->exec();
 		}
 #endif
 }

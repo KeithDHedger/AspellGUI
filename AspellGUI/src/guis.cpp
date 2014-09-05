@@ -250,10 +250,11 @@ void buildWordCheckQt(int documentCheck)
 	int				docflag=documentCheck;
 	QLabel*			label;
 
-	spellCheckWord=new QMainWindow;
-	spellCheckWord->setWindowTitle("Aspell GUI");
-	spellCheckWord->setMinimumSize(320,60);
-	
+//	spellCheckWord=new QMainWindow;
+//	spellCheckWord->setWindowTitle("Aspell GUI");
+//	spellCheckWord->setMinimumSize(320,60);
+	spellCheckWord=new QDialog(window);
+
 //	bufferBox=new QTextEdit;
 //	vlayout->setContentsMargins(0,0,0,0);
 //	vlayout->addWidget(bufferBox);
@@ -294,8 +295,10 @@ void buildWordCheckQt(int documentCheck)
 
 	vlayout->addWidget(hbox);
 
-	mainwidget->setLayout(vlayout);
-	((QMainWindow*)spellCheckWord)->setCentralWidget(mainwidget);
-	spellCheckWord->show();
+	//mainwidget->setLayout(vlayout);
+//	((QMainWindow*)spellCheckWord)->setCentralWidget(mainwidget);
+	((QWidget*)spellCheckWord)->setLayout(vlayout);
+	((QDialog*)spellCheckWord)->setModal(true);
+	//((QDialog*)spellCheckWord)->show();
 }
 #endif
