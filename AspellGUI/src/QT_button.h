@@ -41,18 +41,28 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#include <QToolButton>
 
-//! [0]
-class Button : public QToolButton
+#include <QPushButton>
+
+//extern void (*button_click_function)(QPushButton* data);
+typedef void (*func_ptr)(QPushButton* data);
+
+class Button : public QPushButton
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit Button(const QString &text, QWidget *parent = 0);
+	explicit Button(const QString &text, QWidget *parent = 0);
+	void setID(int id);
+	void setCallBack(func_ptr func);
 
-    QSize sizeHint() const;
+private:
+	int	buttonID;
+	func_ptr callback;
+
+private slots:
+	void buttonClicked();
 };
-//! [0]
 
 #endif
+

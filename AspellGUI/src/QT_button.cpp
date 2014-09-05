@@ -38,26 +38,56 @@
 **
 ****************************************************************************/
 
-#include <QtWidgets>
+#include <stdio.h>
+
+#include <QPushButton>
 
 #include "QT_button.h"
 
-//! [0]
-Button::Button(const QString &text, QWidget *parent)
-    : QToolButton(parent)
-{
-    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-    setText(text);
-}
-//! [0]
+bool (*button_click_function)(QPushButton* data);
+extern void doQtcallback(void);
 
-//! [1]
-QSize Button::sizeHint() const
-//! [1] //! [2]
+Button::Button(const QString &text, QWidget *parent): QPushButton(parent)
 {
-    QSize size = QToolButton::sizeHint();
-    size.rheight() += 20;
-    size.rwidth() = qMax(size.width(), size.height());
-    return size;
+	setText(text);
+	connect(this,SIGNAL(clicked()),this,SLOT(buttonClicked()));
 }
-//! [2]
+typedef void (*func_ptr)(QPushButton* data);
+void Button::setID(int id)
+{
+	this->buttonID=id;
+}
+
+void Button::setCallBack(func_ptr func)
+{
+	this->callback=func;
+}
+
+bool stuff(void)
+{
+printf("TRUE\n");
+return true;
+}
+
+
+void Button::buttonClicked()
+{
+	//void*	t;
+	func_ptr array_of_fun_ptr[3];
+
+	printf("ZZZZZZZZ\n");
+	printf("%i\n",this->buttonID);
+	//doQtcallback(this);
+	//this->callback (QPushButton*);
+	//void* (*f)();
+	//t=this->callback;
+	//f=&this->callback;
+	//f();
+	array_of_fun_ptr[0]= this->callback;
+	//some_a=(*(array_of_fun_ptr[0]))(void);
+	//this->callback(this);
+//f = A;
+//f();
+array_of_fun_ptr[0]	((QPushButton*)16);
+
+}

@@ -27,6 +27,14 @@ printf("XXXX\n");
     //QPushButton *clickedButton = qobject_cast<QPushButton *>(sender());
 }
 
+void doQtcallback(QPushButton* data)
+{
+printf("YYYYZZZZZZZ\n");
+printf("%i\n",(int)(long)data);
+    //QPushButton *clickedButton = qobject_cast<QPushButton *>(sender());
+}
+
+
 void doShutdown(Widget* widget,gpointer data)
 {
 #ifndef _USEQT5_
@@ -119,7 +127,7 @@ void doSticky(Widget* widget,gpointer data)
 //    size.rwidth() = qMax(size.width(), size.height());
 //    return size;
 //}
-
+typedef void (*func_ptr)(QPushButton* data);
 void buildMainGuiQt(void)
 {
 	QVBoxLayout*	vlayout=new QVBoxLayout;
@@ -161,6 +169,9 @@ void buildMainGuiQt(void)
 //mybutton
 
 Button *digitButtons=new Button("my button");
+	QObject::connect(digitButtons,&QPushButton::clicked,doQtShutdown );
+	digitButtons->setID(1234);
+	digitButtons->setCallBack((func_ptr)&doQtcallback);
 	hlayout->addWidget(digitButtons);
 
 //button box to main vbox
