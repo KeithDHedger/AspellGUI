@@ -20,7 +20,13 @@
 void checkWord(Widget* widget,gpointer data);
 void doChangeWord(Widget* widget,gpointer data);
 void doAddIgnoreWord(Widget* widget,gpointer data);
+
+#ifndef _USEQT5_
 void doSpellCheckDoc(Widget* widget,gpointer data);
+#else
+void doSpellCheckDoc(QPushButton* data);
+#endif
+
 void doCancelCheck(Widget* widget,gpointer data);
 
 #endif

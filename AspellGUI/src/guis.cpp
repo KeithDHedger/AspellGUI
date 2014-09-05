@@ -23,8 +23,7 @@
 
 void doQtShutdown(QPushButton* data)
 {
-	printf("%i\n",(int)(long)data);
-	printf("%i\n",(int)((Button*)data)->buttonID);
+	qApp->quit();
 }
 
 
@@ -82,45 +81,7 @@ void doSticky(Widget* widget,gpointer data)
 }
 
 #ifdef _USEQT5_
-//#include <QToolButton>
-//
-//class Button : public QToolButton
-//{
-//    Q_OBJECT
-//
-//public:
-//		Button();
-//		~Button();
-//
-//    explicit Button(const QString &text, QWidget *parent = 0);
-//
-//    QSize sizeHint() const;
-//};
-//
-//Button::Button()
-//{
-//}
-//
-//Button::~Button()
-//{
-//}
-//
-//Button::Button(const QString &text, QWidget *parent)
-//    : QToolButton(parent)
-//{
-//    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-//    setText(text);
-//}
-//
-//QSize Button::sizeHint() const
-////! [1] //! [2]
-//{
-//    QSize size = QToolButton::sizeHint();
-//    size.rheight() += 20;
-//    size.rwidth() = qMax(size.width(), size.height());
-//    return size;
-//}
-typedef void (*func_ptr)(QPushButton* data);
+
 void buildMainGuiQt(void)
 {
 	QVBoxLayout*	vlayout=new QVBoxLayout;
@@ -143,9 +104,10 @@ void buildMainGuiQt(void)
 //about
 	button=new Button("&About");
 	hlayout->addWidget(button);
-//spellcheck
+//spellcheck //doSpellCheckDoc
 	button=new Button("&Spell Check");
 	hlayout->addWidget(button);
+	button->setCallBack((func_ptr)&doSpellCheckDoc);
 //check word
 	button=new Button("&Check Word");
 	hlayout->addWidget(button);
@@ -156,18 +118,6 @@ void buildMainGuiQt(void)
 	button=new Button("&Quit");
 	hlayout->addWidget(button);
 	button->setCallBack((func_ptr)&doQtShutdown);
-	button->setID(1234);
-//	QObject::connect(button,&QPushButton::clicked,doQtShutdown );
-	//button->setProperty("userdata",  QVariant("a value"));
-
-
-//mybutton
-
-//	Button *digitButtons=new Button("my button");
-////	QObject::connect(digitButtons,&QPushButton::clicked,doQtShutdown );
-//	digitButtons->setID(1234);
-//	digitButtons->setCallBack((func_ptr)&doQtShutdown);
-//	hlayout->addWidget(button);
 
 //button box to main vbox
 	vlayout->addWidget(hbox);
@@ -287,7 +237,59 @@ void buildWordCheckGtk(int documentCheck)
 	gtk_signal_connect(GTK_OBJECT(spellCheckWord),"delete_event",GTK_SIGNAL_FUNC(gtk_true),NULL);
 }
 #else
+
 void buildWordCheckQt(int documentCheck)
 {
+	QVBoxLayout*	vlayout=new QVBoxLayout;
+	QWidget*		mainwidget=new QWidget;
+	QWidget*		hbox;
+	QHBoxLayout*	hlayout;
+	Button*			button;
+
+	char*			labeltext=NULL;
+	int				docflag=documentCheck;
+	QLabel*			label;
+
+	spellCheckWord=new QMainWindow;
+	spellCheckWord->setWindowTitle("Aspell GUI");
+	spellCheckWord->setMinimumSize(320,60);
+	
+//	bufferBox=new QTextEdit;
+//	vlayout->setContentsMargins(0,0,0,0);
+//	vlayout->addWidget(bufferBox);
+	hlayout=new QHBoxLayout;
+	hbox=new QWidget;
+	hbox->setLayout(hlayout);
+
+//printf("AAA%sAAA\n",badWord);
+	asprintf(&labeltext,"Change <i><b>%s</b></i> to: ",badWord);
+	label=new QLabel(labeltext);
+	hlayout->addWidget(label);
+	wordListDropbox=new QComboBox;
+	hlayout->addWidget(wordListDropbox);
+	vlayout->addWidget(hbox);
+
+//buttons
+	hlayout=new QHBoxLayout;
+	hbox=new QWidget;
+	hbox->setLayout(hlayout);
+
+	button=new Button("Apply");
+	hlayout->addWidget(button);
+
+	button=new Button("Ignore");
+	hlayout->addWidget(button);
+
+	button=new Button("Add");
+	hlayout->addWidget(button);
+
+	button=new Button("Cancel");
+	hlayout->addWidget(button);
+
+	vlayout->addWidget(hbox);
+
+	mainwidget->setLayout(vlayout);
+	((QMainWindow*)spellCheckWord)->setCentralWidget(mainwidget);
+	spellCheckWord->show();
 }
 #endif

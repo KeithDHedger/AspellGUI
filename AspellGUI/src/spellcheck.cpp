@@ -96,6 +96,41 @@ void checkTheWord(char* word,int checkDoc)
 			gtk_widget_show_all(spellCheckWord);
 			gtk_dialog_run((GtkDialog *)spellCheckWord);
 		}
+#else
+printf("%s\n",word);
+	correct=aspell_speller_check(spellChecker,word,-1);
+	if(!correct)
+		{
+			badWord=word;
+			cancelCheck=false;
+//printf("ZZZZZZZ%s\n",word);
+			if(spellCheckWord==NULL)
+				buildWordCheckQt(checkDoc);
+			else
+				{
+//					for(int j=0;j<numWords;j++)
+//						gtk_combo_box_text_remove((GtkComboBoxText*)wordListDropbox,0);
+
+					sprintf((char*)&labeltext,"Change <i><b>%s</b></i> to: ",badWord);
+//					gtk_label_set_text((GtkLabel*)badWordLabel,(char*)&labeltext);
+//					gtk_label_set_use_markup((GtkLabel*)badWordLabel,true);
+				}
+	
+			suggestions=(AspellWordList*)aspell_speller_suggest(spellChecker,word,-1);
+			elements=aspell_word_list_elements(suggestions);
+			while((suggestedword=aspell_string_enumeration_next(elements))!=NULL)
+				{
+					wordlist[wordcnt]=strdup(suggestedword);
+//					gtk_combo_box_text_append_text((GtkComboBoxText*)wordListDropbox,wordlist[wordcnt]);
+					wordcnt++;
+				}
+			numWords=wordcnt;
+
+			delete_aspell_string_enumeration(elements);
+//			gtk_combo_box_set_active((GtkComboBox*)wordListDropbox,0);
+//			gtk_widget_show_all(spellCheckWord);
+//			gtk_dialog_run((GtkDialog *)spellCheckWord);
+		}
 #endif
 }
 
@@ -177,11 +212,13 @@ void doAddIgnoreWord(Widget* widget,gpointer data)
 #endif
 }
 
-void doSpellCheckDoc(Widget* widget,gpointer data)
-{
 #ifndef _USEQT5_
-	GtkTextIter				start;
-	GtkTextIter				end;
+void doSpellCheckDoc(Widget* widget,gpointer data)
+#else
+void doSpellCheckDoc(QPushButton* data)
+#endif
+{
+
 	AspellCanHaveError*		ret;
 	AspellDocumentChecker*	checker;
 	AspellToken				token;
@@ -189,15 +226,27 @@ void doSpellCheckDoc(Widget* widget,gpointer data)
 	unsigned int			goodwordlen;
 	char*					word_begin;
 	char*					badword;
+	char*					line;
+
+#ifndef _USEQT5_
+	GtkTextIter				start;
+	GtkTextIter				end;
 	GtkTextIter				startiter;
 	GtkTextIter				enditer;
-	char*					line;
+
 
 	gtk_text_buffer_get_start_iter((GtkTextBuffer*)bufferBox,&startiter);
 	gtk_text_buffer_get_end_iter((GtkTextBuffer*)bufferBox,&enditer);
 
 	line=gtk_text_buffer_get_text((GtkTextBuffer*)bufferBox,&startiter,&enditer,false);
+#else
+	QString	qstr;
 
+	qstr=((QTextEdit*)bufferBox)->toPlainText();
+	QByteArray byteArray=qstr.toUtf8();
+	line=(char*)byteArray.constData();
+//printf("%s\n",line);
+#endif
 	/* Set up the document checker */
 	ret=new_aspell_document_checker(spellChecker);
 	if (aspell_error(ret)!=0)
@@ -235,6 +284,8 @@ void doSpellCheckDoc(Widget* widget,gpointer data)
 			}
 
 	delete_aspell_document_checker(checker);
+
+#ifndef _USEQT5_
 
 	gtk_text_buffer_get_bounds((GtkTextBuffer*)bufferBox,&start,&end);
 	gtk_text_buffer_select_range((GtkTextBuffer*)bufferBox,&start,&end);
