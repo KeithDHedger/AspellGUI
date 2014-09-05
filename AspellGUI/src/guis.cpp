@@ -21,17 +21,10 @@
 	#include "QT_button.h"
 #endif
 
-void doQtShutdown(void)
+void doQtShutdown(QPushButton* data)
 {
-printf("XXXX\n");
-    //QPushButton *clickedButton = qobject_cast<QPushButton *>(sender());
-}
-
-void doQtcallback(QPushButton* data)
-{
-printf("YYYYZZZZZZZ\n");
-printf("%i\n",(int)(long)data);
-    //QPushButton *clickedButton = qobject_cast<QPushButton *>(sender());
+	printf("%i\n",(int)(long)data);
+	printf("%i\n",(int)((Button*)data)->buttonID);
 }
 
 
@@ -134,7 +127,7 @@ void buildMainGuiQt(void)
 	QWidget*		mainwidget=new QWidget;
 	QWidget*		hbox;
 	QHBoxLayout*	hlayout;
-	QPushButton*	button;
+	Button*			button;
 
 	window=new QMainWindow;
 	window->setWindowTitle("Aspell GUI");
@@ -148,31 +141,33 @@ void buildMainGuiQt(void)
 	hbox->setLayout(hlayout);
 
 //about
-	button=new QPushButton("&About");
+	button=new Button("&About");
 	hlayout->addWidget(button);
 //spellcheck
-	button=new QPushButton("&Spell Check");
+	button=new Button("&Spell Check");
 	hlayout->addWidget(button);
 //check word
-	button=new QPushButton("&Check Word");
+	button=new Button("&Check Word");
 	hlayout->addWidget(button);
 //unstick
-	button=new QPushButton("&Un-Stick");
+	button=new Button("&Un-Stick");
 	hlayout->addWidget(button);
 //quit
-	button=new QPushButton("&Quit");
+	button=new Button("&Quit");
 	hlayout->addWidget(button);
-	QObject::connect(button,&QPushButton::clicked,doQtShutdown );
-	button->setProperty("userdata",  QVariant("a value"));
+	button->setCallBack((func_ptr)&doQtShutdown);
+	button->setID(1234);
+//	QObject::connect(button,&QPushButton::clicked,doQtShutdown );
+	//button->setProperty("userdata",  QVariant("a value"));
 
 
 //mybutton
 
-Button *digitButtons=new Button("my button");
-	QObject::connect(digitButtons,&QPushButton::clicked,doQtShutdown );
-	digitButtons->setID(1234);
-	digitButtons->setCallBack((func_ptr)&doQtcallback);
-	hlayout->addWidget(digitButtons);
+//	Button *digitButtons=new Button("my button");
+////	QObject::connect(digitButtons,&QPushButton::clicked,doQtShutdown );
+//	digitButtons->setID(1234);
+//	digitButtons->setCallBack((func_ptr)&doQtShutdown);
+//	hlayout->addWidget(button);
 
 //button box to main vbox
 	vlayout->addWidget(hbox);

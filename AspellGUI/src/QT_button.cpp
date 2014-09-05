@@ -44,15 +44,14 @@
 
 #include "QT_button.h"
 
-bool (*button_click_function)(QPushButton* data);
-extern void doQtcallback(void);
-
 Button::Button(const QString &text, QWidget *parent): QPushButton(parent)
 {
 	setText(text);
 	connect(this,SIGNAL(clicked()),this,SLOT(buttonClicked()));
+	this->callback=NULL;
+	this->buttonID=-1;
 }
-typedef void (*func_ptr)(QPushButton* data);
+
 void Button::setID(int id)
 {
 	this->buttonID=id;
@@ -63,31 +62,12 @@ void Button::setCallBack(func_ptr func)
 	this->callback=func;
 }
 
-bool stuff(void)
-{
-printf("TRUE\n");
-return true;
-}
-
 
 void Button::buttonClicked()
 {
-	//void*	t;
-	func_ptr array_of_fun_ptr[3];
-
-	printf("ZZZZZZZZ\n");
 	printf("%i\n",this->buttonID);
-	//doQtcallback(this);
-	//this->callback (QPushButton*);
-	//void* (*f)();
-	//t=this->callback;
-	//f=&this->callback;
-	//f();
-	array_of_fun_ptr[0]= this->callback;
-	//some_a=(*(array_of_fun_ptr[0]))(void);
-	//this->callback(this);
-//f = A;
-//f();
-array_of_fun_ptr[0]	((QPushButton*)16);
-
+	if(this->callback!=NULL)
+		{
+			this->callback((QPushButton*)this);
+		}
 }

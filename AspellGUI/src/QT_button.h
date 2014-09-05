@@ -44,7 +44,6 @@
 
 #include <QPushButton>
 
-//extern void (*button_click_function)(QPushButton* data);
 typedef void (*func_ptr)(QPushButton* data);
 
 class Button : public QPushButton
@@ -56,8 +55,8 @@ public:
 	void setID(int id);
 	void setCallBack(func_ptr func);
 
-private:
 	int	buttonID;
+private:
 	func_ptr callback;
 
 private slots:
