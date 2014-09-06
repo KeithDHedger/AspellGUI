@@ -17,21 +17,15 @@
 #else
 	#include <glib.h>
 	#include <QtWidgets>
-	#include <QObject>
 	#include "QT_button.h"
-#endif
-
-#ifdef _USEQT5_
-void doQtShutdown(QPushButton* data)
-{
-	qApp->quit();
-}
 #endif
 
 void doShutdown(Widget* widget,gpointer data)
 {
 #ifndef _USEQT5_
 	gtk_main_quit();
+#else
+	qApp->quit();
 #endif
 }
 
@@ -60,6 +54,8 @@ void doAbout(Widget* widget,gpointer data)
 		}
 
 	gtk_show_about_dialog(NULL,"authors",authors,"copyright",copyright,"version",VERSION,"website",MYWEBSITE,"program-name","Aspell GUI","logo-icon-name","AspellGUI","license",license,NULL); 
+#else
+	QMessageBox::about(NULL,"About Aspell GUI","<b>Aspell GUI</b><br>Copyright \xc2\xa9 2013 K.D.Hedger<br>http://keithhedger.hostingsiteforfree.com<br>kdhedger68713@gmail.com");
 #endif
 }
 
@@ -82,7 +78,6 @@ void doSticky(Widget* widget,gpointer data)
 }
 
 #ifdef _USEQT5_
-
 void buildMainGuiQt(void)
 {
 	QVBoxLayout*	vlayout=new QVBoxLayout;
@@ -93,8 +88,8 @@ void buildMainGuiQt(void)
 
 	window=new QMainWindow;
 	window->setWindowTitle("Aspell GUI");
-	window->setMinimumSize(320,60);
-	
+	((QMainWindow*)window)->resize(420,150);
+
 	bufferBox=new QPlainTextEdit;
 	vlayout->setContentsMargins(0,0,0,0);
 	vlayout->addWidget(bufferBox);
@@ -105,6 +100,7 @@ void buildMainGuiQt(void)
 //about
 	button=new Button("&About");
 	hlayout->addWidget(button);
+	button->setCallBack((func_ptr)&doAbout);
 //spellcheck //doSpellCheckDoc
 	button=new Button("&Spell Check");
 	hlayout->addWidget(button);
@@ -119,16 +115,13 @@ void buildMainGuiQt(void)
 //quit
 	button=new Button("&Quit");
 	hlayout->addWidget(button);
-	button->setCallBack((func_ptr)&doQtShutdown);
+	button->setCallBack((func_ptr)&doShutdown);
+	button->setIcon(QIcon::fromTheme("application-exit"));
 
 //button box to main vbox
 	vlayout->addWidget(hbox);
 
 	mainwidget->setLayout(vlayout);
-
-
-((QPlainTextEdit*)bufferBox)->textCursor().insertText("color freind");
-
 	((QMainWindow*)window)->setCentralWidget(mainwidget);
 }
 #endif
@@ -143,7 +136,7 @@ void buildMainGuiGtk(void)
 
 	window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title((GtkWindow*)window,"Aspell GUI");
-	gtk_window_set_default_size((GtkWindow*)window,320,60);
+	gtk_window_set_default_size((GtkWindow*)window,420,150);
 	vbox=gtk_vbox_new(false,8);
 
 //text to spell check
@@ -195,8 +188,8 @@ void buildWordCheckGtk(int documentCheck)
 	Widget*	button;
 	Widget*	hbox;
 	Widget*	image;
-	char*		labeltext[512];
-	int			docflag=documentCheck;
+	char*	labeltext[512];
+	int		docflag=documentCheck;
 
 	spellCheckWord=gtk_dialog_new();
 	gtk_window_set_title((GtkWindow*)spellCheckWord,"Spell check word");
@@ -251,29 +244,19 @@ void doneDialog(void)
 void buildWordCheckQt(int documentCheck)
 {
 	QVBoxLayout*	vlayout=new QVBoxLayout;
-	QWidget*		mainwidget=new QWidget;
 	QWidget*		hbox;
 	QHBoxLayout*	hlayout;
 	Button*			button;
-
 	char*			labeltext=NULL;
 	int				docflag=documentCheck;
-	QLabel*			label;
 
-printf("docu check=%i\n",docflag);
-//	spellCheckWord=new QMainWindow;
-//	spellCheckWord->setWindowTitle("Aspell GUI");
-//	spellCheckWord->setMinimumSize(320,60);
 	spellCheckWord=new QDialog(window);
 	QObject::connect((QDialog*)spellCheckWord,&QDialog::finished,doneDialog);
-//	bufferBox=new QTextEdit;
-//	vlayout->setContentsMargins(0,0,0,0);
-//	vlayout->addWidget(bufferBox);
+
 	hlayout=new QHBoxLayout;
 	hbox=new QWidget;
 	hbox->setLayout(hlayout);
 
-//printf("AAA%sAAA\n",badWord);
 	asprintf(&labeltext,"Change <i><b>%s</b></i> to: ",badWord);
 	badWordLabel=(Widget*)new QLabel(labeltext);
 	hlayout->addWidget(badWordLabel);

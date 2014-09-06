@@ -5,6 +5,10 @@
  * globals.h
  *
 */
+
+#ifndef _GLOBALS_
+#define _GLOBALS_
+
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
@@ -18,40 +22,30 @@
 #else
 	#include <glib.h>
 	#include <QtWidgets>
-	#include <QObject>
 	typedef QWidget Widget;
 
 	extern QApplication*	holdapp;
 #endif
 
-#ifndef _GLOBALS_
-#define _GLOBALS_
-
-
 #define MYEMAIL "kdhedger68713@gmail.com"
 #define MYWEBSITE "http://keithhedger.hostingsiteforfree.com"
 
+extern Widget*				scrollBox;
+extern Widget*				textBox;
+extern Widget*				viewBox;
+extern Widget*				bufferBox;
+extern Widget*				window;
+extern Widget*				badWordLabel;
 
-extern Widget*			scrollBox;
-extern Widget*			textBox;
-extern Widget*			viewBox;
-extern Widget*			bufferBox;
-extern Widget*			window;
-extern Widget*			badWordLabel;
-
-extern Widget*			spellCheckWord;
-extern Widget*			wordListDropbox;
+extern Widget*				spellCheckWord;
+extern Widget*				wordListDropbox;
 #endif
 
-extern char*			badWord;
-extern char*			goodWord;
+extern char*				badWord;
+extern char*				goodWord;
 
-extern AspellConfig*	aspellConfig;
-extern AspellSpeller*	spellChecker;
+extern AspellConfig*		aspellConfig;
+extern AspellSpeller*		spellChecker;
 
-extern int				numWords;
-
-
-
-
+extern int					numWords;
 

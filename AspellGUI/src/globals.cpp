@@ -18,13 +18,11 @@
 #else
 	#include <glib.h>
 	#include <QtWidgets>
-	#include <QObject>
 
 	QApplication*	holdapp;
 #endif
 
 #include "globals.h"
-
 
 Widget*			scrollBox=NULL;
 Widget*			textBox=NULL;

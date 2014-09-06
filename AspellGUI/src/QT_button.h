@@ -41,7 +41,6 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-
 #include <QPushButton>
 
 typedef void (*func_ptr)(QPushButton* widget,void* data);
