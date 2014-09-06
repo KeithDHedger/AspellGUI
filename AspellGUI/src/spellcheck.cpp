@@ -41,17 +41,28 @@ void doCancelCheck(Widget* widget,gpointer data)
 {
 #ifndef _USEQT5_
 	gtk_widget_destroy(spellCheckWord);
+#else
+	((QDialog*)spellCheckWord)->done(0);
+#endif
+
 	if(badWord!=NULL)
 		g_free(badWord);
 	
-	if(spellCheckWord!=NULL)
-		{
-			gtk_widget_destroy(spellCheckWord);
+//	if(spellCheckWord!=NULL)
+//		{
+//			gtk_widget_destroy(spellCheckWord);
 			spellCheckWord=NULL;
-		}
+//		}
 
 	cancelCheck=true;
-#endif
+//#else
+//	((QDialog*)spellCheckWord)->done(0);
+//	if(badWord!=NULL)
+//		g_free(badWord);
+//	
+//	cancelCheck=true;
+//	
+
 }
 
 void checkTheWord(char* word,int checkDoc)
@@ -64,6 +75,7 @@ void checkTheWord(char* word,int checkDoc)
 	char*						wordlist[100];
 	char*						labeltext[512];
 
+printf("void checkTheWord(char* word,int checkDoc) %s %i\n",word,checkDoc);
 #ifndef _USEQT5_
 
 	correct=aspell_speller_check(spellChecker,word,-1);
@@ -107,7 +119,10 @@ printf("%s\n",word);
 			badWord=word;
 			cancelCheck=false;
 			if(spellCheckWord==NULL)
+				{
+				printf("void checkTheWord(char* word,int checkDoc) %s %i\n",word,checkDoc);
 				buildWordCheckQt(checkDoc);
+				}
 			else
 				{
 					for(int j=0;j<numWords;j++)
@@ -140,17 +155,12 @@ printf("%s\n",word);
 #endif
 }
 
-#ifndef _USEQT5_
-void checkWord(Widget* widget,gpointer data)
-#else
-void checkWord(QPushButton* data)
-#endif
+void checkWord(Widget* widget,void* data)
 {
 	char*		selection=NULL;
 #ifndef _USEQT5_
 	GtkTextIter	start;
 	GtkTextIter	end;
-	char*		selection=NULL;
 
 	if(gtk_text_buffer_get_selection_bounds((GtkTextBuffer*)bufferBox,&start,&end))
 		{
@@ -198,11 +208,11 @@ void checkWord(QPushButton* data)
 #endif
 }
 
-#ifndef _USEQT5_
-void doChangeWord(Widget* widget,gpointer data)
-#else
-void doChangeWord(Widget* widget)
-#endif
+//#ifndef _USEQT5_
+void doChangeWord(Widget* widget,void* data)
+//#else
+//void doChangeWord(Widget* widget)
+//#endif
 {
 #ifndef _USEQT5_
 	GtkTextIter	start;
@@ -232,14 +242,12 @@ void doChangeWord(Widget* widget)
 	if(badWord!=NULL)
 		g_free(badWord);
 #else
-
 	QString	qstr;
 	QByteArray byteArray;
 	const char* str;
-//QPlainTextEdit::setPlainText() 
-	if(((Button*)widget)->buttonID==0)
+	printf("data=%i\n",(long)data);
+	if((long)data==0)
 		{
-printf("XXXXXXXXXXXXXXXXXXXX\n");
 			if(((QPlainTextEdit*)bufferBox)->textCursor().hasSelection()==true)
 				{
 					qstr=((QPlainTextEdit*)bufferBox)->textCursor().selectedText();
@@ -255,8 +263,8 @@ printf("XXXXXXXXXXXXXXXXXXXX\n");
 			str=(char*)byteArray.constData();
 			if(str!=NULL)
 				goodWord=strdup(str);
-			//((QPlainTextEdit*)bufferBox)->setPlainText(goodWord);
 			((QPlainTextEdit*)bufferBox)->textCursor().insertText(goodWord);
+			qApp->processEvents();
 		}
 	else
 		{
@@ -269,7 +277,8 @@ printf("XXXXXXXXXXXXXXXXXXXX\n");
 		}
 
 	aspell_speller_store_replacement(spellChecker,badWord,-1,goodWord,-1);
-spellCheckWord->hide();
+	((QDialog*)spellCheckWord)->done(0);
+//	spellCheckWord->hide();
 //	gtk_dialog_response((GtkDialog*)spellCheckWord,0);
 
 	if(badWord!=NULL)
@@ -296,14 +305,24 @@ void doAddIgnoreWord(Widget* widget,gpointer data)
 
 	if(badWord!=NULL)
 		g_free(badWord);
+#else
+	if((long)data==1)
+		aspell_speller_add_to_session(spellChecker,badWord,-1);
+	else
+		{
+			aspell_speller_add_to_personal(spellChecker,badWord,-1);
+			aspell_speller_save_all_word_lists(spellChecker);
+		}
+
+	((QDialog*)spellCheckWord)->done(0);
+
+	if(badWord!=NULL)
+		g_free(badWord);
+
 #endif
 }
 
-#ifndef _USEQT5_
-void doSpellCheckDoc(Widget* widget,gpointer data)
-#else
-void doSpellCheckDoc(QPushButton* data)
-#endif
+void doSpellCheckDoc(Widget* widget,void* data)
 {
 
 	AspellCanHaveError*		ret;

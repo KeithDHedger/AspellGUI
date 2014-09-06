@@ -21,11 +21,12 @@
 	#include "QT_button.h"
 #endif
 
+#ifdef _USEQT5_
 void doQtShutdown(QPushButton* data)
 {
 	qApp->quit();
 }
-
+#endif
 
 void doShutdown(Widget* widget,gpointer data)
 {
@@ -124,6 +125,9 @@ void buildMainGuiQt(void)
 	vlayout->addWidget(hbox);
 
 	mainwidget->setLayout(vlayout);
+
+
+((QPlainTextEdit*)bufferBox)->textCursor().insertText("color freind");
 
 	((QMainWindow*)window)->setCentralWidget(mainwidget);
 }
@@ -239,6 +243,11 @@ void buildWordCheckGtk(int documentCheck)
 }
 #else
 
+void doneDialog(void)
+{
+	spellCheckWord=NULL;
+}
+
 void buildWordCheckQt(int documentCheck)
 {
 	QVBoxLayout*	vlayout=new QVBoxLayout;
@@ -251,11 +260,12 @@ void buildWordCheckQt(int documentCheck)
 	int				docflag=documentCheck;
 	QLabel*			label;
 
+printf("docu check=%i\n",docflag);
 //	spellCheckWord=new QMainWindow;
 //	spellCheckWord->setWindowTitle("Aspell GUI");
 //	spellCheckWord->setMinimumSize(320,60);
 	spellCheckWord=new QDialog(window);
-
+	QObject::connect((QDialog*)spellCheckWord,&QDialog::finished,doneDialog);
 //	bufferBox=new QTextEdit;
 //	vlayout->setContentsMargins(0,0,0,0);
 //	vlayout->addWidget(bufferBox);
@@ -278,28 +288,26 @@ void buildWordCheckQt(int documentCheck)
 
 	button=new Button("Apply");
 	hlayout->addWidget(button);
-	button->setCallBack((func_ptr)&doChangeWord);
 	button->setID(docflag);
+	button->setCallBack((func_ptr)&doChangeWord);
 
 	button=new Button("Ignore");
-	button->setCallBack((func_ptr)&doChangeWord);
 	button->setID(1);
+	button->setCallBack((func_ptr)&doAddIgnoreWord);
 	hlayout->addWidget(button);
 
 	button=new Button("Add");
-	button->setCallBack((func_ptr)&doChangeWord);
 	button->setID(2);
+	button->setCallBack((func_ptr)&doAddIgnoreWord);
 	hlayout->addWidget(button);
 
 	button=new Button("Cancel");
+	button->setCallBack((func_ptr)&doCancelCheck);
 	hlayout->addWidget(button);
 
 	vlayout->addWidget(hbox);
 
-	//mainwidget->setLayout(vlayout);
-//	((QMainWindow*)spellCheckWord)->setCentralWidget(mainwidget);
 	((QWidget*)spellCheckWord)->setLayout(vlayout);
 	((QDialog*)spellCheckWord)->setModal(true);
-	//((QDialog*)spellCheckWord)->show();
 }
 #endif

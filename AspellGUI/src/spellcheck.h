@@ -19,26 +19,13 @@
 #ifndef _SPELLCHECK_
 #define _SPELLCHECK_
 
-#ifndef _USEQT5_
-void checkWord(Widget* widget,gpointer data);
-#else
-void checkWord(QPushButton* data);
-#endif
+void checkWord(Widget* widget,void* data);
 
 
-#ifndef _USEQT5_
-void doChangeWord(Widget* widget,gpointer data);
-#else
-void doChangeWord(Widget* widget);
-#endif
-
+void doChangeWord(Widget* widget,void* data);
 void doAddIgnoreWord(Widget* widget,gpointer data);
 
-#ifndef _USEQT5_
-void doSpellCheckDoc(Widget* widget,gpointer data);
-#else
-void doSpellCheckDoc(QPushButton* data);
-#endif
+void doSpellCheckDoc(Widget* widget,void* data);
 
 void doCancelCheck(Widget* widget,gpointer data);
 

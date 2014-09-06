@@ -65,9 +65,9 @@ void Button::setCallBack(func_ptr func)
 
 void Button::buttonClicked()
 {
-	printf("%i\n",this->buttonID);
+	printf("button id=%i\n",this->buttonID);
 	if(this->callback!=NULL)
 		{
-			this->callback((QPushButton*)this);
+			this->callback((QPushButton*)this,(void*)this->buttonID);
 		}
 }

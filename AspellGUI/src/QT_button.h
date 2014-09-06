@@ -44,7 +44,7 @@
 
 #include <QPushButton>
 
-typedef void (*func_ptr)(QPushButton* data);
+typedef void (*func_ptr)(QPushButton* widget,void* data);
 
 class Button : public QPushButton
 {
