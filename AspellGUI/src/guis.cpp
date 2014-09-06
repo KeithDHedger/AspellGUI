@@ -111,6 +111,7 @@ void buildMainGuiQt(void)
 //check word
 	button=new Button("&Check Word");
 	hlayout->addWidget(button);
+	button->setCallBack((func_ptr)&checkWord);
 //unstick
 	button=new Button("&Un-Stick");
 	hlayout->addWidget(button);

@@ -19,7 +19,12 @@
 #ifndef _SPELLCHECK_
 #define _SPELLCHECK_
 
+#ifndef _USEQT5_
 void checkWord(Widget* widget,gpointer data);
+#else
+void checkWord(QPushButton* data);
+#endif
+
 
 #ifndef _USEQT5_
 void doChangeWord(Widget* widget,gpointer data);

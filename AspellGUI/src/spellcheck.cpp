@@ -140,9 +140,13 @@ printf("%s\n",word);
 #endif
 }
 
+#ifndef _USEQT5_
 void checkWord(Widget* widget,gpointer data)
+#else
+void checkWord(QPushButton* data)
+#endif
 {
-
+	char*		selection=NULL;
 #ifndef _USEQT5_
 	GtkTextIter	start;
 	GtkTextIter	end;
@@ -165,6 +169,32 @@ void checkWord(Widget* widget,gpointer data)
 			gtk_widget_destroy(spellCheckWord);
 			spellCheckWord=NULL;
 		}
+#else
+	QString	qstr;
+	QByteArray byteArray;
+	const char* str;
+			if(((QPlainTextEdit*)bufferBox)->textCursor().hasSelection()==true)
+				{
+				printf("SELECTION\n");
+					qstr=((QPlainTextEdit*)bufferBox)->textCursor().selectedText();
+					QByteArray byteArray=qstr.toUtf8();
+					str=(char*)byteArray.constData();
+					if(str==NULL)
+						return;
+					else
+						selection=strdup(str);
+				}
+			else
+				return;
+			checkTheWord(selection,0);
+
+//			qstr=((QComboBox*)wordListDropbox)->currentText();
+//			QByteArray byteArray=qstr.toUtf8();
+//			str=(char*)byteArray.constData();
+//			if(str!=NULL)
+//				goodWord=strdup(str);
+//			((QPlainTextEdit*)bufferBox)->setPlainText("XXXXX");
+
 #endif
 }
 
@@ -206,10 +236,10 @@ void doChangeWord(Widget* widget)
 	QString	qstr;
 	QByteArray byteArray;
 	const char* str;
-
+//QPlainTextEdit::setPlainText() 
 	if(((Button*)widget)->buttonID==0)
 		{
-
+printf("XXXXXXXXXXXXXXXXXXXX\n");
 			if(((QPlainTextEdit*)bufferBox)->textCursor().hasSelection()==true)
 				{
 					qstr=((QPlainTextEdit*)bufferBox)->textCursor().selectedText();
@@ -225,6 +255,8 @@ void doChangeWord(Widget* widget)
 			str=(char*)byteArray.constData();
 			if(str!=NULL)
 				goodWord=strdup(str);
+			//((QPlainTextEdit*)bufferBox)->setPlainText(goodWord);
+			((QPlainTextEdit*)bufferBox)->textCursor().insertText(goodWord);
 		}
 	else
 		{
@@ -339,7 +371,7 @@ void doSpellCheckDoc(QPushButton* data)
 			}
 
 	delete_aspell_document_checker(checker);
-
+//replace all text in check document
 #ifndef _USEQT5_
 
 	gtk_text_buffer_get_bounds((GtkTextBuffer*)bufferBox,&start,&end);
@@ -353,5 +385,7 @@ void doSpellCheckDoc(QPushButton* data)
 			gtk_widget_destroy(spellCheckWord);
 			spellCheckWord=NULL;
 		}
+#else
+	((QPlainTextEdit*)bufferBox)->setPlainText(line);
 #endif
 }
