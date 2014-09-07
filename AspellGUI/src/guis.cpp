@@ -59,7 +59,27 @@ void doAbout(Widget* widget,gpointer data)
 //	QIcon	themeicon;
 //	themeicon=icon->fromTheme("help-about");
 
-	QMessageBox::about(NULL,"About Aspell GUI","<b>Aspell GUI</b><br><br>Copyright \xc2\xa9 2013 K.D.Hedger<br><br>http://keithhedger.hostingsiteforfree.com<br><br>kdhedger68713@gmail.com");
+//	QMessageBox::information(NULL,"About Aspell GUI","<b>Aspell GUI</b><br><br>Copyright \xc2\xa9 2013 K.D.Hedger<br><br>http://keithhedger.hostingsiteforfree.com<br><br>kdhedger68713@gmail.com");
+
+//QMessageBox::StandardButton reply;
+ //   reply = QMessageBox::information(NULL,"QMessageBox::information()", "XXXX");
+ //   if (reply == QMessageBox::Ok)
+//        informationLabel->setText(tr("OK"));
+//    else
+//        informationLabel->setText(tr("Escape"));
+//}
+
+QMessageBox msgBox(QMessageBox::Warning,"QMessageBox::warning()",
+                       "XXX", 0, NULL);
+    msgBox.setDetailedText("YYYY");
+    msgBox.setInformativeText("ZZZZZZZ");
+    msgBox.addButton("Save &Again", QMessageBox::AcceptRole);
+    msgBox.addButton("&Continue", QMessageBox::RejectRole);
+ //   if (msgBox.exec() == QMessageBox::AcceptRole)
+  //      warningLabel->setText(tr("Save Again"));
+   // else
+     //   warningLabel->setText(tr("Continue"));
+msgBox.exec();
 #endif
 }
 
