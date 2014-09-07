@@ -55,7 +55,11 @@ void doAbout(Widget* widget,gpointer data)
 
 	gtk_show_about_dialog(NULL,"authors",authors,"copyright",copyright,"version",VERSION,"website",MYWEBSITE,"program-name","Aspell GUI","logo-icon-name","AspellGUI","license",license,NULL); 
 #else
-	QMessageBox::about(NULL,"About Aspell GUI","<b>Aspell GUI</b><br>Copyright \xc2\xa9 2013 K.D.Hedger<br>http://keithhedger.hostingsiteforfree.com<br>kdhedger68713@gmail.com");
+//	QIcon*	icon= new QIcon;
+//	QIcon	themeicon;
+//	themeicon=icon->fromTheme("help-about");
+
+	QMessageBox::about(NULL,"About Aspell GUI","<b>Aspell GUI</b><br><br>Copyright \xc2\xa9 2013 K.D.Hedger<br><br>http://keithhedger.hostingsiteforfree.com<br><br>kdhedger68713@gmail.com");
 #endif
 }
 
@@ -74,6 +78,21 @@ void doSticky(Widget* widget,gpointer data)
 			gtk_button_set_label((GtkButton*)widget,"Stick");
 			gtk_window_set_keep_above((GtkWindow*)window,false);
 		}
+#else
+
+	Qt::WindowFlags flags = window->windowFlags();
+    if (((QPushButton*)widget)->isChecked()==true)
+	    {
+	        window->setWindowFlags(flags | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
+	        ((QPushButton*)widget)->setText("Normal");
+	        window->show();
+	    }
+    else
+	    {
+	        window->setWindowFlags(flags ^ (Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint));
+	         ((QPushButton*)widget)->setText("On-Top");
+	       window->show();
+	    }
 #endif
 }
 
@@ -85,10 +104,13 @@ void buildMainGuiQt(void)
 	QWidget*		hbox;
 	QHBoxLayout*	hlayout;
 	Button*			button;
+	Qt::WindowFlags flags;
 
 	window=new QMainWindow;
 	window->setWindowTitle("Aspell GUI");
 	((QMainWindow*)window)->resize(420,150);
+	flags=window->windowFlags();
+	window->setWindowFlags(flags | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
 
 	bufferBox=new QPlainTextEdit;
 	vlayout->setContentsMargins(0,0,0,0);
@@ -101,17 +123,24 @@ void buildMainGuiQt(void)
 	button=new Button("&About");
 	hlayout->addWidget(button);
 	button->setCallBack((func_ptr)&doAbout);
+	button->setIcon(QIcon::fromTheme("help-about"));
 //spellcheck //doSpellCheckDoc
 	button=new Button("&Spell Check");
 	hlayout->addWidget(button);
 	button->setCallBack((func_ptr)&doSpellCheckDoc);
+	button->setIcon(QIcon::fromTheme("tools-check-spelling"));
 //check word
 	button=new Button("&Check Word");
 	hlayout->addWidget(button);
 	button->setCallBack((func_ptr)&checkWord);
+	button->setIcon(QIcon::fromTheme("tools-check-spelling"));
 //unstick
-	button=new Button("&Un-Stick");
+	button=new Button("&Normal");
 	hlayout->addWidget(button);
+	button->setCallBack((func_ptr)&doSticky);
+	button->setCheckable(true);
+	button->setChecked(true);
+	
 //quit
 	button=new Button("&Quit");
 	hlayout->addWidget(button);
