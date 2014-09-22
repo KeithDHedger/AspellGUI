@@ -18,6 +18,7 @@
 	#include <glib.h>
 	#include <QtWidgets>
 	#include "QT_button.h"
+	#include <QPixmap>
 #endif
 
 void doShutdown(Widget* widget,gpointer data)
@@ -55,7 +56,10 @@ void doAbout(Widget* widget,gpointer data)
 
 	gtk_show_about_dialog(NULL,"authors",authors,"copyright",copyright,"version",VERSION,"website",MYWEBSITE,"program-name","Aspell GUI","logo-icon-name","AspellGUI","license",license,NULL); 
 #else
-//	QIcon*	icon= new QIcon;
+//	QIcon*	icon=new QIcon;
+
+	//icon.addFile("/usr/share/AspellGUI/pixmaps/AspellGUI.png", const QSize & size = QSize(), Mode mode = Normal, State state = Off)
+
 //	QIcon	themeicon;
 //	themeicon=icon->fromTheme("help-about");
 
@@ -69,17 +73,33 @@ void doAbout(Widget* widget,gpointer data)
 //        informationLabel->setText(tr("Escape"));
 //}
 
-QMessageBox msgBox(QMessageBox::Warning,"QMessageBox::warning()",
-                       "XXX", 0, NULL);
-    msgBox.setDetailedText("YYYY");
-    msgBox.setInformativeText("ZZZZZZZ");
-    msgBox.addButton("Save &Again", QMessageBox::AcceptRole);
-    msgBox.addButton("&Continue", QMessageBox::RejectRole);
+	QMessageBox* msgBox=new QMessageBox;
+	QSpacerItem* horizontalSpacer=new QSpacerItem(320,0,QSizePolicy::Minimum,QSizePolicy::Expanding);
+
+  //  msgBox->setDetailedText("YYYY");
+//  msgBox->setText("xxxxxx");
+	msgBox->setText("<pre>                               </pre><font size=\"5\"><b>AspellGUI " VERSION "</b></font>");
+	msgBox->setInformativeText("Copyright \xc2\xa9 2013 K.D.Hedger<br><nobr><a href=\"" MYWEBSITE "\">" MYWEBSITE "</a></nobr>");
+ //   msgBox->setInformativeText("<font size=\"22\">Aspell GUI</font>");
+  //  msgBox->setInformativeText("<font face=\"verdana\" size=\"5\" color=\"red\">This is some text!</font>");
+    //msgBox.addButton("Save &Again", QMessageBox::AcceptRole);
+	msgBox->addButton("&Close", QMessageBox::AcceptRole);
+	msgBox->addButton("&Licence", QMessageBox::YesRole);
+	msgBox->addButton("C&redits", QMessageBox::NoRole);
+//	msgBox.setIconPixmap((QIcon*)("/usr/share/AspellGUI/pixmaps/AspellGUI.png"));
+	msgBox->setIconPixmap(QPixmap(QTMAPPICON));
+
+//	msgBox.setIconPixmap(icon);
  //   if (msgBox.exec() == QMessageBox::AcceptRole)
   //      warningLabel->setText(tr("Save Again"));
    // else
      //   warningLabel->setText(tr("Continue"));
-msgBox.exec();
+    // ((QMainWindow*)msgBox)->resize(420,150);
+
+	QGridLayout* layout=(QGridLayout*)msgBox->layout();
+//	layout->addItem(horizontalSpacer,layout->rowCount(),0,1,layout->columnCount());
+
+	msgBox->exec();
 #endif
 }
 

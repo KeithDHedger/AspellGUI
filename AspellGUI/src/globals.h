@@ -29,6 +29,7 @@
 
 #define MYEMAIL "kdhedger68713@gmail.com"
 #define MYWEBSITE "http://keithhedger.hostingsiteforfree.com"
+#define	QTMAPPICON DATADIR "/pixmaps/AspellGUI48.png"
 
 extern Widget*				scrollBox;
 extern Widget*				textBox;
