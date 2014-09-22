@@ -29,6 +29,10 @@ void doShutdown(Widget* widget,gpointer data)
 	qApp->quit();
 #endif
 }
+void doQTAboutbutton(QAbstractButton* button)
+{
+printf("XXXXXXXXXXX%i\n",(int)button->buttonRole);
+}
 
 void doAbout(Widget* widget,gpointer data)
 {
@@ -98,7 +102,7 @@ void doAbout(Widget* widget,gpointer data)
 
 	QGridLayout* layout=(QGridLayout*)msgBox->layout();
 //	layout->addItem(horizontalSpacer,layout->rowCount(),0,1,layout->columnCount());
-
+	QObject::connect(msgBox,&QMessageBox::buttonClicked,doQTAboutbutton);
 	msgBox->exec();
 #endif
 }
