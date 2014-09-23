@@ -287,7 +287,6 @@ void doSpellCheckDoc(Widget* widget,void* data)
 	GtkTextIter				startiter;
 	GtkTextIter				enditer;
 
-
 	gtk_text_buffer_get_start_iter((GtkTextBuffer*)bufferBox,&startiter);
 	gtk_text_buffer_get_end_iter((GtkTextBuffer*)bufferBox,&enditer);
 

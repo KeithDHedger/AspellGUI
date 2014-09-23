@@ -39,7 +39,6 @@
 ****************************************************************************/
 
 #include <stdio.h>
-
 #include <QPushButton>
 
 #include "QT_button.h"
@@ -61,7 +60,6 @@ void Button::setCallBack(func_ptr func)
 {
 	this->callback=func;
 }
-
 
 void Button::buttonClicked()
 {

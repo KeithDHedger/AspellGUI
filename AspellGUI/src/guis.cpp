@@ -18,8 +18,6 @@
 	#include <glib.h>
 	#include <QtWidgets>
 	#include "QT_button.h"
-	#include <QPixmap>
-	#include <Qt>
 #endif
 
 void doShutdown(Widget* widget,gpointer data)
@@ -69,8 +67,8 @@ void doAbout(Widget* widget,gpointer data)
 	flags=msgBox->windowFlags();
 	msgBox->setWindowFlags(flags | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
 
-	((QDialog*)msgBox)->setModal(true);
-	((QDialog*)msgBox)->exec();
+	msgBox->setModal(true);
+	msgBox->exec();
 #endif
 }
 
@@ -91,7 +89,7 @@ void doSticky(Widget* widget,gpointer data)
 		}
 #else
 
-	Qt::WindowFlags flags = window->windowFlags();
+	Qt::WindowFlags flags=window->windowFlags();
     if (((QPushButton*)widget)->isChecked()==true)
 	    {
 	        window->setWindowFlags(flags | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
