@@ -19,6 +19,7 @@
 	#include <QtWidgets>
 	#include "QT_button.h"
 	#include <QPixmap>
+	#include <Qt>
 #endif
 
 void doShutdown(Widget* widget,gpointer data)
@@ -29,10 +30,10 @@ void doShutdown(Widget* widget,gpointer data)
 	qApp->quit();
 #endif
 }
-void doQTAboutbutton(QAbstractButton* button)
-{
-printf("XXXXXXXXXXX%i\n",(int)button->buttonRole);
-}
+//void doQTAboutbutton(QAbstractButton* button)
+//{
+//printf("XXXXXXXXXXX%in",(int)button->buttonRole);
+//}
 
 void doAbout(Widget* widget,gpointer data)
 {
@@ -78,7 +79,7 @@ void doAbout(Widget* widget,gpointer data)
 //}
 
 	QMessageBox* msgBox=new QMessageBox;
-	QSpacerItem* horizontalSpacer=new QSpacerItem(320,0,QSizePolicy::Minimum,QSizePolicy::Expanding);
+//	QSpacerItem* horizontalSpacer=new QSpacerItem(320,0,QSizePolicy::Minimum,QSizePolicy::Expanding);
 
   //  msgBox->setDetailedText("YYYY");
 //  msgBox->setText("xxxxxx");
@@ -88,8 +89,8 @@ void doAbout(Widget* widget,gpointer data)
   //  msgBox->setInformativeText("<font face=\"verdana\" size=\"5\" color=\"red\">This is some text!</font>");
     //msgBox.addButton("Save &Again", QMessageBox::AcceptRole);
 	msgBox->addButton("&Close", QMessageBox::AcceptRole);
-	msgBox->addButton("&Licence", QMessageBox::YesRole);
-	msgBox->addButton("C&redits", QMessageBox::NoRole);
+//	msgBox->addButton("&Licence", QMessageBox::YesRole);
+//	msgBox->addButton("C&redits", QMessageBox::NoRole);
 //	msgBox.setIconPixmap((QIcon*)("/usr/share/AspellGUI/pixmaps/AspellGUI.png"));
 	msgBox->setIconPixmap(QPixmap(QTMAPPICON));
 
@@ -100,10 +101,21 @@ void doAbout(Widget* widget,gpointer data)
      //   warningLabel->setText(tr("Continue"));
     // ((QMainWindow*)msgBox)->resize(420,150);
 
-	QGridLayout* layout=(QGridLayout*)msgBox->layout();
+//	QGridLayout* layout=(QGridLayout*)msgBox->layout();
 //	layout->addItem(horizontalSpacer,layout->rowCount(),0,1,layout->columnCount());
-	QObject::connect(msgBox,&QMessageBox::buttonClicked,doQTAboutbutton);
-	msgBox->exec();
+//	QObject::connect(msgBox,&QMessageBox::buttonClicked,doQTAboutbutton);
+//	((QMessageBox*)msgBox)->setWindowModality(Qt::WindowModality(1));
+	//msgBox->exec();
+
+
+	Qt::WindowFlags flags;
+
+	flags=msgBox->windowFlags();
+	msgBox->setWindowFlags(flags | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
+
+
+	((QDialog*)msgBox)->setModal(true);
+	((QDialog*)msgBox)->exec();
 #endif
 }
 
