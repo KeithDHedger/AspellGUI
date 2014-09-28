@@ -1,1 +1,0 @@
-/media/LinuxData/Development/Projects/Classes/QT_AboutBox.h
