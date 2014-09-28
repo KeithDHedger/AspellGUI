@@ -68,21 +68,6 @@ void doAbout(Widget* widget,gpointer data)
 
 	gtk_show_about_dialog(NULL,"authors",authors,"copyright",copyright,"version",VERSION,"website",MYWEBSITE,"program-name","Aspell GUI","logo-icon-name","AspellGUI","license",license,NULL); 
 #else
-
-//	QMessageBox*	msgBox=new QMessageBox;
-//	Qt::WindowFlags flags;
-//
-//	msgBox->setText("<pre>                               </pre><font size="5"><b>AspellGUI " VERSION "</b></font>");
-//	msgBox->setInformativeText("Copyright xc2xa9 2013-2014 K.D.Hedger<br><nobr><a href="" MYWEBSITE "">" MYWEBSITE "</a></nobr>");
-//	msgBox->addButton("&Close", QMessageBox::AcceptRole);
-//	msgBox->setIconPixmap(QPixmap(QTMAPPICON));
-//
-//	flags=msgBox->windowFlags();
-//	msgBox->setWindowFlags(flags | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
-//
-//	msgBox->setModal(true);
-//	msgBox->exec();
-
 	char*			licence=NULL;
 	char*			doc=NULL;
 	FILE*			fd=NULL;

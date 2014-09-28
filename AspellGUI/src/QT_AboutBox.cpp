@@ -14,6 +14,7 @@
 #include "QT_AboutBox.h"
 #include <QPushButton>
 #include <QtWidgets>
+#include "config.h"
 
 void AboutBoxClass::setAuthors(char* authors)
 {
@@ -165,12 +166,12 @@ AboutBoxClass::AboutBoxClass(QWidget* window,char* pixpath)
 	vlayout->addWidget(label);
 //progname
 	label=new QLabel;
-	label->setText("<font size=\"5\"><b>About Box</b></font>");
+	label->setText("<font size=\"5\"><b>" PACKAGE_STRING "</b></font>");
 	label->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
 	vlayout->addWidget(label);
 //text
 	label=new QLabel;
-	label->setText("My About Box");
+	label->setText("A Simple GUI for aspell");
 	label->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
 	vlayout->addWidget(label);
 //copyrite
