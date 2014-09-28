@@ -18,6 +18,19 @@
 	#include <glib.h>
 	#include <QtWidgets>
 	#include "QT_button.h"
+	#include "QT_AboutBox.h"
+
+const char*	authors="K.D.Hedger ©2013-2014<br><a href=\"mailto:" MYEMAIL "\">Email Me</a><br>" \
+				"<a href=\"https://sites.google.com/site/kkeditlinuxtexteditor/home\">Homepage</a>" \
+				"<br><br>More by the same author<br>" \
+				"<a href=\"http://xfce-look.org/content/show.php/Xfce-Theme-Manager?content=149647\">Xfce-Theme-Manager<br>" \
+				"<a href=\"http://gtk-apps.org/content/show.php/Xfce4-Composite-Editor?content=149523\">Xfce4-Composite-Editor</a><br>" \
+				"<a href=\"http://gtk-apps.org/content/show.php?content=158161\">KKEdit</a><br>" \
+				"<a href=\"http://gtk-apps.org/content/show.php?content=160219\">Manpage Editor</a><br>" \
+				"<a href=\"http://gtk-apps.org/content/show.php?content=158974\">GtkSu<br>" \
+				"<a href=\"http://gtk-apps.org/content/show.php?content=161353\">ASpell GUI<br>" \
+				"<a href=\"http://gtk-apps.org/content/show.php/Clipboard+Viewer?content=121667\">Clipboard Viewer<br>";
+
 #endif
 
 void doShutdown(Widget* widget,gpointer data)
@@ -56,19 +69,48 @@ void doAbout(Widget* widget,gpointer data)
 	gtk_show_about_dialog(NULL,"authors",authors,"copyright",copyright,"version",VERSION,"website",MYWEBSITE,"program-name","Aspell GUI","logo-icon-name","AspellGUI","license",license,NULL); 
 #else
 
-	QMessageBox*	msgBox=new QMessageBox;
-	Qt::WindowFlags flags;
+//	QMessageBox*	msgBox=new QMessageBox;
+//	Qt::WindowFlags flags;
+//
+//	msgBox->setText("<pre>                               </pre><font size="5"><b>AspellGUI " VERSION "</b></font>");
+//	msgBox->setInformativeText("Copyright xc2xa9 2013-2014 K.D.Hedger<br><nobr><a href="" MYWEBSITE "">" MYWEBSITE "</a></nobr>");
+//	msgBox->addButton("&Close", QMessageBox::AcceptRole);
+//	msgBox->setIconPixmap(QPixmap(QTMAPPICON));
+//
+//	flags=msgBox->windowFlags();
+//	msgBox->setWindowFlags(flags | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
+//
+//	msgBox->setModal(true);
+//	msgBox->exec();
 
-	msgBox->setText("<pre>                               </pre><font size=\"5\"><b>AspellGUI " VERSION "</b></font>");
-	msgBox->setInformativeText("Copyright \xc2\xa9 2013-2014 K.D.Hedger<br><nobr><a href=\"" MYWEBSITE "\">" MYWEBSITE "</a></nobr>");
-	msgBox->addButton("&Close", QMessageBox::AcceptRole);
-	msgBox->setIconPixmap(QPixmap(QTMAPPICON));
+	char*			licence=NULL;
+	char*			doc=NULL;
+	FILE*			fd=NULL;
+	long			fsize=0;
+	char*			ppath=DATADIR "/pixmaps/AspellGUI48.png";
 
-	flags=msgBox->windowFlags();
-	msgBox->setWindowFlags(flags | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
+	AboutBoxClass*	about=new AboutBoxClass(window,ppath);
 
-	msgBox->setModal(true);
-	msgBox->exec();
+	asprintf(&doc,"%s/docs/gpl-3.0.txt",DATADIR);
+	fd=fopen(doc,"r");
+
+	if(fd!=NULL)
+		{
+			fseek(fd,0,SEEK_END);
+			fsize=ftell(fd);
+			fseek(fd,0,SEEK_SET);
+			licence=(char*)malloc(fsize+1);
+			fread(licence,fsize,1,fd);
+			fclose(fd);
+			licence[fsize]=0;
+		}
+	about->setLicence(licence);
+	about->setAuthors((char*)authors);
+	free(doc);
+	free(licence);
+	about->runAbout();
+
+
 #endif
 }
 
