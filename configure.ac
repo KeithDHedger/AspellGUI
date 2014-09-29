@@ -1,6 +1,6 @@
 #
 #
-AC_INIT([AspellGUI],[0.0.6],[PROJ],[AspellGUI])
+AC_INIT([AspellGUI],[0.0.7],[PROJ],[AspellGUI])
 
 AC_CONFIG_HEADER([config.h])
 AC_PROG_CXX
