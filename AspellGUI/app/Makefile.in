@@ -101,15 +101,15 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(docfilesdir)" \
 	"$(DESTDIR)$(pixfilesdir)"
 PROGRAMS = $(bin_PROGRAMS)
-am__aspellgui_SOURCES_DIST = ../src/main.cpp ../src/spellcheck.cpp \
-	../src/globals.cpp ../src/guis.cpp ../src/moc_QT_AboutBox.cpp \
-	../src/moc_QT_button.cpp ../src/QT_AboutBox.cpp \
-	../src/QT_button.cpp
+am__aspellgui_SOURCES_DIST = ../src/globals.cpp ../src/guis.cpp \
+	../src/main.cpp ../src/spellcheck.cpp \
+	../src/moc_QT_AboutBox.cpp ../src/moc_QT_button.cpp \
+	../src/QT_AboutBox.cpp ../src/QT_button.cpp
 am__dirstamp = $(am__leading_dot)dirstamp
-@USEQT5_FALSE@am__objects_1 = ../src/aspellgui-main.$(OBJEXT) \
-@USEQT5_FALSE@	../src/aspellgui-spellcheck.$(OBJEXT) \
-@USEQT5_FALSE@	../src/aspellgui-globals.$(OBJEXT) \
-@USEQT5_FALSE@	../src/aspellgui-guis.$(OBJEXT)
+@USEQT5_FALSE@am__objects_1 = ../src/aspellgui-globals.$(OBJEXT) \
+@USEQT5_FALSE@	../src/aspellgui-guis.$(OBJEXT) \
+@USEQT5_FALSE@	../src/aspellgui-main.$(OBJEXT) \
+@USEQT5_FALSE@	../src/aspellgui-spellcheck.$(OBJEXT)
 @USEQT5_TRUE@am__objects_1 = ../src/aspellgui-globals.$(OBJEXT) \
 @USEQT5_TRUE@	../src/aspellgui-guis.$(OBJEXT) \
 @USEQT5_TRUE@	../src/aspellgui-main.$(OBJEXT) \
@@ -331,14 +331,11 @@ AM_CPPFLAGS = -I$(top_srcdir) \
 			-DLIBDIR=\""${libdir}/${PACKAGE}"\" \
 			-fPIC
 
-@USEQT5_FALSE@COMMONSRC = ../src/main.cpp ../src/spellcheck.cpp ../src/globals.cpp ../src/guis.cpp
+@USEQT5_FALSE@COMMONSRC = ../src/globals.cpp ../src/guis.cpp ../src/main.cpp ../src/spellcheck.cpp
 @USEQT5_TRUE@COMMONSRC = ../src/globals.cpp ../src/guis.cpp ../src/main.cpp ../src/moc_QT_AboutBox.cpp ../src/moc_QT_button.cpp ../src/QT_AboutBox.cpp ../src/QT_button.cpp ../src/spellcheck.cpp
 aspellgui_SOURCES = $(COMMONSRC)
-
-#aspellgui_CFLAGS = -O3 -export-dynamic
-#aspellgui_CXXFLAGS = -O3 -export-dynamic
-aspellgui_CFLAGS = -ggdb -export-dynamic
-aspellgui_CXXFLAGS = -ggdb -export-dynamic
+aspellgui_CFLAGS = -O3 -export-dynamic
+aspellgui_CXXFLAGS = -O3 -export-dynamic
 pixfilesdir = $(pkgdatadir)/pixmaps
 pixfiles_DATA = ../resources/pixmaps/*
 docfilesdir = $(pkgdatadir)/docs
@@ -425,13 +422,13 @@ clean-binPROGRAMS:
 ../src/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) ../src/$(DEPDIR)
 	@: > ../src/$(DEPDIR)/$(am__dirstamp)
-../src/aspellgui-main.$(OBJEXT): ../src/$(am__dirstamp) \
-	../src/$(DEPDIR)/$(am__dirstamp)
-../src/aspellgui-spellcheck.$(OBJEXT): ../src/$(am__dirstamp) \
-	../src/$(DEPDIR)/$(am__dirstamp)
 ../src/aspellgui-globals.$(OBJEXT): ../src/$(am__dirstamp) \
 	../src/$(DEPDIR)/$(am__dirstamp)
 ../src/aspellgui-guis.$(OBJEXT): ../src/$(am__dirstamp) \
+	../src/$(DEPDIR)/$(am__dirstamp)
+../src/aspellgui-main.$(OBJEXT): ../src/$(am__dirstamp) \
+	../src/$(DEPDIR)/$(am__dirstamp)
+../src/aspellgui-spellcheck.$(OBJEXT): ../src/$(am__dirstamp) \
 	../src/$(DEPDIR)/$(am__dirstamp)
 ../src/aspellgui-moc_QT_AboutBox.$(OBJEXT): ../src/$(am__dirstamp) \
 	../src/$(DEPDIR)/$(am__dirstamp)
@@ -478,34 +475,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
-../src/aspellgui-main.o: ../src/main.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(aspellgui_CXXFLAGS) $(CXXFLAGS) -MT ../src/aspellgui-main.o -MD -MP -MF ../src/$(DEPDIR)/aspellgui-main.Tpo -c -o ../src/aspellgui-main.o `test -f '../src/main.cpp' || echo '$(srcdir)/'`../src/main.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/aspellgui-main.Tpo ../src/$(DEPDIR)/aspellgui-main.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/main.cpp' object='../src/aspellgui-main.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(aspellgui_CXXFLAGS) $(CXXFLAGS) -c -o ../src/aspellgui-main.o `test -f '../src/main.cpp' || echo '$(srcdir)/'`../src/main.cpp
-
-../src/aspellgui-main.obj: ../src/main.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(aspellgui_CXXFLAGS) $(CXXFLAGS) -MT ../src/aspellgui-main.obj -MD -MP -MF ../src/$(DEPDIR)/aspellgui-main.Tpo -c -o ../src/aspellgui-main.obj `if test -f '../src/main.cpp'; then $(CYGPATH_W) '../src/main.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/main.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/aspellgui-main.Tpo ../src/$(DEPDIR)/aspellgui-main.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/main.cpp' object='../src/aspellgui-main.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(aspellgui_CXXFLAGS) $(CXXFLAGS) -c -o ../src/aspellgui-main.obj `if test -f '../src/main.cpp'; then $(CYGPATH_W) '../src/main.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/main.cpp'; fi`
-
-../src/aspellgui-spellcheck.o: ../src/spellcheck.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(aspellgui_CXXFLAGS) $(CXXFLAGS) -MT ../src/aspellgui-spellcheck.o -MD -MP -MF ../src/$(DEPDIR)/aspellgui-spellcheck.Tpo -c -o ../src/aspellgui-spellcheck.o `test -f '../src/spellcheck.cpp' || echo '$(srcdir)/'`../src/spellcheck.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/aspellgui-spellcheck.Tpo ../src/$(DEPDIR)/aspellgui-spellcheck.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/spellcheck.cpp' object='../src/aspellgui-spellcheck.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(aspellgui_CXXFLAGS) $(CXXFLAGS) -c -o ../src/aspellgui-spellcheck.o `test -f '../src/spellcheck.cpp' || echo '$(srcdir)/'`../src/spellcheck.cpp
-
-../src/aspellgui-spellcheck.obj: ../src/spellcheck.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(aspellgui_CXXFLAGS) $(CXXFLAGS) -MT ../src/aspellgui-spellcheck.obj -MD -MP -MF ../src/$(DEPDIR)/aspellgui-spellcheck.Tpo -c -o ../src/aspellgui-spellcheck.obj `if test -f '../src/spellcheck.cpp'; then $(CYGPATH_W) '../src/spellcheck.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/spellcheck.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/aspellgui-spellcheck.Tpo ../src/$(DEPDIR)/aspellgui-spellcheck.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/spellcheck.cpp' object='../src/aspellgui-spellcheck.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(aspellgui_CXXFLAGS) $(CXXFLAGS) -c -o ../src/aspellgui-spellcheck.obj `if test -f '../src/spellcheck.cpp'; then $(CYGPATH_W) '../src/spellcheck.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/spellcheck.cpp'; fi`
-
 ../src/aspellgui-globals.o: ../src/globals.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(aspellgui_CXXFLAGS) $(CXXFLAGS) -MT ../src/aspellgui-globals.o -MD -MP -MF ../src/$(DEPDIR)/aspellgui-globals.Tpo -c -o ../src/aspellgui-globals.o `test -f '../src/globals.cpp' || echo '$(srcdir)/'`../src/globals.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/aspellgui-globals.Tpo ../src/$(DEPDIR)/aspellgui-globals.Po
@@ -533,6 +502,34 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/guis.cpp' object='../src/aspellgui-guis.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(aspellgui_CXXFLAGS) $(CXXFLAGS) -c -o ../src/aspellgui-guis.obj `if test -f '../src/guis.cpp'; then $(CYGPATH_W) '../src/guis.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/guis.cpp'; fi`
+
+../src/aspellgui-main.o: ../src/main.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(aspellgui_CXXFLAGS) $(CXXFLAGS) -MT ../src/aspellgui-main.o -MD -MP -MF ../src/$(DEPDIR)/aspellgui-main.Tpo -c -o ../src/aspellgui-main.o `test -f '../src/main.cpp' || echo '$(srcdir)/'`../src/main.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/aspellgui-main.Tpo ../src/$(DEPDIR)/aspellgui-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/main.cpp' object='../src/aspellgui-main.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(aspellgui_CXXFLAGS) $(CXXFLAGS) -c -o ../src/aspellgui-main.o `test -f '../src/main.cpp' || echo '$(srcdir)/'`../src/main.cpp
+
+../src/aspellgui-main.obj: ../src/main.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(aspellgui_CXXFLAGS) $(CXXFLAGS) -MT ../src/aspellgui-main.obj -MD -MP -MF ../src/$(DEPDIR)/aspellgui-main.Tpo -c -o ../src/aspellgui-main.obj `if test -f '../src/main.cpp'; then $(CYGPATH_W) '../src/main.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/main.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/aspellgui-main.Tpo ../src/$(DEPDIR)/aspellgui-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/main.cpp' object='../src/aspellgui-main.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(aspellgui_CXXFLAGS) $(CXXFLAGS) -c -o ../src/aspellgui-main.obj `if test -f '../src/main.cpp'; then $(CYGPATH_W) '../src/main.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/main.cpp'; fi`
+
+../src/aspellgui-spellcheck.o: ../src/spellcheck.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(aspellgui_CXXFLAGS) $(CXXFLAGS) -MT ../src/aspellgui-spellcheck.o -MD -MP -MF ../src/$(DEPDIR)/aspellgui-spellcheck.Tpo -c -o ../src/aspellgui-spellcheck.o `test -f '../src/spellcheck.cpp' || echo '$(srcdir)/'`../src/spellcheck.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/aspellgui-spellcheck.Tpo ../src/$(DEPDIR)/aspellgui-spellcheck.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/spellcheck.cpp' object='../src/aspellgui-spellcheck.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(aspellgui_CXXFLAGS) $(CXXFLAGS) -c -o ../src/aspellgui-spellcheck.o `test -f '../src/spellcheck.cpp' || echo '$(srcdir)/'`../src/spellcheck.cpp
+
+../src/aspellgui-spellcheck.obj: ../src/spellcheck.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(aspellgui_CXXFLAGS) $(CXXFLAGS) -MT ../src/aspellgui-spellcheck.obj -MD -MP -MF ../src/$(DEPDIR)/aspellgui-spellcheck.Tpo -c -o ../src/aspellgui-spellcheck.obj `if test -f '../src/spellcheck.cpp'; then $(CYGPATH_W) '../src/spellcheck.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/spellcheck.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../src/$(DEPDIR)/aspellgui-spellcheck.Tpo ../src/$(DEPDIR)/aspellgui-spellcheck.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../src/spellcheck.cpp' object='../src/aspellgui-spellcheck.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(aspellgui_CXXFLAGS) $(CXXFLAGS) -c -o ../src/aspellgui-spellcheck.obj `if test -f '../src/spellcheck.cpp'; then $(CYGPATH_W) '../src/spellcheck.cpp'; else $(CYGPATH_W) '$(srcdir)/../src/spellcheck.cpp'; fi`
 
 ../src/aspellgui-moc_QT_AboutBox.o: ../src/moc_QT_AboutBox.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(aspellgui_CXXFLAGS) $(CXXFLAGS) -MT ../src/aspellgui-moc_QT_AboutBox.o -MD -MP -MF ../src/$(DEPDIR)/aspellgui-moc_QT_AboutBox.Tpo -c -o ../src/aspellgui-moc_QT_AboutBox.o `test -f '../src/moc_QT_AboutBox.cpp' || echo '$(srcdir)/'`../src/moc_QT_AboutBox.cpp
