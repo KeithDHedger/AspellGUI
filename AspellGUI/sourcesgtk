@@ -1,0 +1,1 @@
+COMMONSRC = ../src/globals.cpp ../src/guis.cpp ../src/main.cpp ../src/spellcheck.cpp
