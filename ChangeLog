@@ -1,3 +1,10 @@
+0.0.8
+Corrected links in QT5 about box dialog.
+Updated about box.
+Updated email/website.
+Removed forced CFLAGS/CXXFLAGS
+Added to Github: https://github.com/KeithDHedger/AspellGUI
+
 0.0.7
 Added proper 'About' box to QT version.
 

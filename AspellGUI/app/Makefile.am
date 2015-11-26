@@ -10,9 +10,6 @@ endif
 
 aspellgui_SOURCES = $(COMMONSRC)
 
-aspellgui_CFLAGS = -O3 -export-dynamic
-aspellgui_CXXFLAGS = -O3 -export-dynamic
-
 pixfilesdir = $(pkgdatadir)/pixmaps
 pixfiles_DATA = ../resources/pixmaps/*
 

@@ -1,8 +1,22 @@
 /*
  *
- * K.D.Hedger 2013 <kdhedger68713@gmail.com>
- *
-*/
+ * ©K. D. Hedger. Thu 26 Nov 14:17:33 GMT 2015 kdhedger68713@gmail.com
+
+ * This file (guis.cpp) is part of AspellGUI.
+
+ * AspellGUI is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * at your option) any later version.
+
+ * AspellGUI is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with AspellGUI.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include <stdlib.h>
 #include <string.h>
@@ -21,7 +35,7 @@
 	#include "QT_AboutBox.h"
 
 const char*	authors="K.D.Hedger ©2013-2014<br><a href=\"mailto:" MYEMAIL "\">Email Me</a><br>" \
-				"<a href=\"https://sites.google.com/site/kkeditlinuxtexteditor/home\">Homepage</a>" \
+				"<a href=\"" GLOBALWEBSITE "\">Homepage</a>" \
 				"<br><br>More by the same author<br>" \
 				"<a href=\"http://xfce-look.org/content/show.php/Xfce-Theme-Manager?content=149647\">Xfce-Theme-Manager<br>" \
 				"<a href=\"http://gtk-apps.org/content/show.php/Xfce4-Composite-Editor?content=149523\">Xfce4-Composite-Editor</a><br>" \
@@ -46,7 +60,8 @@ void doAbout(Widget* widget,gpointer data)
 {
 #ifndef _USEQT5_
 	const char*	authors[]={"K.D.Hedger <"MYEMAIL">","\nMore by the same author\n","Xfce4-Composite-Editor\nhttp://gtk-apps.org/content/show.php/Xfce4-Composite-Editor?content=149523\n","KKEdit\nhttp://gtk-apps.org/content/show.php?content=158161\n","Manpage Editor\nhttp://gtk-apps.org/content/show.php?content=160219\n","GtkSu\nhttp://gtk-apps.org/content/show.php?content=158974",NULL};
-	const char	copyright[] ="Copyright \xc2\xa9 2013 K.D.Hedger";
+	const char	copyright[] ="Copyright \xc2\xa9 2013-2015 K.D.Hedger\n" MYEMAIL;
+	const char*	aboutboxstring="GUI For Aspell";
 	char*		license=NULL;
 	char*		doc=NULL;
 	FILE*		fd=NULL;
@@ -66,7 +81,7 @@ void doAbout(Widget* widget,gpointer data)
 			license[fsize]=0;
 		}
 
-	gtk_show_about_dialog(NULL,"authors",authors,"copyright",copyright,"version",VERSION,"website",MYWEBSITE,"program-name","Aspell GUI","logo-icon-name","AspellGUI","license",license,NULL); 
+	gtk_show_about_dialog(NULL,"authors",authors,"copyright",copyright,"version",VERSION,"comments",aboutboxstring,"website",MYWEBSITE,"website-label","Aspell GUI Page","program-name","Aspell GUI","logo-icon-name","AspellGUI","license",license,NULL); 
 #else
 	char*			licence=NULL;
 	char*			doc=NULL;

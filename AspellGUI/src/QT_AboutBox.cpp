@@ -1,11 +1,23 @@
-/******************************************************
-*
-*     ©keithhedger Wed 24 Sep 15:54:11 BST 2014
-*     kdhedger68713@gmail.com
-*
-*     QT_AboutBox.cpp
-* 
-******************************************************/
+/*
+ *
+ * ©K. D. Hedger. Thu 26 Nov 14:19:04 GMT 2015 kdhedger68713@gmail.com
+
+ * This file (QT_AboutBox.cpp) is part of AspellGUI.
+
+ * AspellGUI is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * at your option) any later version.
+
+ * AspellGUI is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with AspellGUI.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <QApplication>
 #include <QWidget>
 #include <QMessageBox>
@@ -14,7 +26,9 @@
 #include "QT_AboutBox.h"
 #include <QPushButton>
 #include <QtWidgets>
+
 #include "config.h"
+#include "globals.h"
 
 void AboutBoxClass::setAuthors(char* authors)
 {
@@ -176,13 +190,12 @@ AboutBoxClass::AboutBoxClass(QWidget* window,char* pixpath)
 	vlayout->addWidget(label);
 //copyrite
 	label=new QLabel;
-	label->setText("<small>Copyright \xc2\xa9 2013-2014 K.D.Hedger</small>");
+	label->setText("<small>Copyright \xc2\xa9 2013-2015 K.D.Hedger</small>");
 	label->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
 	vlayout->addWidget(label);
 //homepage
 	label=new QLabel;
-	label->setText("<a href=\"https://sites.google.com/site/kkeditlinuxtexteditor/home\">https://sites.google.com/site/kkeditlinuxtexteditor/home</a>");
-	//label->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
+	label->setText("<a href=\"" MYWEBSITE "\">Aspell GUI Page</a>");
 	label->setOpenExternalLinks(true);
 	label->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
 	vlayout->addWidget(label);
