@@ -1,3 +1,5 @@
+AM_CXXFLAGS = -Wall
+AM_CFLAGS = -g -O0
 
 AM_CPPFLAGS =	-I$(top_srcdir) \
 			$(GTK_CFLAGS) \
