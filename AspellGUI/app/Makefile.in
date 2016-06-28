@@ -101,16 +101,17 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(docfilesdir)" \
 	"$(DESTDIR)$(pixfilesdir)"
 PROGRAMS = $(bin_PROGRAMS)
-am__aspellgui_SOURCES_DIST = ../src/globals.cpp ../src/guis.cpp \
-	../src/main.cpp ../src/spellcheck.cpp \
+am__aspellgui_SOURCES_DIST = ../src/spellcheck.cpp ../src/globals.cpp \
+	../src/main.cpp ../src/guis.cpp ../src/internet.cpp \
 	../src/moc_QT_AboutBox.cpp ../src/moc_QT_button.cpp \
 	../src/QT_AboutBox.cpp ../src/QT_button.cpp
 am__dirstamp = $(am__leading_dot)dirstamp
-@USEQT5_FALSE@am__objects_1 = ../src/globals.$(OBJEXT) \
-@USEQT5_FALSE@	../src/guis.$(OBJEXT) ../src/main.$(OBJEXT) \
-@USEQT5_FALSE@	../src/spellcheck.$(OBJEXT)
+@USEQT5_FALSE@am__objects_1 = ../src/spellcheck.$(OBJEXT) \
+@USEQT5_FALSE@	../src/globals.$(OBJEXT) ../src/main.$(OBJEXT) \
+@USEQT5_FALSE@	../src/guis.$(OBJEXT) ../src/internet.$(OBJEXT)
 @USEQT5_TRUE@am__objects_1 = ../src/globals.$(OBJEXT) \
-@USEQT5_TRUE@	../src/guis.$(OBJEXT) ../src/main.$(OBJEXT) \
+@USEQT5_TRUE@	../src/guis.$(OBJEXT) ../src/internet.$(OBJEXT) \
+@USEQT5_TRUE@	../src/main.$(OBJEXT) \
 @USEQT5_TRUE@	../src/moc_QT_AboutBox.$(OBJEXT) \
 @USEQT5_TRUE@	../src/moc_QT_button.$(OBJEXT) \
 @USEQT5_TRUE@	../src/QT_AboutBox.$(OBJEXT) \
@@ -325,8 +326,8 @@ AM_CPPFLAGS = -I$(top_srcdir) \
 			-DLIBDIR=\""${libdir}/${PACKAGE}"\" \
 			-fPIC
 
-@USEQT5_FALSE@COMMONSRC = ../src/globals.cpp ../src/guis.cpp ../src/main.cpp ../src/spellcheck.cpp
-@USEQT5_TRUE@COMMONSRC = ../src/globals.cpp ../src/guis.cpp ../src/main.cpp ../src/moc_QT_AboutBox.cpp ../src/moc_QT_button.cpp ../src/QT_AboutBox.cpp ../src/QT_button.cpp ../src/spellcheck.cpp
+@USEQT5_FALSE@COMMONSRC = ../src/spellcheck.cpp ../src/globals.cpp ../src/main.cpp ../src/guis.cpp ../src/internet.cpp
+@USEQT5_TRUE@COMMONSRC = ../src/globals.cpp ../src/guis.cpp ../src/internet.cpp ../src/main.cpp ../src/moc_QT_AboutBox.cpp ../src/moc_QT_button.cpp ../src/QT_AboutBox.cpp ../src/QT_button.cpp ../src/spellcheck.cpp
 aspellgui_SOURCES = $(COMMONSRC)
 pixfilesdir = $(pkgdatadir)/pixmaps
 pixfiles_DATA = ../resources/pixmaps/*
@@ -414,13 +415,15 @@ clean-binPROGRAMS:
 ../src/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) ../src/$(DEPDIR)
 	@: > ../src/$(DEPDIR)/$(am__dirstamp)
-../src/globals.$(OBJEXT): ../src/$(am__dirstamp) \
+../src/spellcheck.$(OBJEXT): ../src/$(am__dirstamp) \
 	../src/$(DEPDIR)/$(am__dirstamp)
-../src/guis.$(OBJEXT): ../src/$(am__dirstamp) \
+../src/globals.$(OBJEXT): ../src/$(am__dirstamp) \
 	../src/$(DEPDIR)/$(am__dirstamp)
 ../src/main.$(OBJEXT): ../src/$(am__dirstamp) \
 	../src/$(DEPDIR)/$(am__dirstamp)
-../src/spellcheck.$(OBJEXT): ../src/$(am__dirstamp) \
+../src/guis.$(OBJEXT): ../src/$(am__dirstamp) \
+	../src/$(DEPDIR)/$(am__dirstamp)
+../src/internet.$(OBJEXT): ../src/$(am__dirstamp) \
 	../src/$(DEPDIR)/$(am__dirstamp)
 ../src/moc_QT_AboutBox.$(OBJEXT): ../src/$(am__dirstamp) \
 	../src/$(DEPDIR)/$(am__dirstamp)
@@ -446,6 +449,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@../src/$(DEPDIR)/QT_button.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@../src/$(DEPDIR)/globals.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@../src/$(DEPDIR)/guis.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../src/$(DEPDIR)/internet.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@../src/$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@../src/$(DEPDIR)/moc_QT_AboutBox.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@../src/$(DEPDIR)/moc_QT_button.Po@am__quote@

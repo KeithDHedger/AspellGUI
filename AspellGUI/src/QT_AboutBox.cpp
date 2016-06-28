@@ -29,6 +29,7 @@
 
 #include "config.h"
 #include "globals.h"
+#include "internet.h"
 
 void AboutBoxClass::setAuthors(char* authors)
 {
@@ -190,12 +191,12 @@ AboutBoxClass::AboutBoxClass(QWidget* window,char* pixpath)
 	vlayout->addWidget(label);
 //copyrite
 	label=new QLabel;
-	label->setText("<small>Copyright \xc2\xa9 2013-2015 K.D.Hedger</small>");
+	label->setText("<small>" COPYRITE "</small>");
 	label->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
 	vlayout->addWidget(label);
 //homepage
 	label=new QLabel;
-	label->setText("<a href=\"" MYWEBSITE "\">Aspell GUI Page</a>");
+	label->setText("<a href=\"" ASPELLPAGE "\">Aspell GUI Page</a>");
 	label->setOpenExternalLinks(true);
 	label->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
 	vlayout->addWidget(label);

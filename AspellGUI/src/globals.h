@@ -39,9 +39,6 @@
 	extern QApplication*	holdapp;
 #endif
 
-#define MYEMAIL "keithhedger@keithhedger.darktech.org"
-#define MYWEBSITE "http://khapplications.darktech.org/pages/aspellgui/aspelgui.html"
-#define GLOBALWEBSITE "http://khapplications.darktech.org/index.html"
 #define	QTMAPPICON DATADIR "/pixmaps/AspellGUI48.png"
 
 extern Widget*				scrollBox;

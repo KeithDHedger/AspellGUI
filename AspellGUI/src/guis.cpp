@@ -25,6 +25,7 @@
 #include "config.h"
 #include "globals.h"
 #include "spellcheck.h"
+#include "internet.h"
 
 #ifndef _USEQT5_
 	#include <gtk/gtk.h>
@@ -33,18 +34,6 @@
 	#include <QtWidgets>
 	#include "QT_button.h"
 	#include "QT_AboutBox.h"
-
-const char*	authors="K.D.Hedger ©2013-2014<br><a href=\"mailto:" MYEMAIL "\">Email Me</a><br>" \
-				"<a href=\"" GLOBALWEBSITE "\">Homepage</a>" \
-				"<br><br>More by the same author<br>" \
-				"<a href=\"http://xfce-look.org/content/show.php/Xfce-Theme-Manager?content=149647\">Xfce-Theme-Manager<br>" \
-				"<a href=\"http://gtk-apps.org/content/show.php/Xfce4-Composite-Editor?content=149523\">Xfce4-Composite-Editor</a><br>" \
-				"<a href=\"http://gtk-apps.org/content/show.php?content=158161\">KKEdit</a><br>" \
-				"<a href=\"http://gtk-apps.org/content/show.php?content=160219\">Manpage Editor</a><br>" \
-				"<a href=\"http://gtk-apps.org/content/show.php?content=158974\">GtkSu<br>" \
-				"<a href=\"http://gtk-apps.org/content/show.php?content=161353\">ASpell GUI<br>" \
-				"<a href=\"http://gtk-apps.org/content/show.php/Clipboard+Viewer?content=121667\">Clipboard Viewer<br>";
-
 #endif
 
 void doShutdown(Widget* widget,gpointer data)
@@ -59,8 +48,7 @@ void doShutdown(Widget* widget,gpointer data)
 void doAbout(Widget* widget,gpointer data)
 {
 #ifndef _USEQT5_
-	const char*	authors[]={"K.D.Hedger <"MYEMAIL">","\nMore by the same author\n","Xfce4-Composite-Editor\nhttp://gtk-apps.org/content/show.php/Xfce4-Composite-Editor?content=149523\n","KKEdit\nhttp://gtk-apps.org/content/show.php?content=158161\n","Manpage Editor\nhttp://gtk-apps.org/content/show.php?content=160219\n","GtkSu\nhttp://gtk-apps.org/content/show.php?content=158974",NULL};
-	const char	copyright[] ="Copyright \xc2\xa9 2013-2015 K.D.Hedger\n" MYEMAIL;
+	const char	copyright[]=COPYRITE "\n" MYEMAIL;
 	const char*	aboutboxstring="GUI For Aspell";
 	char*		license=NULL;
 	char*		doc=NULL;
@@ -81,15 +69,15 @@ void doAbout(Widget* widget,gpointer data)
 			license[fsize]=0;
 		}
 
-	gtk_show_about_dialog(NULL,"authors",authors,"copyright",copyright,"version",VERSION,"comments",aboutboxstring,"website",MYWEBSITE,"website-label","Aspell GUI Page","program-name","Aspell GUI","logo-icon-name","AspellGUI","license",license,NULL); 
+	gtk_show_about_dialog(NULL,"authors",authors,"copyright",copyright,"version",VERSION,"comments",aboutboxstring,"website",ASPELLPAGE,"website-label","Aspell GUI Page","program-name","Aspell GUI","logo-icon-name","AspellGUI","license",license,NULL); 
 #else
-	char*			licence=NULL;
-	char*			doc=NULL;
-	FILE*			fd=NULL;
-	long			fsize=0;
-	char*			ppath=DATADIR "/pixmaps/AspellGUI48.png";
+	char		*licence=NULL;
+	char		*doc=NULL;
+	FILE		*fd=NULL;
+	long		fsize=0;
+	const char	*ppath=DATADIR "/pixmaps/AspellGUI48.png";
 
-	AboutBoxClass*	about=new AboutBoxClass(window,ppath);
+	AboutBoxClass*	about=new AboutBoxClass(window,(char*)ppath);
 
 	asprintf(&doc,"%s/docs/gpl-3.0.txt",DATADIR);
 	fd=fopen(doc,"r");

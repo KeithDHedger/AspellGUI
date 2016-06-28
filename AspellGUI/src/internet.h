@@ -20,7 +20,15 @@
 #define _INTERNET_
 
 #define MYEMAIL "keithhedger@keithhedger.darktech.org"
-#define MYWEBSITE "http://khapplications.darktech.org/pages/aspellgui/aspelgui.html"
-#define GLOBALWEBSITE "http://khapplications.darktech.org/index.html"
+#define MYWEBSITE "http://khapplications.darktech.org/index.html"
+#define GLOBALWEBSITE "http://khapplications.darktech.org"
+#define ASPELLPAGE GLOBALWEBSITE "/pages/aspellgui/aspelgui.html"
 
+#define COPYRITE "Copyright \xc2\xa9 2013-2016 K.D.Hedger"
+
+#ifndef _USEQT5_
+extern const char	*authors[];
+#else
+extern const char*	authors;
+#endif
 #endif
