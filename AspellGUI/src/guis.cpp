@@ -1,6 +1,6 @@
 /*
  *
- * ©K. D. Hedger. Thu 26 Nov 14:17:33 GMT 2015 kdhedger68713@gmail.com
+ * ©K. D. Hedger. Thu 26 Nov 14:17:33 GMT 2015 keithdhedger@gmail.com
 
  * This file (guis.cpp) is part of AspellGUI.
 

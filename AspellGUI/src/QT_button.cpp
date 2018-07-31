@@ -39,7 +39,7 @@
 ****************************************************************************/
 /*
  *
- * ©K. D. Hedger. Thu 26 Nov 14:19:43 GMT 2015 kdhedger68713@gmail.com
+ * ©K. D. Hedger. Thu 26 Nov 14:19:43 GMT 2015 keithdhedger@gmail.com
 
  * This file (QT_button.cpp) is part of AspellGUI.
 

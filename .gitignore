@@ -1,3 +1,5 @@
 .svn
 AspellGUI.LFSBuild
 makepkg
+AspellGUI/src/moc_QT_AboutBox.cpp
+AspellGUI/src/moc_QT_button.cpp
