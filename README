@@ -1,1 +1,11 @@
-As I have sometimes had to check spelling of a word or sentence outside of a text editor I had a look around for a GUI for aspell but surprisingly couldn't find one! So I wrote this simple front end for ASpell just launch it from the accessories menu and parse or type a word in the text box and either press 'Spell Check' to check and correct all words in the text box or select a single word and press 'Check Word' to just correct that one, that's all there is to it.
+As I have sometimes had to check spelling of a word or sentence outside of a text editor I had a look around for a GUI for aspell but surprisingly couldn't find one! So I wrote this simple front end for ASpell just launch it from the accessories menu and paste or type a word in the text box and either press 'Spell Check' to check and correct all words in the text box or select a single word and press 'Check Word' to just correct that one, that's all there is to it.
+<br>
+<br>
+Main Window Gtk2<br>
+![Main Window Gtk2](screnshots/main.png?raw=true "Main Window Gtk2")<br>
+Word replace dialog Gtk2<br>
+![Word replace dialog Gtk2](screnshots/word.png?raw=true "Word replace dialog Gtk2")<br>
+Main Window QT5<br>
+![Main Window QT5](screnshots/mainqt.png?raw=true "Main Window QT5")<br>
+Word replace dialog QT5<br>
+![Word replace dialog QT5](screnshots/wordqt.png?raw=true "Word replace dialog QT5")<br>
