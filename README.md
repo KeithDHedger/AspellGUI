@@ -1,1 +1,1 @@
-/media/LinuxData/Development64/Projects/AspellGUI/README
+README
