@@ -3,3 +3,16 @@ AspellGUI.LFSBuild
 makepkg
 AspellGUI/src/moc_QT_AboutBox.cpp
 AspellGUI/src/moc_QT_button.cpp
+autom4te.cache
+*~
+config.h.in
+configure
+*.o
+.deps
+config.h
+config.log
+config.status
+stamp-h1
+Makefile
+AspellGUI/app/aspellgui
+.dirstamp
