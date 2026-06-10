@@ -1,13 +1,13 @@
 /*
  *
- * ©K. D. Hedger. Thu 26 Nov 14:19:04 GMT 2015 keithdhedger@gmail.com
+ * ©K. D. Hedger. 2015-2026 keithdhedger@gmail.com
 
  * This file (QT_AboutBox.cpp) is part of AspellGUI.
 
  * AspellGUI is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
- * at your option) any later version.
+ * (at your option) any later version.
 
  * AspellGUI is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -16,40 +16,17 @@
 
  * You should have received a copy of the GNU General Public License
  * along with AspellGUI.  If not, see <http://www.gnu.org/licenses/>.
- */
+*/
 
-#include <QApplication>
-#include <QWidget>
-#include <QMessageBox>
-#include <QtWidgets>
-#include "QT_button.h"
 #include "QT_AboutBox.h"
-#include <QPushButton>
-#include <QtWidgets>
-
-#include "config.h"
-#include "globals.h"
-#include "internet.h"
-
-void AboutBoxClass::setAuthors(char* authors)
-{
-	this->authors=strdup(authors);
-}
 
 void AboutBoxClass::runAbout(void)
 {
 	this->aboutdialog->exec();
 }
 
-void AboutBoxClass::setLicence(char* licence)
-{
-	this->licence=strdup(licence);
-}
-
 AboutBoxClass::~AboutBoxClass()
 {
-	free(this->licence);
-	free(this->authors);
 }
 
 void AboutBoxClass::killCreditsBox(void)
@@ -59,11 +36,11 @@ void AboutBoxClass::killCreditsBox(void)
 
 void AboutBoxClass::showCredits(void)
 {
-	QPushButton*	button;
-	QHBoxLayout*	hlayout;
-	QWidget*		hbox;
-	QVBoxLayout*	vlayout=new QVBoxLayout;
-	QTabWidget*		tabWidget=new QTabWidget;
+	QPushButton	*button;
+	QHBoxLayout	*hlayout;
+	QWidget		*hbox;
+	QVBoxLayout	*vlayout=new QVBoxLayout;
+	QTabWidget	*tabWidget=new QTabWidget;
 
 	this->creditsdialog=new QDialog(this->aboutdialog);
 	this->creditsdialog->setWindowTitle("Credits");
@@ -82,14 +59,17 @@ void AboutBoxClass::showCredits(void)
 //close
 	hlayout->setContentsMargins(0,0,0,0);
 	button=new QPushButton("&Close");
-	connect(button,SIGNAL(clicked()),this,SLOT(killCreditsBox()));
+	QObject::connect(button,&QPushButton::clicked,[this]()
+		{
+			this->killCreditsBox();
+		});
 	hlayout->addWidget(button);
 
 	button->setIcon(QIcon::fromTheme("window-close"));
 	hlayout->insertStretch(0,1);
 	vlayout->addWidget(hbox);
 
-	creditsdialog->setLayout((QLayout*)vlayout);
+	creditsdialog->setLayout(vlayout);
 	creditsdialog->setModal(true);
 	creditsdialog->resize(500,320);
 	creditsdialog->exec();
@@ -114,11 +94,11 @@ void AboutBoxClass::killAboutBox(void)
 
 void AboutBoxClass::showLicence(void)
 {
-	QPushButton*	button;
-	QHBoxLayout*	hlayout;
-	QWidget*		hbox;
-	QVBoxLayout*	vlayout=new QVBoxLayout;
-	QPlainTextEdit*	text=new QPlainTextEdit;
+	QPushButton		*button;
+	QHBoxLayout		*hlayout;
+	QWidget*			hbox;
+	QVBoxLayout		*vlayout=new QVBoxLayout;
+	QPlainTextEdit	*text=new QPlainTextEdit;
 
 	this->licencedialog=new QDialog(this->aboutdialog);
 	hlayout=new QHBoxLayout;
@@ -134,16 +114,18 @@ void AboutBoxClass::showLicence(void)
 
 //close
 	hlayout->setContentsMargins(0,0,0,0);
-
 	button=new QPushButton("&Close");
-	connect(button,SIGNAL(clicked()),this,SLOT(killLicenceBox()));
 	button->setIcon(QIcon::fromTheme("window-close"));
+	QObject::connect(button,&QPushButton::clicked,[this]()
+		{
+			this->killLicenceBox();
+		});
 	hlayout->addWidget(button);
 
 	hlayout->insertStretch(0,1);
 	vlayout->addWidget(hbox);
 
-	this->licencedialog->setLayout((QLayout*)vlayout);
+	this->licencedialog->setLayout(vlayout);
 	this->licencedialog->setModal(true);
 	this->licencedialog->resize(500,320);
 	this->licencedialog->exec();
@@ -155,12 +137,12 @@ void AboutBoxClass::showLicence(void)
 	delete this->licencedialog;
 }
 
-AboutBoxClass::AboutBoxClass(QWidget* window,char* pixpath)
+AboutBoxClass::AboutBoxClass(QWidget *window,const char *pixpath)
 {
-	QVBoxLayout*	vlayout=new QVBoxLayout;
-	QWidget*		hbox;
-	QHBoxLayout*	hlayout;
-	QPushButton*	button;
+	QVBoxLayout	*vlayout=new QVBoxLayout;
+	QWidget		*hbox;
+	QHBoxLayout	*hlayout;
+	QPushButton	*button;
 
 	QPixmap		pic(pixpath);
 	QLabel*		label=new QLabel;
@@ -202,23 +184,42 @@ AboutBoxClass::AboutBoxClass(QWidget* window,char* pixpath)
 	vlayout->addWidget(label);
 //credits
 	button=new QPushButton("&Credits");
-	connect(button,SIGNAL(clicked()),this,SLOT(showCredits()));
-	hlayout->addWidget(button);
 	button->setIcon(QIcon::fromTheme("help-about"));
+	QObject::connect(button,&QPushButton::clicked,[this]()
+		{
+			this->showCredits();
+		});
+	hlayout->addWidget(button);
 
 //licence
 	button=new QPushButton("&Licence");
-	connect(button,SIGNAL(clicked()),this,SLOT(showLicence()));
+	button->setIcon(QIcon::fromTheme("text-x-license"));
+	QObject::connect(button,&QPushButton::clicked,[this]()
+		{
+			this->showLicence();
+		});
+	hlayout->addWidget(button);
+
+//about qt
+	button=new QPushButton("&About Qt");
+	button->setIcon(QIcon::fromTheme("help-about"));
+	QObject::connect(button,&QPushButton::clicked,[this]()
+		{
+			qApp->aboutQt();
+		});
 	hlayout->addWidget(button);
 
 //close
 	button=new QPushButton("&Close");
-	connect(button,SIGNAL(clicked()),this,SLOT(killAboutBox()));
-	hlayout->addWidget(button);
 	button->setIcon(QIcon::fromTheme("window-close"));
+	QObject::connect(button,&QPushButton::clicked,[this]()
+		{
+			this->killAboutBox();
+		});
+	hlayout->addWidget(button);
 
 	vlayout->addWidget(hbox);
-	this->aboutdialog->setLayout((QLayout*)vlayout);
+	this->aboutdialog->setLayout(vlayout);
 }
 
 

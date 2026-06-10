@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Aspell GUI
-Comment=A simple GUI for ASpell
+Comment=A simple Qt6 GUI for ASpell
 Terminal=false
 Type=Application
 Categories=Utility;

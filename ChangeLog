@@ -1,3 +1,16 @@
+0.1.0
+Save window geometry.
+Added setting text from cli, eg "aspellgui /home/keithhedger/Projects/DevProjects/AspellGUI/AspellGUI/resources/pixmaps/AspellGUI.desktop".
+Added some button icons.
+Added about qt
+Fixed memory leaks.
+Removed glib dep.
+Removed unneeded png images.
+Fixed spellcheck error.
+Moved to Qt6 only.
+Removed all gtk stuff.
+Removed all qt5 stuff.
+
 0.0.9
 Updated web address's etc.
 

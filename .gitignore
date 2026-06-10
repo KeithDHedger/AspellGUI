@@ -16,3 +16,6 @@ stamp-h1
 Makefile
 AspellGUI/app/aspellgui
 .dirstamp
+Makefile.in
+aclocal.m4
+

@@ -18,40 +18,33 @@
  * along with AspellGUI.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QApplication>
-#include <QWidget>
-#include <QMessageBox>
-#include <QtWidgets>
-#include "QT_button.h"
+#include "globals.h"
 
 #ifndef _QT_ABOUTBOX_
 #define _QT_ABOUTBOX_
 
 class AboutBoxClass : public QObject
 {
-    Q_OBJECT
 
 	public:
-		AboutBoxClass(QWidget* window,char* pixpath);
+		AboutBoxClass(QWidget *window,const char *pixpath);
 		~AboutBoxClass();
 
-		void runAbout(void);
-		void setLicence(char* licence);
-		void setAuthors(char* authors);
+		QString	licence;
+		QString	authors;
 
-	private slots:
-		void showLicence(void);
-		void showCredits(void);
-		void killLicenceBox(void);
-		void killAboutBox(void);
-		void killCreditsBox(void);
+		void		runAbout(void);
 
 	private:
-		QDialog*	aboutdialog;
-		QDialog*	licencedialog;
-		QDialog*	creditsdialog;
-		char*		licence;
-		char*		authors;
+		QDialog	*aboutdialog;
+		QDialog	*licencedialog;
+		QDialog	*creditsdialog;
+
+		void		showLicence(void);
+		void		showCredits(void);
+		void		killLicenceBox(void);
+		void		killAboutBox(void);
+		void		killCreditsBox(void);
 };
 
 #endif
