@@ -1,9 +1,9 @@
-As I have sometimes had to check spelling of a word or sentence outside of a text editor I had a look around for a GUI for aspell but surprisingly couldn't find one! So I wrote this simple front end for ASpell just launch it from the accessories menu and paste or type a word(s) in the text box and either press 'Spell Check' to check and correct all words in the text box or select a single word and press 'Check Word' to just correct that one, that's all there is to it.
-You can also preload the text bux from the cli by simply supplying a file path, eg "aspellgui /etc/fstab".<br>
-<br>
-<br>
-This project is now Qt6 ONLY, if you want Qt5 or Gtk use the gtkqt5 branch.<br>
-Main Window<br>
-![Main Window](screnshots/mainqt.png?raw=true "Main Window")<br>
-Word replace dialog<br>
-![Word replace dialog](screnshots/wordqt.png?raw=true "Word replace dialog")<br>
+As I have sometimes had to check spelling of a word or sentence outside of a text editor I had a look around for a GUI for aspell but surprisingly couldn't find one! So I wrote this simple front end for ASpell just launch it from the accessories menu and paste or type a word(s) in the text box and either press 'Spell Check' to check and correct all words in the text box or select a single word and press 'Check Word' to just correct that one, that's all there is to it.  
+You can also preload the text bux from the cli by simply supplying a file path, eg "aspellgui /etc/fstab".  
+
+
+This project is now Qt6 ONLY, if you want Qt5 or Gtk use the gtkqt5 branch.  
+Main Window  
+![Main Window](screnshots/mainqt.png?raw=true "Main Window")  
+Word replace dialog  
+![Word replace dialog](screnshots/wordqt.png?raw=true "Word replace dialog")  
