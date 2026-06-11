@@ -43,10 +43,12 @@ extern QComboBox			*wordListDropbox;
 
 extern QString			badWord;
 extern QString			goodWord;
+extern QString			realDataDir;
+extern QRect				checkWordGeom;
 
 extern AspellConfig		*aspellConfig;
 extern AspellSpeller		*spellChecker;
 
 extern int				numWords;
-
+extern bool				blockFlag;
 #endif

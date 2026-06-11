@@ -29,8 +29,12 @@ QComboBox		*wordListDropbox;
 //spellcheck
 QString			badWord;
 QString			goodWord;
+QString			realDataDir;
+QRect			checkWordGeom;
+
 AspellConfig		*aspellConfig;
 AspellSpeller	*spellChecker=0;
 
 int				numWords=0;
+bool				blockFlag=false;
 

@@ -1,0 +1,100 @@
+#!/bin/bash
+
+APPIMAGENAME="AspellGUI"
+WHERE=${WHERE:-"/tmp/qtchroot"}
+PROJECTFOLDER=..
+ELFLOG=/tmp/linked.log
+LIBS=/tmp/libs
+:>$ELFLOG
+:>$LIBS
+
+if [[ ! -e ./runtime-x86_64 ]];then
+	wget "https://github.com/AppImage/type2-runtime/releases/download/continuous/runtime-x86_64"
+fi
+
+rm -r ${WHERE}
+mkdir -p ${WHERE}/usr
+mkdir -p ${WHERE}/lib
+
+ln -sfv ../lib ${WHERE}/usr/lib
+ln -sfv ../lib ${WHERE}/usr/lib32
+ln -sfv ../lib ${WHERE}/usr/lib64
+
+ln -sfv lib ${WHERE}/lib32
+ln -sfv lib ${WHERE}/lib64
+
+ln -sfv usr/bin ${WHERE}/bin
+
+pushd ${PROJECTFOLDER}
+	./autogen.sh --prefix=/usr
+	make
+	make install DESTDIR=$WHERE
+	:>$ELFLOG
+popd
+
+cp --parents -rp /usr/lib/qt6/plugins/xcbglintegrations ${WHERE}
+cp --parents -rp /usr/lib/qt6/plugins/platforms/libqxcb.so ${WHERE}
+cp --parents -rp /usr/lib64/qt6/plugins/platformthemes/libqt6ct.so ${WHERE}
+cp --parents -rp /usr/lib64/qt6/plugins/styles/libqt6ct-style.so ${WHERE}
+
+while read
+	do
+		if file "$REPLY"|grep --quiet -i "ELF" ;then
+			ldd "$REPLY" |awk -F"=>" '{print $2}'|awk  '{print $1}' >> $ELFLOG
+		fi
+	done< <(find $WHERE -type f)
+
+sort -u $ELFLOG > $LIBS
+
+sed -i '/^$/d' $LIBS
+sed -i '/^.*ld-linux-x86-64.so.*$/d' $LIBS
+sed -i '/^.*libc.so.*$/d' $LIBS
+
+cat $LIBS|while read
+	do
+		if [[ -h "$REPLY" ]];then
+			link=$(readlink -f "$REPLY"||true)||true
+			cp --parents -P $link ${WHERE}||true
+		fi
+		cp --parents -P "$REPLY" ${WHERE}||true
+	done
+
+APPIMAGEFOLDER=$WHERE
+APPNAME="${APPIMAGENAME,,}"
+ICONPATH="${PROJECTFOLDER}/AspellGUI/resources/pixmaps/AspellGUI.png"
+ICONNAME=$(basename "${ICONPATH}")
+
+pushd ${WHERE}/bin
+	find|xargs strip  --strip-unneeded
+popd
+
+pushd ${WHERE}/lib
+	find|xargs strip  --strip-unneeded
+popd
+
+cp "${ICONPATH}" "${APPIMAGEFOLDER}/${ICONNAME}"
+cat >${APPIMAGEFOLDER}/${APPNAME}.desktop <<EOF
+[Desktop Entry]
+Type=Application
+Name=${APPNAME}
+Exec=${APPNAME}
+Icon=${ICONNAME%.?*}
+Categories=Utility;
+EOF
+
+cat >${APPIMAGEFOLDER}/AppRun <<EOF
+#!/bin/bash
+export LD_LIBRARY_PATH="\${APPDIR}/lib:\${APPDIR}/lib/sane:\${APPDIR}/usr/lib:/lib:/usr/lib"
+export PATH="\${APPDIR}/usr/bin:\${PATH}"
+export QT_QPA_PLATFORMTHEME=qt6ct
+export QT_PLUGIN_PATH="\${APPDIR}/usr/lib/qt6/plugins:\${APPDIR}/usr/lib/qt6/:\${APPDIR}/usr/lib/qt6/plugins/xcbglintegrations:\${APPDIR}/usr/lib/qt6/plugins/platforms:\${APPDIR}/usr/lib/qt6/plugins/styles:\${APPDIR}/usr/lib/qt6/plugins/platformthemes"
+export QT_QPA_PLATFORM=xcb
+
+exec \${APPDIR}/bin/${APPNAME} \$@
+EOF
+
+chmod +x ${APPIMAGEFOLDER}/AppRun
+
+ARCH=x86_64 ~/.local/bin/appimagetool-x86_64.AppImage --no-appstream --runtime-file=./runtime-x86_64 ${APPIMAGEFOLDER} ${APPIMAGENAME}.AppImage
+
+#rm -rf "${WHERE}" "$ELFLOG" "$LIBS"

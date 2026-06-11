@@ -27,7 +27,7 @@ class AboutBoxClass : public QObject
 {
 
 	public:
-		AboutBoxClass(QWidget *window,const char *pixpath);
+		AboutBoxClass(QWidget *window,QString pixpath);
 		~AboutBoxClass();
 
 		QString	licence;

@@ -18,4 +18,5 @@ AspellGUI/app/aspellgui
 .dirstamp
 Makefile.in
 aclocal.m4
-
+runtime-x86_64
+AspellGUI.AppImage

@@ -137,7 +137,7 @@ void AboutBoxClass::showLicence(void)
 	delete this->licencedialog;
 }
 
-AboutBoxClass::AboutBoxClass(QWidget *window,const char *pixpath)
+AboutBoxClass::AboutBoxClass(QWidget *window,QString pixpath)
 {
 	QVBoxLayout	*vlayout=new QVBoxLayout;
 	QWidget		*hbox;

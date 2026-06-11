@@ -2,13 +2,11 @@
 #
 AC_INIT([AspellGUI],[0.1.0],[PROJ],[AspellGUI])
 
-AC_CONFIG_HEADER([config.h])
+AC_CONFIG_HEADERS([config.h])
 AC_PROG_CXX
 
 AM_INIT_AUTOMAKE
 
-AC_PROG_CC
-AC_HEADER_STDC
 
 PKG_PROG_PKG_CONFIG
 
@@ -20,5 +18,5 @@ AC_SUBST(QTWIDGETS_LIBS)
 ASPELL_LIBS=-laspell
 AC_SUBST(ASPELL_LIBS)
 
-AC_OUTPUT(Makefile AspellGUI/app/Makefile)
-
+AC_CONFIG_FILES(Makefile AspellGUI/app/Makefile)
+AC_OUTPUT

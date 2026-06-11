@@ -28,15 +28,35 @@ int main(int argc,char **argv)
 	QRect				rg;
 	QRect				rf;
 
+	realDataDir=QString("%1%2").arg(getenv("APPDIR")).arg(DATADIR);
+
+	QIcon::setThemeSearchPaths(QStringList()<<QString("%1/usr/share/icons").arg(getenv("APPDIR"))<<QString("/usr/share/icons")<<QString("%1/.icons").arg(getenv("HOME")) <<QString("%1/icons").arg(realDataDir) );
+	QIcon::setFallbackSearchPaths(QStringList()<<QString("%1/usr/share/icons").arg(getenv("APPDIR"))<<QString("/usr/share/icons")<<QString("%1/.icons").arg(getenv("HOME"))  <<QString("%1/icons").arg(realDataDir));
+	QIcon::setFallbackThemeName("kkeditqticons");
+
 	aspellConfig=new_aspell_config();
+
+	QDir dir("/usr/lib");
+	QStringList folders=dir.entryList(QStringList()<<"aspell*",QDir::Dirs|QDir::NoDotAndDotDot);
+	if(folders.size()>0)
+		aspell_config_replace(aspellConfig,"dict-dir",qPrintable("/usr/lib/"+folders.at(0)));
+
 	possible_err=new_aspell_speller(aspellConfig);
 
 	if(aspell_error_number(possible_err)!= 0)
-		puts(aspell_error_message(possible_err));
+		{
+			QMessageBox::critical(nullptr,"Critical Error ...",aspell_error_message(possible_err));
+			puts(aspell_error_message(possible_err));
+			exit(1);
+		}
 	else
 		spellChecker=to_aspell_speller(possible_err);
 
+	checkWordGeom=prefs.value("wordgeom").toRect();
+	rg=prefs.value("geometry").toRect();
+
 	buildMainGuiQt();
+	buildWordCheckQt(1);
 
 	if(argc>1)
 		{
@@ -49,9 +69,7 @@ int main(int argc,char **argv)
 				}
 		}
 
-	rg=prefs.value("geometry").toRect();
 	window->setGeometry(rg);
-
 	window->show();
 	app.exec();
 
@@ -60,6 +78,7 @@ int main(int argc,char **argv)
 	rf.setHeight(rf.height()-(rf.height()-rg.height()));
 	rf.setWidth(rf.width()-(rf.width()-rg.width()));
 	prefs.setValue("geometry",rf);
+	prefs.setValue("wordgeom",checkWordGeom);
 
 	delete window;
 	delete_aspell_config(aspellConfig);

@@ -1,0 +1,9 @@
+[Icon Theme]
+Name=kkeditqticons
+
+Directories=base/actions
+
+[base/actions]
+Size=48
+Context=Actions
+Type=Scalable

@@ -22,8 +22,8 @@
 
 void doAbout(void)
 {
-	AboutBoxClass	*about=new AboutBoxClass(window,DATADIR "/pixmaps/AspellGUI.png");
-	QFile			file(QString("%1/docs/gpl-3.0.txt").arg(DATADIR));
+	AboutBoxClass	*about=new AboutBoxClass(window,QString("%1/pixmaps/AspellGUI.png").arg(realDataDir));
+	QFile			file(QString("%1/docs/gpl-3.0.txt").arg(realDataDir));
 
 	if(file.open(QIODevice::ReadOnly | QIODevice::Text))
 		{
@@ -31,7 +31,6 @@ void doAbout(void)
 			about->licence=in.readAll();
 			file.close();
 		}
-
 	about->authors=credits;
 	about->runAbout();
 }
@@ -88,19 +87,14 @@ void buildMainGuiQt(void)
 	hlayout->addWidget(button);
 	QObject::connect(button,&QPushButton::clicked,[]()
 		{
+			spellCheckWord->close();
 			qApp->quit();
 		});
 
 //button box to main vbox
 	vlayout->addWidget(hbox);
-
 	mainwidget->setLayout(vlayout);
 	window->setCentralWidget(mainwidget);
-}
-
-void doneDialog(void)
-{
-	spellCheckWord=NULL;
 }
 
 void buildWordCheckQt(int documentCheck)
@@ -111,7 +105,6 @@ void buildWordCheckQt(int documentCheck)
 	QPushButton	*button;
 
 	spellCheckWord=new QDialog(window);
-	QObject::connect(spellCheckWord,&QDialog::finished,doneDialog);
 
 	hlayout=new QHBoxLayout;
 	hbox=new QWidget(spellCheckWord);
@@ -123,12 +116,13 @@ void buildWordCheckQt(int documentCheck)
 	hlayout->addWidget(wordListDropbox);
 	vlayout->addWidget(hbox);
 
-//buttons//doChangeWord
+//buttons
 	hlayout=new QHBoxLayout;
 	hbox=new QWidget(spellCheckWord);
 	hbox->setLayout(hlayout);
 
 	button=new QPushButton("Apply",spellCheckWord);
+	button->setIcon(QIcon::fromTheme("dialog-ok"));
 	QObject::connect(button,&QPushButton::clicked,[documentCheck]()
 		{
 			doChangeWord(documentCheck);
@@ -136,6 +130,7 @@ void buildWordCheckQt(int documentCheck)
 	hlayout->addWidget(button);
 
 	button=new QPushButton("Ignore",spellCheckWord);
+	button->setIcon(QIcon::fromTheme("list-remove"));
 	QObject::connect(button,&QPushButton::clicked,[]()
 		{
 			doAddIgnoreWord(1);
@@ -143,13 +138,15 @@ void buildWordCheckQt(int documentCheck)
 	hlayout->addWidget(button);
 
 	button=new QPushButton("Add",spellCheckWord);
+	button->setIcon(QIcon::fromTheme("list-add"));
 	QObject::connect(button,&QPushButton::clicked,[]()
 		{
 			doAddIgnoreWord(2);
 		});
 	hlayout->addWidget(button);
 
-	button=new QPushButton("Cancel",spellCheckWord);
+	button=new QPushButton("Close",spellCheckWord);
+	button->setIcon(QIcon::fromTheme("dialog-cancel"));
 	QObject::connect(button,&QPushButton::clicked,[]()
 		{
 			doCancelCheck();

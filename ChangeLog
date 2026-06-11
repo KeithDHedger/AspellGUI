@@ -1,4 +1,12 @@
 0.1.0
+Exit if no aspeel dictionary's found.
+Saved correct word dialog position and size.
+Saved main dialog position and size.
+Better showing/placement of correct word dialog.
+Closing correct word dialog keeps changes.
+Check for dicts in unversioned folder ( ie /usr/lb/aspell instead of  /usr/lib/aspell-0.60 ).
+Updated configure.ac macros.
+Added default icons.
 Save window geometry.
 Added setting text from cli, eg "aspellgui /home/keithhedger/Projects/DevProjects/AspellGUI/AspellGUI/resources/pixmaps/AspellGUI.desktop".
 Added some button icons.
