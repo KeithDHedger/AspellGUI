@@ -22,17 +22,14 @@
 
 int main(int argc,char **argv)
 {
-	AspellCanHaveError	*possible_err;
 	QApplication			app(argc,argv);
 	QSettings			prefs("KDHedger","AspellGUI");
-	QRect				rg;
-	QRect				rf;
 
 	realDataDir=QString("%1%2").arg(getenv("APPDIR")).arg(DATADIR);
 
 	QIcon::setThemeSearchPaths(QStringList()<<QString("%1/usr/share/icons").arg(getenv("APPDIR"))<<QString("/usr/share/icons")<<QString("%1/.icons").arg(getenv("HOME")) <<QString("%1/icons").arg(realDataDir) );
 	QIcon::setFallbackSearchPaths(QStringList()<<QString("%1/usr/share/icons").arg(getenv("APPDIR"))<<QString("/usr/share/icons")<<QString("%1/.icons").arg(getenv("HOME"))  <<QString("%1/icons").arg(realDataDir));
-	QIcon::setFallbackThemeName("kkeditqticons");
+	QIcon::setFallbackThemeName("aspellqticons");
 
 	aspellConfig=new_aspell_config();
 
@@ -42,6 +39,14 @@ int main(int argc,char **argv)
 		aspell_config_replace(aspellConfig,"dict-dir",qPrintable("/usr/lib/"+folders.at(0)));
 
 	possible_err=new_aspell_speller(aspellConfig);
+	if(aspell_error_number(possible_err)!= 0)
+		{
+			puts(aspell_error_message(possible_err));
+			puts("Trying internal dicts ...");
+			qDebug()<<qPrintable(QString("%1/lib/aspell-0.60").arg(getenv("APPDIR")));
+			aspell_config_replace(aspellConfig,"dict-dir",qPrintable(QString("%1/lib/aspell-0.60").arg(getenv("APPDIR"))));
+			possible_err=new_aspell_speller(aspellConfig);
+		}
 
 	if(aspell_error_number(possible_err)!= 0)
 		{
@@ -52,15 +57,12 @@ int main(int argc,char **argv)
 	else
 		spellChecker=to_aspell_speller(possible_err);
 
-	checkWordGeom=prefs.value("wordgeom").toRect();
-	rg=prefs.value("geometry").toRect();
-
 	buildMainGuiQt();
 	buildWordCheckQt(1);
 
 	if(argc>1)
 		{
-			QFile	file(argv[1]);
+			QFile	file(argv[argc-1]);
 			if(file.open(QIODevice::ReadOnly | QIODevice::Text))
 				{
 					QTextStream in(&file);
@@ -69,18 +71,16 @@ int main(int argc,char **argv)
 				}
 		}
 
-	window->setGeometry(rg);
+	window->restoreGeometry(prefs.value("geometry").toByteArray());
+	spellCheckWord->restoreGeometry(prefs.value("wordgeom").toByteArray());
+	checkWordGeom=spellCheckWord->geometry();
+
 	window->show();
 	app.exec();
 
-	rg=window->geometry();
-	rf=window->frameGeometry();
-	rf.setHeight(rf.height()-(rf.height()-rg.height()));
-	rf.setWidth(rf.width()-(rf.width()-rg.width()));
-	prefs.setValue("geometry",rf);
-	prefs.setValue("wordgeom",checkWordGeom);
-
+	prefs.setValue("geometry",window->saveGeometry());
+	prefs.setValue("wordgeom",spellCheckWord->saveGeometry());
 	delete window;
+	delete_aspell_speller(spellChecker);
 	delete_aspell_config(aspellConfig);
-	delete_aspell_can_have_error(possible_err);
 }

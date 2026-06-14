@@ -35,20 +35,22 @@
 #include "spellcheck.h"
 #include "QT_AboutBox.h"
 
-extern QPlainTextEdit	*bufferBox;
-extern QMainWindow		*window;
-extern QLabel			*badWordLabel;
-extern QDialog			*spellCheckWord;
-extern QComboBox			*wordListDropbox;
+extern QPlainTextEdit		*bufferBox;
+extern QMainWindow			*window;
+extern QLabel				*badWordLabel;
+extern QDialog				*spellCheckWord;
+extern QComboBox				*wordListDropbox;
+extern QComboBox				*langCode;
 
-extern QString			badWord;
-extern QString			goodWord;
-extern QString			realDataDir;
-extern QRect				checkWordGeom;
+extern QString				badWord;
+extern QString				goodWord;
+extern QString				realDataDir;
+extern QRect					checkWordGeom;
 
-extern AspellConfig		*aspellConfig;
-extern AspellSpeller		*spellChecker;
+extern AspellConfig			*aspellConfig;
+extern AspellSpeller			*spellChecker;
+extern AspellCanHaveError	*possible_err;
 
-extern int				numWords;
-extern bool				blockFlag;
+extern int					numWords;
+extern bool					blockFlag;
 #endif

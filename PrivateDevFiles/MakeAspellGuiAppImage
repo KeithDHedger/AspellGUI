@@ -37,6 +37,9 @@ cp --parents -rp /usr/lib/qt6/plugins/platforms/libqxcb.so ${WHERE}
 cp --parents -rp /usr/lib64/qt6/plugins/platformthemes/libqt6ct.so ${WHERE}
 cp --parents -rp /usr/lib64/qt6/plugins/styles/libqt6ct-style.so ${WHERE}
 
+cp --parents -rp /usr/lib/qt6/plugins/assetimporters ${WHERE}
+cp --parents -rp /usr/lib/qt6/plugins/sqldrivers ${WHERE}
+
 while read
 	do
 		if file "$REPLY"|grep --quiet -i "ELF" ;then
@@ -72,7 +75,9 @@ pushd ${WHERE}/lib
 	find|xargs strip  --strip-unneeded
 popd
 
+cp --parents -r "/usr/lib/aspell-0.60" ${WHERE}
 cp "${ICONPATH}" "${APPIMAGEFOLDER}/${ICONNAME}"
+
 cat >${APPIMAGEFOLDER}/${APPNAME}.desktop <<EOF
 [Desktop Entry]
 Type=Application

@@ -1,5 +1,9 @@
 0.1.0
-Exit if no aspeel dictionary's found.
+Added language selection.
+Added keyboard shotcuts to correct word dialog.
+Hide correct word dialog when no more bad words found when checking all text.
+Corrected hilighting bad word in text.
+Exit if no aspell dictionary's found.
 Saved correct word dialog position and size.
 Saved main dialog position and size.
 Better showing/placement of correct word dialog.

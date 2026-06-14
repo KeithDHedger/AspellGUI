@@ -24,43 +24,49 @@ bool	cancelCheck=false;
 
 void doCancelCheck(void)
 {
-	spellCheckWord->hide();
-	checkWordGeom=spellCheckWord->geometry();
+	QSettings	prefs("KDHedger","AspellGUI");
+	prefs.setValue("wordgeom",spellCheckWord->saveGeometry());
 
 	badWord.clear();
 	goodWord.clear();
 	cancelCheck=true;
 	blockFlag=false;
+	spellCheckWord->done(0);
 }
 
-void checkTheWord(QString word,int checkDoc)
+bool checkTheWord(QString word,int checkDoc)
 {
 	int						correct;
-	AspellWordList			*suggestions;
-	AspellStringEnumeration	*elements;
-	const char				*suggestedword;
+	AspellWordList			*suggestions=NULL;
+	AspellStringEnumeration	*elements=NULL;
+	const char				*suggestedword=NULL;
 	int						wordcnt=0;
-	//char						*labeltext[512];
-
+	bool						retval=false;
+	
+	wordListDropbox->clear();
 	correct=aspell_speller_check(spellChecker,qPrintable(word),-1);
-	if(!correct)
+	if(correct==0)
 		{
 			badWord=word;
 			cancelCheck=false;
-			wordListDropbox->clear();
-			//sprintf((char*)&labeltext,"Change <i><b>%s</b></i> to: ",qPrintable(badWord));
-			
 			badWordLabel->setText(QString("Change <i><b>%1</b></i> to: ").arg(badWord));
-	
 			suggestions=(AspellWordList*)aspell_speller_suggest(spellChecker,qPrintable(word),-1);
+			if(suggestions==NULL)
+				return(false);
 			elements=aspell_word_list_elements(suggestions);
+			if(elements==NULL)
+				return(false);
 			while((suggestedword=aspell_string_enumeration_next(elements))!=NULL)
 				{
 					wordListDropbox->addItem(suggestedword);
 					wordcnt++;
+					suggestedword=NULL;
 				}
-			numWords=wordcnt;
+			if(wordcnt==0)
+				return(false);
 
+			numWords=wordcnt;
+			retval=true;
 			delete_aspell_string_enumeration(elements);
 			if(checkDoc==1)
 				spellCheckWord->setWindowTitle("Check Document");
@@ -71,19 +77,22 @@ void checkTheWord(QString word,int checkDoc)
 			while(blockFlag==true)
 				qApp->processEvents();
 			if(checkDoc==0)
-				return;			
+				return(retval);
 		}
+	return(retval);
 }
 
 void checkWord(void)
 {
+	bool changedword;
+
 	if(bufferBox->textCursor().hasSelection()==false)
 		return;
 	blockFlag=true;
-	checkTheWord(bufferBox->textCursor().selectedText(),0);
+	changedword=checkTheWord(bufferBox->textCursor().selectedText(),0);
 	blockFlag==false;
 	spellCheckWord->hide();
-	if(goodWord.isEmpty()==false && badWord.isEmpty()==false)
+	if(goodWord.isEmpty()==false && badWord.isEmpty()==false && changedword==true)
 		bufferBox->textCursor().insertText(goodWord);
 	checkWordGeom=spellCheckWord->geometry();
 }
@@ -114,7 +123,6 @@ void doChangeWord(int data)
 			goodWord=wordListDropbox->currentText();
 		}
 
-	aspell_speller_store_replacement(spellChecker,qPrintable(badWord),-1,qPrintable(goodWord),-1);
 	blockFlag=false;
 	checkWordGeom=spellCheckWord->geometry();
 }
@@ -142,10 +150,12 @@ void doSpellCheckDoc(void)
 	int						diff;
 	unsigned int				goodwordlen;
 	char						*word_begin;
-	char						*badword;
-	char						*line;
+	char						*line=NULL;
+	int						buffdiff=0;
 
 	/* Set up the document checker */
+	if(spellChecker==NULL)
+		return;
 	ret=new_aspell_document_checker(spellChecker);
 	if (aspell_error(ret)!=0)
 		{
@@ -154,6 +164,8 @@ void doSpellCheckDoc(void)
 		}
 
 	line=strdup(qPrintable(bufferBox->toPlainText()));
+	if(line==NULL)
+		return;
 	checker=to_aspell_document_checker(ret);
 	  /* First process the line */
 	aspell_document_checker_process(checker,line,-1);
@@ -161,27 +173,29 @@ void doSpellCheckDoc(void)
 	  /* Now find the misspellings in the line */
 	while(token=aspell_document_checker_next_misspelling(checker),token.len!=0)
 		{
+		free(line);
+		line=strdup(qPrintable(bufferBox->toPlainText()));
 	    /* Pay particular attention to how token.offset and diff is used */
-			asprintf(&badword,"%.*s",token.len,(char*)&line[token.offset+diff]);
+			//asprintf(&badword,"%.*s",token.len,(char*)&line[token.offset+diff]);
+			//QString lll=line;
+			QString xbadword = QString(line).mid(token.offset + diff, token.len);
 			goodWord.clear();
 			cursor=bufferBox->textCursor();
-			cursor.setPosition(token.offset, QTextCursor::MoveAnchor);
+			cursor.setPosition(token.offset-buffdiff,QTextCursor::MoveAnchor);
 			cursor.movePosition(QTextCursor::NextCharacter,QTextCursor::KeepAnchor,token.len);
 			bufferBox->setTextCursor(cursor);
 			blockFlag=true;
 			spellCheckWord->setGeometry(checkWordGeom);
-			checkTheWord(badword,1);
+			checkTheWord(xbadword,1);
 			if(cancelCheck==true)
 				{
 					delete_aspell_document_checker(checker);
 					bufferBox->setPlainText(line);
 					free(line);
-					free(badword);
 					return;
 				}
 
 			word_begin=line+token.offset+diff;
-
 			if(goodWord.isEmpty()==false)
 				{
 					goodwordlen=goodWord.length();
@@ -190,8 +204,8 @@ void doSpellCheckDoc(void)
 					memmove(word_begin+goodwordlen,word_begin+token.len,strlen(word_begin+token.len)+1);
 					memcpy(word_begin,qPrintable(goodWord),goodwordlen);
 					bufferBox->setPlainText(line);
+					buffdiff+=badWord.length()-goodWord.length();
 				}
-			free(badword);
 		}
 
 	delete_aspell_document_checker(checker);
@@ -199,4 +213,5 @@ void doSpellCheckDoc(void)
 	bufferBox->setPlainText(line);
 	free(line);
 	checkWordGeom=spellCheckWord->geometry();
+	doCancelCheck();
 }

@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 
 mkdir -vp /tmp/x
 xhost +
@@ -11,3 +11,5 @@ fi
 
 sudo xchroot /tmp/x
 sudo umount -fl /tmp/x
+sudo umount -fl /tmp/x/dev
+sudo umount -fl /tmp/x/
