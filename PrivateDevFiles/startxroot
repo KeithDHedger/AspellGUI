@@ -10,6 +10,4 @@ else
 fi
 
 sudo xchroot /tmp/x
-sudo umount -fl /tmp/x
-sudo umount -fl /tmp/x/dev
 sudo umount -fl /tmp/x/

@@ -49,7 +49,7 @@ void AboutBoxClass::showCredits(void)
 	hbox->setLayout(hlayout);
 
 	QTextBrowser	*text=new QTextBrowser;
-	text->setHtml(this->authors);
+	text->setHtml(this->credits);
 	text->setReadOnly(true);
 	text->setOpenExternalLinks(true);
 

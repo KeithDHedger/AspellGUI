@@ -28,8 +28,7 @@
 #define GLOBALWEBSITE "https://keithdhedger.github.io"
 
 #define COPYRITE "Copyright © 2013-2023 K.D.Hedger"
-#define KKEDITQTPAGE "https://github.com/KeithDHedger/KKEditQT"
-#define KKEDITPAGE "https://github.com/KeithDHedger/KKEdit"
+#define KKEDITQTPAGE "https://keithdhedger.github.io/KKEditQT/index.html"
 #define XDECSPAGE "https://github.com/KeithDHedger/XDecorations"
 #define THEMEMANAGER "https://github.com/KeithDHedger/Xfce-Theme-Manager"
 #define COMPMANAGER "https://github.com/KeithDHedger/Xfwm4CompositeEditor"
@@ -52,7 +51,6 @@ static const char	*credits="K.D.Hedger ©2013-2023<br><a href=\"mailto:" MYEMAIL
 					"<a href=\"" GLOBALWEBSITE "\">Homepage</a>" \
 					"<br><br>More by the same author<br>" \
 					"<a href=\"" KKEDITQTPAGE "\">KKEditQT<br>" \
-					"<a href=\"" KKEDITPAGE "\">KKEdit<br>" \
 					"<a href=\"" XDECSPAGE "\">XDecorations<br>" \
 					"<a href=\"" THEMEMANAGER "\">Xfce-Theme-Manager<br>" \
 					"<a href=\"" COMPMANAGER "\">Xfce4-Composite-Editor<br>" \

@@ -31,7 +31,7 @@ void doAbout(void)
 			about->licence=in.readAll();
 			file.close();
 		}
-	about->authors=credits;
+	about->credits=credits;
 	about->runAbout();
 }
 

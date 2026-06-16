@@ -31,7 +31,7 @@ class AboutBoxClass : public QObject
 		~AboutBoxClass();
 
 		QString	licence;
-		QString	authors;
+		QString	credits;
 
 		void		runAbout(void);
 
