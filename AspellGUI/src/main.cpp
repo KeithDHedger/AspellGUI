@@ -31,6 +31,8 @@ int main(int argc,char **argv)
 	QIcon::setFallbackSearchPaths(QStringList()<<QString("%1/usr/share/icons").arg(getenv("APPDIR"))<<QString("/usr/share/icons")<<QString("%1/.icons").arg(getenv("HOME"))  <<QString("%1/icons").arg(realDataDir));
 	QIcon::setFallbackThemeName("aspellqticons");
 
+	app.setApplicationName(PACKAGE_NAME);
+
 	aspellConfig=new_aspell_config();
 
 	QDir dir("/usr/lib");

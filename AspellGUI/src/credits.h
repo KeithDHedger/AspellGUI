@@ -1,33 +1,31 @@
 /*
  *
- * ©K. D. Hedger. 2015-2026 keithdhedger@gmail.com
+ * ©K. D. Hedger. Mon 29 Jun 13:57:07 BST 2026 keithdhedger@gmail.com
 
- * This file (internet.h) is part of AspellGUI.
+ * This file (credits.h) is part of ConvenienceClasses.
 
- * AspellGUI is free software: you can redistribute it and/or modify
+ * ConvenienceClasses is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
 
- * AspellGUI is distributed in the hope that it will be useful,
+ * ConvenienceClasses is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
  * You should have received a copy of the GNU General Public License
- * along with AspellGUI.  If not, see <http://www.gnu.org/licenses/>.
+ * along with ConvenienceClasses.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #ifndef _INTERNET_
 #define _INTERNET_
 
-#include "globals.h"
-
 #define MYEMAIL "kdhedger68713@gmail.com"
 #define MYWEBSITE "https://keithdhedger.github.io/"
 #define GLOBALWEBSITE "https://keithdhedger.github.io"
 
-#define COPYRITE "Copyright © 2013-2023 K.D.Hedger"
+#define COPYRITE "Copyright © 2013-2026 K.D.Hedger"
 #define KKEDITQTPAGE "https://keithdhedger.github.io/KKEditQT/index.html"
 #define XDECSPAGE "https://github.com/KeithDHedger/XDecorations"
 #define THEMEMANAGER "https://github.com/KeithDHedger/Xfce-Theme-Manager"

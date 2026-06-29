@@ -32,6 +32,8 @@ void doAbout(void)
 			file.close();
 		}
 	about->credits=credits;
+	about->setHomepage(GLOBALWEBSITE,"Home Page");
+	about->setBodyText("A simple GUI for aspell.");
 	about->runAbout();
 }
 

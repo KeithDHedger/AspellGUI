@@ -30,7 +30,7 @@
 
 #include "config.h"
 
-#include "internet.h"
+#include "credits.h"
 #include "guis.h"
 #include "spellcheck.h"
 #include "QT_AboutBox.h"

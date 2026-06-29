@@ -1,28 +1,29 @@
 /*
  *
- * ©K. D. Hedger. 2015-2026 keithdhedger@gmail.com
+ * ©K. D. Hedger. Mon 29 Jun 13:57:31 BST 2026 keithdhedger@gmail.com
 
- * This file (QT_AboutBox.cpp) is part of AspellGUI.
+ * This file (QT_AboutBox.cpp) is part of ConvenienceClasses.
 
- * AspellGUI is free software: you can redistribute it and/or modify
+ * ConvenienceClasses is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
 
- * AspellGUI is distributed in the hope that it will be useful,
+ * ConvenienceClasses is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
  * You should have received a copy of the GNU General Public License
- * along with AspellGUI.  If not, see <http://www.gnu.org/licenses/>.
+ * along with ConvenienceClasses.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "QT_AboutBox.h"
 
 void AboutBoxClass::runAbout(void)
 {
-	this->aboutdialog->exec();
+	this->setAppName();
+	this->aboutDialog->exec();
 }
 
 AboutBoxClass::~AboutBoxClass()
@@ -31,7 +32,7 @@ AboutBoxClass::~AboutBoxClass()
 
 void AboutBoxClass::killCreditsBox(void)
 {
-	this->creditsdialog->close();
+	this->creditsDialog->close();
 }
 
 void AboutBoxClass::showCredits(void)
@@ -42,8 +43,9 @@ void AboutBoxClass::showCredits(void)
 	QVBoxLayout	*vlayout=new QVBoxLayout;
 	QTabWidget	*tabWidget=new QTabWidget;
 
-	this->creditsdialog=new QDialog(this->aboutdialog);
-	this->creditsdialog->setWindowTitle("Credits");
+	this->creditsDialog=new QDialog(this->aboutDialog);
+	this->creditsDialog->setWindowTitle(QString("Credits For %1").arg(qApp->applicationDisplayName()));
+
 	hlayout=new QHBoxLayout;
 	hbox=new QWidget;
 	hbox->setLayout(hlayout);
@@ -69,26 +71,26 @@ void AboutBoxClass::showCredits(void)
 	hlayout->insertStretch(0,1);
 	vlayout->addWidget(hbox);
 
-	creditsdialog->setLayout(vlayout);
-	creditsdialog->setModal(true);
-	creditsdialog->resize(500,320);
-	creditsdialog->exec();
+	creditsDialog->setLayout(vlayout);
+	creditsDialog->setModal(true);
+	creditsDialog->resize(500,320);
+	creditsDialog->exec();
 
 	delete text;
 	delete button;
 	delete hlayout;
 	delete vlayout;
-	delete this->creditsdialog;
+	delete this->creditsDialog;
 }
 
 void AboutBoxClass::killLicenceBox(void)
 {
-	this->licencedialog->close();
+	this->licenceDialog->close();
 }
 
 void AboutBoxClass::killAboutBox(void)
 {
-	this->aboutdialog->close();
+	this->aboutDialog->close();
 	delete this;
 }
 
@@ -100,12 +102,13 @@ void AboutBoxClass::showLicence(void)
 	QVBoxLayout		*vlayout=new QVBoxLayout;
 	QPlainTextEdit	*text=new QPlainTextEdit;
 
-	this->licencedialog=new QDialog(this->aboutdialog);
+	this->licenceDialog=new QDialog(this->aboutDialog);
 	hlayout=new QHBoxLayout;
 	hbox=new QWidget;
 	hbox->setLayout(hlayout);
 
-	this->licencedialog->setWindowTitle("Licence");
+	this->licenceDialog->setWindowTitle(QString("Licence For %1").arg(qApp->applicationDisplayName()));
+
 	vlayout->setContentsMargins(0,4,4,4);
 	text->setPlainText(this->licence);
 	text->setReadOnly(true);
@@ -125,16 +128,31 @@ void AboutBoxClass::showLicence(void)
 	hlayout->insertStretch(0,1);
 	vlayout->addWidget(hbox);
 
-	this->licencedialog->setLayout(vlayout);
-	this->licencedialog->setModal(true);
-	this->licencedialog->resize(500,320);
-	this->licencedialog->exec();
+	this->licenceDialog->setLayout(vlayout);
+	this->licenceDialog->setModal(true);
+	this->licenceDialog->resize(500,320);
+	this->licenceDialog->exec();
 
 	delete text;
 	delete button;
 	delete hlayout;
 	delete vlayout;
-	delete this->licencedialog;
+	delete this->licenceDialog;
+}
+
+void AboutBoxClass::setHomepage(QString hpaddr,QString hpstr)
+{
+	this->hpLabel->setText(QString("<a href=\"%1\">%2</a>").arg(hpaddr).arg(hpstr));
+}
+
+void AboutBoxClass::setBodyText(QString bodystr)
+{
+	this->bodyLabel->setText(bodystr);
+}
+
+void AboutBoxClass::setAppName(void)
+{
+	this->appNameLabel->setText(QString("<font size=\"5\"><b>%1</b></font>").arg(qApp->applicationDisplayName()));
 }
 
 AboutBoxClass::AboutBoxClass(QWidget *window,QString pixpath)
@@ -147,10 +165,10 @@ AboutBoxClass::AboutBoxClass(QWidget *window,QString pixpath)
 	QPixmap		pic(pixpath);
 	QLabel*		label=new QLabel;
 
-	this->aboutdialog=new QDialog(window);
-	this->aboutdialog->setWindowTitle("About");
-	this->aboutdialog->resize(320,128);
-	this->aboutdialog->setModal(true);
+	this->aboutDialog=new QDialog(window);
+	this->aboutDialog->setWindowTitle(QString("About %1").arg(qApp->applicationDisplayName()));
+	this->aboutDialog->resize(320,128);
+	this->aboutDialog->setModal(true);
 
 	vlayout->setContentsMargins(0,4,0,0);
 	hlayout=new QHBoxLayout;
@@ -162,52 +180,52 @@ AboutBoxClass::AboutBoxClass(QWidget *window,QString pixpath)
 	label->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
 	vlayout->addWidget(label);
 //progname
-	label=new QLabel;
-	label->setText("<font size=\"5\"><b>" PACKAGE_STRING "</b></font>");
-	label->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
-	vlayout->addWidget(label);
+	appNameLabel=new QLabel;
+	appNameLabel->setText("");
+	appNameLabel->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+	vlayout->addWidget(appNameLabel);
 //text
-	label=new QLabel;
-	label->setText("A Simple GUI for aspell");
-	label->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
-	vlayout->addWidget(label);
+	this->bodyLabel=new QLabel;
+	this->bodyLabel->setText("");
+	this->bodyLabel->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+	vlayout->addWidget(this->bodyLabel);
 //copyrite
 	label=new QLabel;
 	label->setText("<small>" COPYRITE "</small>");
 	label->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
 	vlayout->addWidget(label);
 //homepage
-	label=new QLabel;
-	label->setText("<a href=\"" ASPELLPAGE "\">Aspell GUI Page</a>");
-	label->setOpenExternalLinks(true);
-	label->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
-	vlayout->addWidget(label);
+	this->hpLabel=new QLabel;
+	this->hpLabel->setText("<a href=\"https://keithdhedger.github.io/\">Home Page</a>");
+	this->hpLabel->setOpenExternalLinks(true);
+	this->hpLabel->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+	vlayout->addWidget(this->hpLabel);
 //credits
-	button=new QPushButton("&Credits");
-	button->setIcon(QIcon::fromTheme("help-about"));
-	QObject::connect(button,&QPushButton::clicked,[this]()
+	this->creditsButton=new QPushButton("&Credits");
+	this->creditsButton->setIcon(QIcon::fromTheme("text-x-credits"));
+	QObject::connect(this->creditsButton,&QPushButton::clicked,[this]()
 		{
 			this->showCredits();
 		});
-	hlayout->addWidget(button);
+	hlayout->addWidget(this->creditsButton);
 
 //licence
-	button=new QPushButton("&Licence");
-	button->setIcon(QIcon::fromTheme("text-x-license"));
-	QObject::connect(button,&QPushButton::clicked,[this]()
+	this->licenseButton=new QPushButton("&Licence");
+	this->licenseButton->setIcon(QIcon::fromTheme("text-x-license"));
+	QObject::connect(this->licenseButton,&QPushButton::clicked,[this]()
 		{
 			this->showLicence();
 		});
-	hlayout->addWidget(button);
+	hlayout->addWidget(this->licenseButton);
 
 //about qt
-	button=new QPushButton("&About Qt");
-	button->setIcon(QIcon::fromTheme("help-about"));
-	QObject::connect(button,&QPushButton::clicked,[this]()
+	this->aboutQtButton=new QPushButton("&About Qt");
+	this->aboutQtButton->setIcon(QIcon::fromTheme("help-about"));
+	QObject::connect(this->aboutQtButton,&QPushButton::clicked,[this]()
 		{
 			qApp->aboutQt();
 		});
-	hlayout->addWidget(button);
+	hlayout->addWidget(this->aboutQtButton);
 
 //close
 	button=new QPushButton("&Close");
@@ -219,7 +237,39 @@ AboutBoxClass::AboutBoxClass(QWidget *window,QString pixpath)
 	hlayout->addWidget(button);
 
 	vlayout->addWidget(hbox);
-	this->aboutdialog->setLayout(vlayout);
+	this->aboutDialog->setLayout(vlayout);
 }
 
+void AboutBoxClass::showAboutQtButton(bool show)
+{
+	this->aboutQtButton->setVisible(show);
+}
 
+void AboutBoxClass::showLicenceButton(bool show)
+{
+	this->licenseButton->setVisible(show);
+}
+
+void AboutBoxClass::showCreditsButton(bool show)
+{
+	this->creditsButton->setVisible(show);
+}
+
+void AboutBoxClass::showHelp(QString htmlpath)
+{
+	QDialog			dialog;
+	QVBoxLayout		*layout;
+	QTextBrowser		*textBrowser=new QTextBrowser(&dialog);
+
+	textBrowser->setSource(QUrl(htmlpath));
+	layout=new QVBoxLayout(&dialog);
+    layout->addWidget(textBrowser);
+ 
+	QDialogButtonBox *buttonBox=new QDialogButtonBox(QDialogButtonBox::Close,&dialog);
+	QObject::connect(buttonBox,&QDialogButtonBox::rejected,&dialog,&QDialog::reject);
+	layout->addWidget( buttonBox);
+
+    dialog.setWindowTitle(QString("Help For %1").arg(qApp->applicationDisplayName()));
+    dialog.resize(640,480);
+    dialog.exec();
+}
