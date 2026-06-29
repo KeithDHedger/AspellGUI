@@ -61,6 +61,8 @@ cat $LIBS|while read
 		fi
 		cp --parents -P "$REPLY" ${WHERE}||true
 	done
+mv ${WHERE}/usr/lib64/libproxy/* ${WHERE}/usr/lib
+rmdir ${WHERE}/usr/lib64/libproxy
 
 APPIMAGEFOLDER=$WHERE
 APPNAME="${APPIMAGENAME,,}"
