@@ -24,7 +24,7 @@ bool	cancelCheck=false;
 
 void doCancelCheck(void)
 {
-	QSettings	prefs("KDHedger","AspellGUI");
+	QSettings	prefs("KDHedger",PACKAGE_NAME);
 	prefs.setValue("wordgeom",spellCheckWord->saveGeometry());
 
 	badWord.clear();

@@ -23,7 +23,7 @@
 int main(int argc,char **argv)
 {
 	QApplication			app(argc,argv);
-	QSettings			prefs("KDHedger","AspellGUI");
+	QSettings			prefs("KDHedger",PACKAGE_NAME);
 
 	realDataDir=QString("%1%2").arg(getenv("APPDIR")).arg(DATADIR);
 
@@ -32,6 +32,7 @@ int main(int argc,char **argv)
 	QIcon::setFallbackThemeName("aspellqticons");
 
 	app.setApplicationName(PACKAGE_NAME);
+	app.setApplicationVersion(PACKAGE_VERSION);
 
 	aspellConfig=new_aspell_config();
 

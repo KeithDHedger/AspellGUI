@@ -145,7 +145,7 @@ void buildWordCheckQt(int documentCheck)
 	QWidget		*hbox;
 	QHBoxLayout	*hlayout;
 	QPushButton	*button;
-	QSettings	prefs("KDHedger","AspellGUI");
+	QSettings	prefs("KDHedger",PACKAGE_NAME);
 
 	spellCheckWord=new QDialog(window);
 
