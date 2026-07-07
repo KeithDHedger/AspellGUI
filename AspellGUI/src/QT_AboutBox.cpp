@@ -1,6 +1,6 @@
 /*
  *
- * ©K. D. Hedger. Fri  3 Jul 15:49:04 BST 2026 keithdhedger@gmail.com
+ * ©K. D. Hedger. Mon  6 Jul 20:16:13 BST 2026 keithdhedger@gmail.com
 
  * This file (QT_AboutBox.cpp) is part of AspellGUI.
 
@@ -91,7 +91,6 @@ void AboutBoxClass::killLicenceBox(void)
 void AboutBoxClass::killAboutBox(void)
 {
 	this->aboutDialog->close();
-	delete this;
 }
 
 void AboutBoxClass::showLicence(void)
@@ -205,6 +204,7 @@ AboutBoxClass::AboutBoxClass(QWidget *window,QString pixpath)
 	this->hpLabel->setOpenExternalLinks(true);
 	this->hpLabel->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
 	vlayout->addWidget(this->hpLabel);
+
 //credits
 	this->creditsButton=new QPushButton("&Credits");
 	this->creditsButton->setIcon(QIcon::fromTheme("text-x-credits"));

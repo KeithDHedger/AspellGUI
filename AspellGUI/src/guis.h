@@ -24,6 +24,5 @@
 #define _GUIS_
 
 void buildMainGuiQt(void);
-void buildWordCheckQt(int documentCheck);
 
 #endif

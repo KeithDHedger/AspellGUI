@@ -1,1 +1,1 @@
-COMMONSRC = ../src/QT_AboutBox.cpp ../src/globals.cpp ../src/guis.cpp ../src/main.cpp ../src/spellcheck.cpp
+COMMONSRC = ../src/QT_AboutBox.cpp ../src/QT_SpellCheck.cpp ../src/globals.cpp ../src/guis.cpp ../src/main.cpp

@@ -22,21 +22,7 @@
 
 QPlainTextEdit		*bufferBox=NULL;
 QMainWindow			*window=NULL;
-QLabel				*badWordLabel=NULL;
-QDialog				*spellCheckWord=NULL;
-QComboBox			*wordListDropbox=NULL;
 QComboBox			*langCode=NULL;
-
-//spellcheck
-QString				badWord;
-QString				goodWord;
 QString				realDataDir;
-QRect				checkWordGeom;
 
-AspellConfig			*aspellConfig=NULL;
-AspellSpeller		*spellChecker=NULL;
-AspellCanHaveError	*possible_err=NULL;
-
-int					numWords=0;
-bool					blockFlag=false;
-
+QT_SpellCheckClass	*globalChecker=NULL;

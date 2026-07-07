@@ -1,6 +1,6 @@
 /*
  *
- * ©K. D. Hedger. Fri  3 Jul 15:49:13 BST 2026 keithdhedger@gmail.com
+ * ©K. D. Hedger. Mon  6 Jul 20:16:27 BST 2026 keithdhedger@gmail.com
 
  * This file (QT_AboutBox.h) is part of AspellGUI.
 

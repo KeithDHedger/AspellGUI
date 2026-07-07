@@ -22,33 +22,19 @@
 
 void doAbout(void)
 {
-	AboutBoxClass	*about=new AboutBoxClass(window,QString("%1/pixmaps/AspellGUI.png").arg(realDataDir));
+	AboutBoxClass	about(window,QString("%1/pixmaps/AspellGUI.png").arg(realDataDir));
 	QFile			file(QString("%1/docs/gpl-3.0.txt").arg(realDataDir));
 
 	if(file.open(QIODevice::ReadOnly | QIODevice::Text))
 		{
 			QTextStream in(&file);
-			about->licence=in.readAll();
+			about.licence=in.readAll();
 			file.close();
 		}
-	about->credits=credits;
-	about->setHomepage(GLOBALWEBSITE,"Home Page");
-	about->setBodyText("A simple GUI for aspell.");
-	about->runAbout();
-}
-
-void setLanguage(QString lang)
-{
-	aspell_config_replace(aspellConfig,"lang",qPrintable(langCode->currentText()));
-	possible_err=new_aspell_speller(aspellConfig);
-	if(spellChecker!=NULL)
-		delete_aspell_speller(spellChecker);
-	spellChecker=NULL;
-
-	if(aspell_error_number(possible_err)!= 0)
-		puts(aspell_error_message(possible_err));
-	else
-		spellChecker=to_aspell_speller(possible_err);
+	about.credits=credits;
+	about.setHomepage(GLOBALWEBSITE,"Home Page");
+	about.setBodyText("A simple GUI for aspell.");
+	about.runAbout();
 }
 
 void buildMainGuiQt(void)
@@ -59,8 +45,11 @@ void buildMainGuiQt(void)
 	QHBoxLayout					*hlayout;
 	QPushButton					*button;
 	QStringList					ll;
+	const char					*data;
 
 	window=new QMainWindow;
+	globalChecker=new QT_SpellCheckClass(window);
+
 	window->setWindowTitle("Aspell GUI");
 	window->resize(420,150);
 
@@ -71,6 +60,8 @@ void buildMainGuiQt(void)
 	hlayout=new QHBoxLayout(hbox);
 	hbox->setLayout(hlayout);
 
+	globalChecker->te=bufferBox;
+
 //about
 	button=new QPushButton("&About",window);
 	button->setIcon(QIcon::fromTheme("help-about"));
@@ -80,25 +71,17 @@ void buildMainGuiQt(void)
 		});
 	hlayout->addWidget(button);
 
-//lang code
-	AspellDictInfoList			*dlist;
-	AspellDictInfoEnumeration	*dels;
-	const AspellDictInfo			*entry;
-
-	dlist=get_aspell_dict_info_list(aspellConfig);
-	dels=aspell_dict_info_list_elements(dlist);
-
-	while((entry=aspell_dict_info_enumeration_next(dels))!=0) 
-		ll<<entry->code;
+	ll=globalChecker->getLanguageCodes();
 	ll.removeDuplicates();
 	langCode=new QComboBox(window);
 	langCode->addItems(ll);
+	data=aspell_config_retrieve(globalChecker->getConfig(),"lang");
+	langCode->setCurrentIndex(langCode->findText(data));
 	QObject::connect(langCode,&QComboBox::currentIndexChanged,[](int index)
 		{
-			setLanguage(langCode->currentText());
+			globalChecker->setLanguage(langCode->currentText());
+			qDebug()<<"Language:"<<langCode->currentText();
 		});
-
-	delete_aspell_dict_info_enumeration(dels);
   	hlayout->addWidget(langCode);
 
 //spellcheck
@@ -106,11 +89,7 @@ void buildMainGuiQt(void)
 	button->setIcon(QIcon::fromTheme("tools-check-spelling"));
 	QObject::connect(button,&QPushButton::clicked,[]()
 		{
-		spellCheckWord->done(0);
-			delete spellCheckWord;
-			spellCheckWord=NULL;
-			buildWordCheckQt(1);
-			doSpellCheckDoc();
+			globalChecker->doSpellCheckDoc();
 		});
 	hlayout->addWidget(button);
 
@@ -119,7 +98,7 @@ void buildMainGuiQt(void)
 	button->setIcon(QIcon::fromTheme("tools-check-spelling"));
 	QObject::connect(button,&QPushButton::clicked,[]()
 		{
-			checkWord();
+			globalChecker->doSpellCheckWord(bufferBox->textCursor().selectedText());
 		});
 	hlayout->addWidget(button);
 	
@@ -129,7 +108,6 @@ void buildMainGuiQt(void)
 	hlayout->addWidget(button);
 	QObject::connect(button,&QPushButton::clicked,[]()
 		{
-			spellCheckWord->close();
 			qApp->quit();
 		});
 
@@ -137,67 +115,4 @@ void buildMainGuiQt(void)
 	vlayout->addWidget(hbox);
 	mainwidget->setLayout(vlayout);
 	window->setCentralWidget(mainwidget);
-}
-
-void buildWordCheckQt(int documentCheck)
-{
-	QVBoxLayout	*vlayout=new QVBoxLayout;
-	QWidget		*hbox;
-	QHBoxLayout	*hlayout;
-	QPushButton	*button;
-	QSettings	prefs("KDHedger",PACKAGE_NAME);
-
-	spellCheckWord=new QDialog(window);
-
-	hlayout=new QHBoxLayout;
-	hbox=new QWidget(spellCheckWord);
-	hbox->setLayout(hlayout);
-
-	badWordLabel=new QLabel(QString("Change <i><b>%1</b></i> to: ").arg(badWord),spellCheckWord);
-	hlayout->addWidget(badWordLabel);
-	wordListDropbox=new QComboBox(spellCheckWord);
-	hlayout->addWidget(wordListDropbox);
-	vlayout->addWidget(hbox);
-
-//buttons
-	hlayout=new QHBoxLayout;
-	hbox=new QWidget(spellCheckWord);
-	hbox->setLayout(hlayout);
-
-	button=new QPushButton("&Apply",spellCheckWord);
-	button->setIcon(QIcon::fromTheme("dialog-ok"));
-	QObject::connect(button,&QPushButton::clicked,[documentCheck]()
-		{
-			doChangeWord(documentCheck);
-		});
-	hlayout->addWidget(button);
-
-	button=new QPushButton("&Ignore",spellCheckWord);
-	button->setIcon(QIcon::fromTheme("list-remove"));
-	QObject::connect(button,&QPushButton::clicked,[]()
-		{
-			doAddIgnoreWord(1);
-		});
-	hlayout->addWidget(button);
-
-	button=new QPushButton("A&dd",spellCheckWord);
-	button->setIcon(QIcon::fromTheme("list-add"));
-	QObject::connect(button,&QPushButton::clicked,[]()
-		{
-			doAddIgnoreWord(2);
-		});
-	hlayout->addWidget(button);
-
-	button=new QPushButton("&Close",spellCheckWord);
-	button->setIcon(QIcon::fromTheme("dialog-cancel"));
-	QObject::connect(button,&QPushButton::clicked,[]()
-		{
-			doCancelCheck();
-		});
-	hlayout->addWidget(button);
-
-	vlayout->addWidget(hbox);
-	spellCheckWord->setLayout(vlayout);
-	spellCheckWord->setModal(true);
-	spellCheckWord->restoreGeometry(prefs.value("wordgeom").toByteArray());
 }

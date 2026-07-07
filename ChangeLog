@@ -1,3 +1,10 @@
+0.3.0
+Fixed mem leaks.
+Auto set language based on "LANG" env var.
+Removed unneeded files.
+Moved to using QT_SpellCheckClass.
+Fixed word check box size and position.
+
 0.2.0
 Standardised about box.
 Fixed default icons.
