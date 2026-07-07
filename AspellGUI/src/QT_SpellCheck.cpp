@@ -1,6 +1,6 @@
 /*
  *
- * ©K. D. Hedger. Mon  6 Jul 20:19:38 BST 2026 keithdhedger@gmail.com
+ * ©K. D. Hedger. Tue  7 Jul 20:48:02 BST 2026 keithdhedger@gmail.com
 
  * This file (QT_SpellCheck.cpp) is part of AspellGUI.
 
@@ -334,4 +334,3 @@ AspellConfig *QT_SpellCheckClass::getConfig(void)
 {
 	return(this->aspellConfig);
 }
-

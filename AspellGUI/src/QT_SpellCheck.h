@@ -1,6 +1,6 @@
 /*
  *
- * ©K. D. Hedger. Mon  6 Jul 20:19:29 BST 2026 keithdhedger@gmail.com
+ * ©K. D. Hedger. Tue  7 Jul 20:47:49 BST 2026 keithdhedger@gmail.com
 
  * This file (QT_SpellCheck.h) is part of AspellGUI.
 
@@ -29,9 +29,12 @@ class QT_SpellCheckClass
 		QT_SpellCheckClass(QMainWindow *window);
 		~QT_SpellCheckClass();
 
+#ifdef USEPLAIN
 		QPlainTextEdit	*te=NULL;
+#else
+		QTextEdit		*te=NULL;
+#endif
 		QString			badwordHiliteColour="#40000000";
-
 		QStringList		getLanguageCodes(void);
 		void				setLanguage(QString lang);
 		void				doSpellCheckDoc(void);
@@ -57,7 +60,6 @@ class QT_SpellCheckClass
 		bool				checkTheWord(QString word);
 		void				buildWordCheckDialog(void);
 		void				doChangeWord(void);
-
 };
 
 #endif
