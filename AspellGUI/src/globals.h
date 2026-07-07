@@ -21,9 +21,6 @@
 #ifndef _GLOBALS_
 #define _GLOBALS_
 
-#include <stdlib.h>
-#include <string.h>
-#include <sys/stat.h>
 #include <aspell.h>
 
 #include <QtWidgets>
